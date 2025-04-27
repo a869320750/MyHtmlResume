@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>技能雷达图</title>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            background: #fff;
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            width: 500px;
+            text-align: center;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+        canvas {
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>我的技能雷达图</h1>
+    <canvas id="skillRadar"></canvas>
+</div>
+
+<script>
+    const ctx = document.getElementById('skillRadar').getContext('2d');
+    const skillRadar = new Chart(ctx, {
+        type: 'radar',
+        data: {
+            labels: [
+                '前端开发',
+                '后端开发',
+                '数据库技术',
+                '分布式系统',
+                'Linux系统',
+                '网络通信',
+                '编译器原理',
+                '性能优化',
+                '项目管理',
+                '人工智能基础'
+            ],
+            datasets: [{
+                label: '技能掌握程度',
+                data: [40, 85, 65, 80, 80, 80, 75, 80, 65, 30],
+                backgroundColor: 'rgba(54, 162, 235, 0.2)',
+                borderColor: 'rgba(54, 162, 235, 1)',
+                pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+                pointBorderColor: '#fff',
+                pointHoverBackgroundColor: '#fff',
+                pointHoverBorderColor: 'rgba(54, 162, 235, 1)'
+            }]
+        },
+        options: {
+            scales: {
+                r: {
+                    angleLines: { color: '#ccc' },
+                    grid: { color: '#eee' },
+                    suggestedMin: 0,
+                    suggestedMax: 100,
+                    pointLabels: { font: { size: 14 } }
+                }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+</script>
+</body>
+</html>

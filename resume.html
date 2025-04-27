@@ -1,0 +1,440 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>金英杰 - 个人简历</title>
+    <style>
+        :root {
+            --bg-color: #f4f4f4;
+            --card-bg-color: #ffffff;
+            --text-color: #333333;
+            --link-color: #007BFF;
+            --link-hover-color: #0056b3;
+            --divider-color: #e8e8e8;
+            --progress-bg-color: #e9ecef;
+            --progress-bar-color: #007BFF;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            margin: 0;
+            padding: 0;
+            scroll-behavior: smooth;
+        }
+
+        .card {
+            background-color: var(--card-bg-color);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            margin: 50px auto;
+            max-width: 85%;
+            padding: 30px;
+            transition: box-shadow 0.3s ease;
+        }
+
+        .card:hover {
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        }
+
+        .header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .avatar {
+            border-radius: 50%;
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .avatar:hover {
+            transform: scale(1.1);
+        }
+
+        .name-contact {
+            flex-grow: 1;
+            margin-left: 20px;
+        }
+
+        .name {
+            font-size: 32px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .position {
+            font-size: 18px;
+            color: #666;
+            margin-bottom: 10px;
+        }
+
+        .contact {
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .contact a {
+            color: var(--link-color);
+            text-decoration: none;
+            margin-right: 15px;
+            transition: color 0.3s ease;
+        }
+
+        .contact a:hover {
+            color: var(--link-hover-color);
+        }
+
+        .intro {
+            font-family: 'Dancing Script', cursive;
+            position: relative;
+            padding-left: 20px;
+            margin-bottom: 30px;
+        }
+
+        .intro::before {
+            content: '';
+            position: absolute;
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 3px;
+            background-color: var(--link-color);
+        }
+
+        .section {
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .section:not(:last-child)::after {
+            content: '';
+            position: absolute;
+            bottom: -15px;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background-color: var(--divider-color);
+        }
+
+        .section h2 {
+            font-size: 24px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+        }
+
+        .timeline-item {
+            margin-bottom: 20px;
+        }
+
+        .timeline-item h3 {
+            font-size: 20px;
+            margin-bottom: 5px;
+        }
+
+        .timeline-item p {
+            margin: 0;
+            line-height: 1.6;
+        }
+
+        .progress-bar {
+            background-color: var(--progress-bg-color);
+            border-radius: 5px;
+            height: 20px;
+            margin-bottom: 15px;
+            position: relative;
+        }
+
+        .progress {
+            background-color: var(--progress-bar-color);
+            border-radius: 5px;
+            height: 100%;
+            text-align: left;
+            padding-left: 10px;
+            color: white;
+            font-size: 14px;
+        }
+
+        .radar-chart {
+            width: 100%;
+            height: 230px;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .fade-in {
+            animation: fadeIn 1s ease-out;
+        }
+
+        .skills-container {
+            display: flex;
+            gap: 20px;
+        }
+
+        .progress-container {
+            flex: 1;
+        }
+
+        .radar-container {
+            flex: 1;
+        }
+
+        .footer-contact {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            margin-top: 30px;
+        }
+
+        .footer-contact a {
+            color: var(--link-color);
+            font-size: 24px;
+            transition: color 0.3s ease;
+        }
+
+        .footer-contact a:hover {
+            color: var(--link-hover-color);
+        }
+    </style>
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+</head>
+
+<body>
+    <div class="card">
+        <div class="header">
+            <img class="avatar" src="https://p3-flow-imagex-sign.byteimg.com/ocean-cloud-tos/image_generation/459c82913030032351c934812b7ddd09_1741676356514132792.png~tplv-a9rns2rl98-image.png?rk3s=25bff839&x-expires=1773212356&x-signature=OvpjH6KB8ArCF44r9%2FHy91n%2BKCQ%3D" alt="金英杰">
+            <div class="name-contact">
+                <div class="name">金英杰</div>
+                <div class="position">软件开发工程师</div>
+                <div class="contact">
+                    <a href="tel:13322468805" target="_blank"><i class="fa-solid fa-phone"></i> 电话: 13322468805</a>
+                    <a href="mailto:869320750@qq.com" target="_blank"><i class="fa-solid fa-envelope"></i> 邮箱: 869320750@qq.com</a>
+                    <a href="#"><i class="fa-brands fa-weixin" target="_blank"></i> 微信: CsharpEssential</a>
+                    <a href="https://github.com/a869320750" target="_blank"><i class="fa-brands fa-github"></i> GitHub: a869320750</a>
+                    <a href="https://space.bilibili.com/6550010" target="_blank"><i class="fa-brands fa-bilibili"></i> BiliBili: 英杰同学</a>
+                </div>
+            </div>
+        </div>
+        <div class="intro fade-in">
+            <p>我是金英杰，以优异成绩完成本科学业，并保研至研究生阶段，多次荣获学术奖项，打下坚实的计算机专业理论基础。精通 C/C++、C#、Python 等语言，具备多领域项目经验，能够高效实现复杂系统与跨平台应用。始终以高度责任感和积极主动的精神面对挑战，保持高质量交付标准。入职一年内自主整理并撰写 20+ 篇技术文档与博客，促进团队知识沉淀与传承。能在短时间内掌握新业务知识，并迅速在实际项目中形成落地成果。擅长独立分析问题并制定有效解决方案，能够在压力下快速完成关键任务。在团队协作中保持高效沟通，积极推动项目进展并促进团队整体氛围。对个人职业发展有清晰规划，持续精进技术与管理能力，力求实现个人与团队的双赢。</p>
+        </div>
+        <div class="section fade-in">
+            <h2>教育背景</h2>
+            <div class="timeline-item">
+                <h3>东北大学 - 软件工程 - 硕士研究生</h3>
+                <p>2017 - 2020</p>
+                <ul>
+                    <li>以专业排名前20%获得学业奖学金和免学费名额，成功保研；</li>
+                    <li>研究方向为数据分析与推荐系统，主导基于 MSD 音乐数据集的推荐算法开发；</li>
+                    <li>应用 Python、Keras、Tensorflow，结合 卷积神经网络（CNN）、循环神经网络（RNN） 与 K-Means聚类，优化隐式反馈模型，提升推荐系统准确率；</li>
+                    <li>熟练掌握机器学习常见算法与数据挖掘流程，具备扎实的工程实现能力。</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>辽宁大学 - 计算机科学与技术（软件方向） - 本科</h3>
+                <p>2015 - 2019</p>
+                <ul>
+                    <li>成绩排名专业前5%，获校级奖学金与助学金多次，直升保研至东北大学；</li>
+                    <li>系统学习计算机基础课程，包括 数据结构、操作系统、计算机网络、编译原理、人工智能 等，打下扎实的理论基础；</li>
+                    <li>在校期间积极参与课外项目，初步掌握 C++、java、Python、PHP 等多门语言。</li>
+                </ul>
+            </div>
+        </div>
+        <div class="section fade-in">
+            <h2>工作经历</h2>
+            <div class="timeline-item">
+                <h3>华为技术有限公司 - C/C++开发工程师</h3>
+                <p>2022.03 - 2025.02</p>
+                <h4>主要职责：</h4>
+                <ol>
+                    <li>参与分布式集群管理、Linux内核驱动、IO通信框架等项目研发，负责问题定位、需求设计、联调调试与文档编写；</li>
+                    <li>主导公司内部编译器切换项目，端到端完成立项、设计、开发、测试与结项，4个月内高效交付；</li>
+                    <li>兼任项目经理职能，负责需求交付、补丁管理、现网问题排查与缺陷修复，保障项目高质量上线。</li>
+                </ol>
+                <h4>关键成果：</h4>
+                <ol>
+                    <li>代码开发与优化：定位修复关键问题100+，交付核心代码7000+行，优化性能，确保项目按时交付；</li>
+                    <li>Linux内核支撑：紧急支撑内核驱动开发任务，圆满达成性能指标；</li>
+                    <li>编译器替换项目：独立负责特性交付，项目结项后推动商用进程；</li>
+                    <li>补丁与缺陷管理：组织交付端到端补丁100+个，排查并解决现网及安全漏洞问题1000+项；</li>
+                    <li>需求交付与版本管理：推动20+个需求准时上线，修复缺陷200+，显著降低客户反馈率；</li>
+                    <li>转正晋升：历经外包（OD）阶段，凭借突出表现成功转为正式员工，承担更多核心责任。</li>
+                </ol>
+            </div>
+            <div class="timeline-item">
+                <h3>宝钢工程技术集团有限公司 - C#/.NET开发工程师</h3>
+                <p>2020.04 – 2022.03</p>
+                <h4>主要职责：</h4>
+                <ol>
+                    <li>参与炼钢厂生产数据采集项目，负责通信模块及用户界面的开发、现场部署与技术支撑；</li>
+                    <li>主导数据通信模块的设计与优化，提升系统稳定性与实时性；</li>
+                    <li>参与数据展示平台的界面开发与用户体验优化工作。</li>
+                </ol>
+                <h4>关键成果：</h4>
+                <ol>
+                    <li>通信模块开发：独立完成5个新建钢厂或新项目的数据通信系统开发，优化传输效率，显著降低系统故障率；</li>
+                    <li>界面开发优化：基于C#与WPF完成数据展示界面开发，提升系统易用性和响应速度；</li>
+                    <li>现场部署支撑：主导现场系统部署与维护，及时解决兼容性与性能问题，确保系统稳定交付；</li>
+                    <li>系统重构与优化：主动识别旧代码缺陷，执行模块重构，系统执行效率提升20%。</li>
+                </ol>
+            </div>
+        </div>
+        <div class="section fade-in">
+            <h2>专业技能</h2>
+            <div class="skills-container">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 90%;">前端技能（HTML5、CSS3、JavaScript、Vue.js、React） - 90%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 85%;">后端技术（Python、Flask、Django、Node.js） - 85%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 80%;">数据库（MySQL、PostgreSQL、MongoDB、Redis） - 80%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 70%;">人工智能（机器学习、深度学习基础，TensorFlow、PyTorch） - 70%</div>
+                    </div>
+                </div>
+                <div class="radar-container">
+                    <canvas class="radar-chart" id="radarChart"></canvas>
+                </div>
+            </div>
+            <iframe src="skills.html" width="600" height="700" frameborder="0"></iframe>
+        </div>
+        <div class="section fade-in">
+            <h2>项目经验</h2>
+            <div class="timeline-item">
+                <h3>1、某炼钢厂炼铁数据采集通信程序（宝钢工程技术集团）</h3>
+                <p>2021.04-2021.08</p>
+                <h4>项目背景:</h4>
+                <ul>
+                    <li>某新建炼钢厂智能数据采集系统，采集铁水包质量、温度及元素含量数据，指导生产并进行归档。</li>
+                </ul>
+                <h4>主要工作:</h4>
+                <ul>
+                    <li>独立负责通信模块开发，搭建Socket服务监听链路，处理数据报文解码与归档；</li>
+                    <li>设计通用通信框架，针对不同数据库（SQL Server/Oracle）场景实现统一适配；</li>
+                    <li>后端使用 Python + Flask 搭建服务器，实现了用户认证、课程管理、订单支付等功能。结合 RESTful API 与前端进行数据交互，确保数据的高效传输。</li>
+                </ul>
+                <h4>技术栈：</h4>
+                    <li>C# (.NET)、WPF/Winform、Socket通信、SQL Server、Oracle</li>
+                <h4>成果</h4>
+                <ul>
+                    <li>独立完成方案设计、编码与单元测试，总代码量50K+；</li>
+                    <li>成功交付5个炼钢厂通信平台，系统上线至今运行稳定无故障；</li>
+                    <li>多次重构原项目模块，降低耦合度，大幅提升代码复用性与维护性。</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>2、分布式集群管理软件开发（华为技术有限公司）</h3>
+                <p>2022.03-2022.06</p>
+                <h4>项目背景:</h4>
+                <ul>
+                    <li>某分布式存储产品，提供高可靠性SAN/NAS数据服务，负责监控业务集群进程状态。</li>
+                </ul>
+                <h4>主要工作:</h4>
+                <ul>
+                    <li>负责问题定位与修复，功能开发与维护，支持现网版本的补丁开发；</li>
+                    <li>优化进程心跳检测、订阅推送机制，提升监控系统实时性与稳定性。</li>
+                </ul>
+                <h4>技术栈</h4>
+                <ul>
+                    <li>C/C++、Linux、Zookeeper、Protobuf、CMake、Docker、Shell</li>
+                </ul>
+                <h4>成果</h4>
+                <ul>
+                    <li>快速掌握分布式系统理论及C++开发，独立定位并闭环问题数百项；</li>
+                    <li>高质量交付需求代码，缺陷率低于0.3个/千行，项目上线后运行稳定。</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>3、数据存储IO框架驱动开发（华为技术有限公司）</h3>
+                <p>2022.07-2022.09</p>
+                <h4>项目背景:</h4>
+                <ul>
+                    <li>面向新型存储设备（如NVMe SSDs），进行Linux内核层IO路径性能优化。</li>
+                </ul>
+                <h4>主要工作:</h4>
+                <ul>
+                    <li>负责内核模块（ko文件）开发与问题修复，性能打点及优化；</li>
+                    <li>设计并实现Round Robin IO调度机制，微调线程绑定与调度策略。</li></ul>
+                <h4>技术栈</h4>
+                <ul>
+                    <li>C语言、Linux内核编程、NVMe协议、火焰图分析</li>
+                </ul>
+                <h4>成果</h4>
+                <ul>
+                    <li>两周内接手遗留项目，迅速解决内存泄漏/IO丢失等核心问题；</li>
+                    <li>完成性能调优，助力系统达成目标指标，获得项目激励与绩效A。</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>4、存储产品编译器替换项目（华为技术有限公司）</h3>
+                <p>2023.04-2023.08</p>
+                <h4>项目背景:</h4>
+                <ul>
+                    <li>将传统GCC编译器切换为公司自研编译器，提升业务连续性与系统性能。</li>
+                </ul>
+                <h4>主要工作:</h4>
+                <ul>
+                    <li>独立牵头项目计划、设计、开发与测试；</li>
+                    <li>负责上千万行C/C++代码的CMake/Makefile工程适配与切换。</li>
+                </ul>
+                <h4>技术栈</h4>
+                <ul>
+                    <li>C/C++、CMake、Makefile、汇编、编译原理、反馈编译技术</li>
+                </ul>
+                <h4>成果</h4>
+                <ul>
+                    <li>四个月内完成20+仓库的切换与验证，提前三个月达成主IO路径切换；</li>
+                    <li>引入向量化优化与反馈编译机制，IO性能提升20%，荣获项目奖与绩效A。</li>
+                </ul>
+            </div>
+            <div class="timeline-item">
+                <h3>5、数据存储维护与补丁交付（华为技术有限公司）</h3>
+                <p>2023.09-2024.09</p>
+                <h4>项目背景:</h4>
+                <ul>
+                    <li>存储产品后续版本维护，包括补丁制作、现网问题排查与漏洞修复。</li>
+                </ul>
+                <h4>主要工作:</h4>
+                <ul>
+                    <li>组织端到端补丁交付，保障版本质量；</li>
+                    <li>主导现网安全问题排查与修复，处理安全漏洞、证书问题等。</li>
+                </ul>
+                <h4>成果</h4>
+                <ul>
+                    <li>成功交付100+个补丁，现网版本稳定无质量事故；</li>
+                    <li>组织排查1000+个安全问题与漏洞，提升客户满意度与系统稳定性。</li>
+                </ul>
+            </div>
+        </div>
+        <div class="footer-contact">
+            <a href="tel:13322468805" target="_blank"><i class="fa-solid fa-phone"></i></a>
+            <a href="mailto:869320750@qq.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
+            <a href="#"><i class="fa-brands fa-weixin" target="_blank"></i></a>
+            <a href="https://github.com/a869320750" target="_blank"><i class="fa-brands fa-github"></i></a>
+        </div>
+    </div>
+</body>
+
+</html>    
