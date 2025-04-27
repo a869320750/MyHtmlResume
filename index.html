@@ -18,26 +18,28 @@
         }
 
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-color);
+            font-family: 'Poppins', 'Segoe UI', 'Dancing Script', sans-serif;
+            background: linear-gradient(120deg, #fdfbfb 0%, #ebedee 100%);
+            color: #333;
+            line-height: 1.8;
             margin: 0;
             padding: 0;
             scroll-behavior: smooth;
         }
 
         .card {
-            background-color: var(--card-bg-color);
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            background: #fff;
+            border-radius: 18px;
+            box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+            padding: 40px;
+            max-width: 1000px;
             margin: 50px auto;
-            max-width: 85%;
-            padding: 30px;
-            transition: box-shadow 0.3s ease;
+            transition: all 0.3s ease;
         }
 
         .card:hover {
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+            transform: translateY(-5px);
+            box-shadow: 0 16px 32px rgba(0,0,0,0.1);
         }
 
         .header {
@@ -82,14 +84,14 @@
         }
 
         .contact a {
-            color: var(--link-color);
+            font-weight: 500;
+            color: #5b6eff;
             text-decoration: none;
-            margin-right: 15px;
-            transition: color 0.3s ease;
+            transition: color 0.3s;
         }
 
         .contact a:hover {
-            color: var(--link-hover-color);
+            color: #3a4efc;
         }
 
         .intro {
@@ -150,6 +152,7 @@
             height: 20px;
             margin-bottom: 15px;
             position: relative;
+            width: 100%; /* 相对于父元素的80%宽度 */
         }
 
         .progress {
@@ -160,6 +163,7 @@
             padding-left: 10px;
             color: white;
             font-size: 14px;
+            width: 80%; /* 相对于父元素的80%宽度 */
         }
 
         .radar-chart {
@@ -177,17 +181,25 @@
                 transform: translateY(0);
             }
         }
+        @keyframes fadeInUp {
+            0% { opacity: 0; transform: translateY(40px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
 
         .fade-in {
-            animation: fadeIn 1s ease-out;
+            animation: fadeInUp 1s ease forwards;
+            opacity: 0;
         }
 
         .skills-container {
             display: flex;
             gap: 20px;
+            width:90%; /* 相对于父元素的80%宽度 */
+            margin: 0 auto;
         }
 
         .progress-container {
+            width: 100%; /* 相对于父元素的80%宽度 */
             flex: 1;
         }
 
@@ -210,6 +222,14 @@
 
         .footer-contact a:hover {
             color: var(--link-hover-color);
+        }
+
+        /* 给iframe设置样式使其水平居中 */
+        iframe {
+        width: 600px; /* 设置你想要的宽度 */
+        height: 700px; /* 设置你想要的高度 */
+        display: block;
+        margin: 0 auto;
         }
     </style>
     <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
@@ -296,47 +316,6 @@
                     <li>系统重构与优化：主动识别旧代码缺陷，执行模块重构，系统执行效率提升20%。</li>
                 </ol>
             </div>
-        </div>
-        <div class="section fade-in">
-            <h2>专业技能</h2>
-            <div class="skills-container">
-                <div class="progress-container">
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 40%;">前端开发（HTML5、CSS3、JavaScript、Winform、WPF） - 40%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 85%;">后端开发（C#/.NET、C/C++服务端、Socket开发） - 85%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 65%;">数据库技术（用过SQL Server、Oracle，能配置、部署、用） - 65%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 80%;">分布式系统（理解Zookeeper、集群管理，实际开发过项目） - 80%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 80%;">Linux操作系统（熟悉Linux开发环境、内核开发、常规调优） - 80%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 80%;">网络通信（熟悉Socket通信、TCP/IP协议，现场实战经验） - 80%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 75%;">编译器原理（主导过编译器替换项目，理解反馈编译和makefile体系） - 75%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 80%;">性能优化（多次主导性能调优，火焰图分析、IO优化都做过） - 80%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 65%;">项目管理（subPM经验丰富，组织协调交付过多个项目） - 65%</div>
-                    </div>
-                    <div class="progress-bar">
-                        <div class="progress" style="width: 30%;">AI基础（了解基础，硕士毕业论文程度） - 30%</div>
-                    </div>
-                </div>
-                <div class="radar-container">
-                    <canvas class="radar-chart" id="radarChart"></canvas>
-                </div>
-            </div>
-            <iframe src="https://a869320750.github.io/MyHtmlResume/skills.html" width="600" height="700" frameborder="0"></iframe>
         </div>
         <div class="section fade-in">
             <h2>项目经验</h2>
@@ -445,6 +424,44 @@
                     <li>组织排查1000+个安全问题与漏洞，提升客户满意度与系统稳定性。</li>
                 </ul>
             </div>
+        </div>
+        <div class="section fade-in">
+            <h2>专业技能</h2>
+            <div class="skills-container">
+                <div class="progress-container">
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 40%;">前端开发（HTML、CSS、JS、Winform、WPF） - 40%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 85%;">后端开发（C#/.NET、C/C++服务端、Socket开发） - 85%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 65%;">数据库技术（用过SQL Server、Oracle，能配置、部署、用） - 65%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 80%;">分布式系统（理解Zookeeper、集群管理，实际开发过项目） - 80%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 80%;">Linux操作系统（熟悉Linux开发环境、内核开发、常规调优） - 80%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 80%;">网络通信（熟悉Socket通信、TCP/IP协议，现场实战经验） - 80%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 75%;">编译器原理（主导过编译器替换项目，理解反馈编译和makefile体系） - 75%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 80%;">性能优化（多次主导性能调优，火焰图分析、IO优化都做过） - 80%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 65%;">项目管理（subPM经验丰富，组织协调交付过多个项目） - 65%</div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress" style="width: 30%;">AI基础（了解基础，硕士毕业论文程度） - 30%</div>
+                    </div>
+                </div>
+            </div>
+            <iframe src="https://a869320750.github.io/MyHtmlResume/skills.html" frameborder="0"></iframe>
         </div>
         <div class="footer-contact">
             <a href="tel:13322468805" target="_blank"><i class="fa-solid fa-phone"></i></a>
