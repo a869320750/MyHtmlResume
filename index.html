@@ -115,7 +115,7 @@ function fillSkills() {
             new Chart(ctx.getContext('2d'), {
                 type: 'radar',
                 data: {
-                    labels: data.map(item => item.name.split('（')[0]),
+                    labels: data.map(item => item.name),
                     datasets: [{
                         label: '技能掌握程度',
                         data: data.map(item => item.percent),
@@ -142,6 +142,26 @@ function fillSkills() {
                     }
                 }
             });
+        }
+        
+        // 生成技能列表
+        const listContainer = document.getElementById('skills-list');
+        if (listContainer) {
+            let html = '<div class="skills-grid">';
+            data.forEach(item => {
+                html += `
+                    <div class="skill-item" title="${item.description}">
+                        <div class="skill-name">${item.name}</div>
+                        <div class="skill-bar">
+                            <div class="skill-bar-fill" style="width: ${item.percent}%"></div>
+                            <span class="skill-percent">${item.percent}%</span>
+                        </div>
+                        <div class="skill-description">${item.description}</div>
+                    </div>
+                `;
+            });
+            html += '</div>';
+            listContainer.innerHTML = html;
         }
     });
 }
