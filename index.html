@@ -168,6 +168,8 @@ function fillSkills() {
 // 动态填充GitHub项目
 function fillGithub() {
     fetch('data/projects-github.json').then(r=>r.json()).then(data => {
+        // 高亮优先，其次按 stars 降序
+        data.sort((a, b) => ((b.highlight === true) - (a.highlight === true)) || ((b.stars||0) - (a.stars||0)));
         let html = '<div class="github-grid">';
         data.forEach(item => {
             const highlightClass = item.highlight ? 'github-card-highlight' : '';
@@ -175,7 +177,7 @@ function fillGithub() {
             html += `
                 <a href="${item.url}" target="_blank" class="github-card ${highlightClass}">
                     <div class="github-card-header">
-                        <h3><i class="fa-brands fa-github"></i> ${item.name}</h3>
+                        <h3><i class="fa-brands fa-github"></i> ${item.name} ${item.highlight ? '<span class="github-featured-badge" title="精选项目">精选</span>' : ''}</h3>
                         ${starIcon}
                     </div>
                     <p class="github-description">${item.description}</p>

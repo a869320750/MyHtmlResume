@@ -10,11 +10,12 @@
   },
   {
     "name": "XuanYu",
-    "description": "「玄羽」：深不可测的飞行通信保护系统（网络通信加密）",
+    "description": "「玄羽」：国密SM2/SM4/SM3安全通信组件（含I2C加密芯片适配）",
     "language": "C++",
     "stars": 0,
     "url": "https://github.com/a869320750/XuanYu",
-    "updated": "2025-12-19"
+    "updated": "2025-12-19",
+    "highlight": true
   },
   {
     "name": "rtk-gnss-worker",
