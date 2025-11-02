@@ -245,6 +245,73 @@ body {
 .radar-container {
     flex: 1;
 }
+
+/* 技能列表样式 */
+.skills-list {
+    margin-top: 40px;
+}
+.skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 20px;
+}
+.skill-item {
+    background: #f8f9fa;
+    padding: 15px 20px;
+    border-radius: 10px;
+    border-left: 4px solid var(--accent-color);
+    transition: all 0.3s ease;
+    cursor: pointer;
+    position: relative;
+}
+.skill-item:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.2);
+    background: #fff;
+}
+.skill-name {
+    font-weight: 600;
+    font-size: 16px;
+    color: var(--text-color);
+    margin-bottom: 10px;
+}
+.skill-bar {
+    position: relative;
+    height: 8px;
+    background: #e0e0e0;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 8px;
+}
+.skill-bar-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--accent-color), #764ba2);
+    border-radius: 4px;
+    transition: width 0.6s ease;
+}
+.skill-percent {
+    position: absolute;
+    right: 5px;
+    top: -2px;
+    font-size: 11px;
+    color: #666;
+    font-weight: 600;
+}
+.skill-description {
+    font-size: 13px;
+    color: #888;
+    line-height: 1.5;
+    opacity: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: all 0.3s ease;
+}
+.skill-item:hover .skill-description {
+    opacity: 1;
+    max-height: 100px;
+    margin-top: 8px;
+}
+
 .footer-contact {
     display: flex;
     justify-content: center;
