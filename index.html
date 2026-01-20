@@ -60,6 +60,25 @@ function loadSection(id, url, callback) {
         if (callback) callback();
     });
 }
+
+function showLocalFileWarning() {
+    const container = document.querySelector('.page > div') || document.body;
+    const warning = document.createElement('div');
+    warning.className = 'local-warning';
+    warning.innerHTML = `
+        <div class="local-warning-title">检测到你正在用 <code>file://</code> 方式打开本页面</div>
+        <div class="local-warning-desc">
+            浏览器会阻止 <code>fetch()</code> 读取本地文件（CORS/安全策略），所以 <code>data/*</code> 和 <code>sections/*</code> 无法加载。
+            请用本地 HTTP 服务器打开（效果与 GitHub Pages 一致）。
+        </div>
+        <div class="local-warning-actions">
+            <div>Windows：运行 <code>scripts\\start-server.bat</code>，然后访问 <code>http://localhost:8000/index.html</code></div>
+            <div>或 VS Code 安装 Live Server 后用 "Open with Live Server"</div>
+        </div>
+    `.trim();
+    container.prepend(warning);
+}
+
 // 动态加载自我介绍
 function fillIntro() {
     fetch('data/intro.txt').then(r=>r.text()).then(text => {
@@ -194,6 +213,14 @@ function fillGithub() {
 }
 // 加载所有section和数据
 window.addEventListener('DOMContentLoaded', function() {
+    if (window.location && window.location.protocol === 'file:') {
+        showLocalFileWarning();
+        const intro = document.getElementById('intro-content');
+        if (intro) {
+            intro.textContent = '请用本地服务器（http://localhost:8000/index.html）打开，以加载 data/ 与 sections/ 内容。';
+        }
+        return;
+    }
     fillIntro();
     loadSection('education-section', 'sections/education.html', fillEducation);
     loadSection('work-section', 'sections/work.html', fillWork);

@@ -36,6 +36,41 @@ body {
     padding: 0;
     scroll-behavior: smooth;
 }
+
+.local-warning {
+    background: linear-gradient(135deg, rgba(255, 243, 205, 0.95) 0%, rgba(255, 235, 205, 0.95) 100%);
+    border: 1px solid rgba(255, 193, 7, 0.35);
+    color: #6b4e00;
+    border-radius: 14px;
+    padding: 14px 16px;
+    margin: 0 0 18px 0;
+    box-shadow: 0 8px 18px rgba(0,0,0,0.06);
+}
+
+.local-warning code {
+    background: rgba(255, 255, 255, 0.8);
+    padding: 2px 6px;
+    border-radius: 8px;
+    border: 1px solid rgba(0,0,0,0.06);
+    font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+    font-size: 12px;
+}
+
+.local-warning-title {
+    font-weight: 800;
+    margin-bottom: 6px;
+}
+
+.local-warning-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    margin-bottom: 10px;
+}
+
+.local-warning-actions {
+    font-size: 13px;
+    line-height: 1.7;
+}
 .card {
     background: #fff;
     border-radius: 18px;
