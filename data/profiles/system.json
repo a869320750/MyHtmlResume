@@ -1,0 +1,49 @@
+{
+  "key": "system",
+  "label": "系统工程师投递版",
+  "defaultMode": "detail",
+  "modes": {
+    "short": {
+      "pageTitle": "金英杰 - 系统工程师投递简历",
+      "position": "系统工程师（Linux/网络/性能）",
+      "sections": ["summary", "work", "projects", "skills", "education"],
+      "summaryBullets": [
+        "Linux/网络/通信：Socket、TCP/IP，现场/现网问题排障",
+        "性能优化：火焰图分析、IO/调度/参数调优",
+        "工程保障：自动化测试与质量门禁"
+      ],
+      "limits": {
+        "introMaxChars": 180,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 220,
+        "projectCount": 5,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 240,
+        "skillCount": 12,
+        "githubCount": 0
+      }
+    },
+    "detail": {
+      "pageTitle": "金英杰 - 系统工程师详细简历",
+      "position": "系统工程师（Linux/网络/性能）",
+      "sections": ["summary", "work", "projects", "skills", "github", "education"],
+      "summaryBullets": [
+        "关注稳定性与可运维：观测、定位、修复、复盘",
+        "有内核/驱动/IO/工具链相关系统经验",
+        "可配合交付节奏做风险评估与质量保障"
+      ],
+      "limits": {
+        "introMaxChars": 560,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 260,
+        "projectCount": 6,
+        "projectWorkBullets": 4,
+        "projectTextMaxChars": 380,
+        "skillCount": 12,
+        "githubCount": 0
+      }
+    }
+  }
+}

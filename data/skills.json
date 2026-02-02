@@ -1,14 +1,14 @@
 [
-  {"name": "后端开发", "description": "C#/.NET、C/C++服务端、Socket开发", "percent": 85},
-  {"name": "CI/CD与质量保障", "description": "软件交付周期管理、持续集成、质量体系建设", "percent": 85},
-  {"name": "Linux操作系统", "description": "熟悉Linux开发环境、内核开发、常规调优", "percent": 80},
-  {"name": "网络通信", "description": "熟悉Socket通信、TCP/IP协议,现场实战经验", "percent": 80},
-  {"name": "分布式系统", "description": "理解Zookeeper、集群管理,实际开发过项目", "percent": 80},
-  {"name": "性能优化", "description": "多次主导性能调优,火焰图分析、IO优化都做过", "percent": 80},
+  {"name": "后端开发", "description": "C#/.NET、C/C++服务端、Socket开发", "percent": 95},
+  {"name": "CI/CD与质量保障", "description": "软件交付周期管理、持续集成、质量体系建设", "percent": 95},
+  {"name": "Linux操作系统", "description": "熟悉Linux开发环境、内核开发、常规调优", "percent": 85},
+  {"name": "网络通信", "description": "熟悉Socket通信、TCP/IP协议,现场实战经验", "percent": 85},
+  {"name": "分布式系统", "description": "理解Zookeeper、集群管理,实际开发过项目", "percent": 90},
+  {"name": "性能优化", "description": "多次主导性能调优,火焰图分析、IO优化都做过", "percent": 85},
   {"name": "编译器原理", "description": "主导过编译器替换项目,理解反馈编译和makefile体系", "percent": 75},
   {"name": "数据库技术", "description": "用过SQL Server、Oracle,能配置、部署、用", "percent": 65},
-  {"name": "项目管理", "description": "subPM经验丰富,组织协调交付过多个项目", "percent": 65},
-  {"name": "嵌入式开发", "description": "RK3588平台外设调试、驱动验证", "percent": 50},
-  {"name": "前端开发", "description": "HTML、Winform、WPF", "percent": 40},
-  {"name": "人工智能", "description": "机器学习,神经网络", "percent": 30}
+  {"name": "项目管理", "description": "subPM经验丰富,组织协调交付过多个项目", "percent": 85},
+  {"name": "嵌入式开发", "description": "RK3588平台外设调试、驱动验证", "percent": 70},
+  {"name": "前端开发", "description": "HTML、Winform、WPF", "percent": 60},
+  {"name": "人工智能", "description": "机器学习,神经网络", "percent": 60}
 ]

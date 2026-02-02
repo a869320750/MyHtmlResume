@@ -1,0 +1,49 @@
+{
+  "key": "general",
+  "label": "通用投递版",
+  "defaultMode": "detail",
+  "modes": {
+    "short": {
+      "pageTitle": "金英杰 - 通用投递简历",
+      "position": "软件开发工程师",
+      "sections": ["summary", "work", "projects", "skills", "github", "education"],
+      "summaryBullets": [
+        "后端/系统软件开发：C#/.NET、C/C++、Linux",
+        "擅长工程效能与质量体系：CI/CD、自动化测试、交付规范",
+        "有性能优化与现场/现网问题闭环经验（指标驱动）"
+      ],
+      "limits": {
+        "introMaxChars": 220,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 220,
+        "projectCount": 6,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 260,
+        "skillCount": 10,
+        "githubCount": 8
+      }
+    },
+    "detail": {
+      "pageTitle": "金英杰 - 详细简历",
+      "position": "软件开发工程师",
+      "sections": ["summary", "work", "projects", "skills", "github", "education"],
+      "summaryBullets": [
+        "覆盖后端/系统/嵌入式方向：C#/.NET、C/C++、Linux",
+        "关注可交付与可维护：CI/CD、测试体系、规范与工具化",
+        "多次主导性能优化与问题定位，能端到端闭环"
+      ],
+      "limits": {
+        "introMaxChars": 600,
+        "workCompanies": 3,
+        "workDetailsPerCompany": 4,
+        "workDescMaxChars": 260,
+        "projectCount": 8,
+        "projectWorkBullets": 4,
+        "projectTextMaxChars": 380,
+        "skillCount": 12,
+        "githubCount": 10
+      }
+    }
+  }
+}
