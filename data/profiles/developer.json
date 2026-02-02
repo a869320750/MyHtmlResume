@@ -1,0 +1,49 @@
+{
+  "key": "developer",
+  "label": "软件开发投递版",
+  "defaultMode": "detail",
+  "modes": {
+    "short": {
+      "pageTitle": "金英杰 - 软件开发投递简历",
+      "position": "软件开发工程师（后端/系统）",
+      "sections": ["summary", "projects", "work", "skills", "github", "education"],
+      "summaryBullets": [
+        "主力语言：C/C++、C#/.NET；熟悉 Linux、网络通信",
+        "关注性能与稳定性：火焰图/IO 优化、线上问题定位与修复",
+        "具备工程化交付：CI/CD、自动化测试、规范与工具化"
+      ],
+      "limits": {
+        "introMaxChars": 200,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 200,
+        "projectCount": 6,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 240,
+        "skillCount": 10,
+        "githubCount": 10
+      }
+    },
+    "detail": {
+      "pageTitle": "金英杰 - 软件开发详细简历",
+      "position": "软件开发工程师（后端/系统）",
+      "sections": ["summary", "projects", "work", "skills", "github", "education"],
+      "summaryBullets": [
+        "可独立负责：需求澄清 → 方案设计 → 开发测试 → 上线维护",
+        "有编译工具链/内核/IO/网络等系统向经验",
+        "有交付与质量体系建设实践"
+      ],
+      "limits": {
+        "introMaxChars": 560,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 4,
+        "workDescMaxChars": 260,
+        "projectCount": 8,
+        "projectWorkBullets": 4,
+        "projectTextMaxChars": 380,
+        "skillCount": 12,
+        "githubCount": 10
+      }
+    }
+  }
+}

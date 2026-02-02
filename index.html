@@ -2,231 +2,81 @@
 <html lang="zh-CN">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>金英杰 - 个人简历</title>
-    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script&display=swap" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>简历入口</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-    <div class="page">
-        <div>
-            <div class="header">
-                <img class="avatar" src="images/avatar.jpg" alt="金英杰">
-                <div class="name-contact">
-                    <div class="name">金英杰</div>
-                    <div class="position">软件开发工程师</div>
-                    <div class="contact">
-                        <a href="tel:13322468805" target="_blank"><i class="fa-solid fa-phone"></i> 电话: 13322468805</a>
-                        <a href="mailto:869320750@qq.com" target="_blank"><i class="fa-solid fa-envelope"></i> 邮箱: 869320750@qq.com</a>
-                        <a href="#"><i class="fa-brands fa-weixin" target="_blank"></i> 微信: CsharpEssential</a>
-                        <a href="https://github.com/a869320750" target="_blank"><i class="fa-brands fa-github"></i> GitHub: a869320750</a>
-                        <a href="https://space.bilibili.com/6550010" target="_blank"><i class="fa-brands fa-bilibili"></i> BiliBili: 月都の贤者</a>
-                    </div>
-                </div>
-            </div>
-            <!-- 自我介绍 -->
-            <div class="intro fade-in" id="intro-section">
-                <p id="intro-content"></p>
-            </div>
-            <!-- 教育经历 -->
-            <div id="education-section"></div>
-            <!-- 工作经历 -->
-            <div id="work-section"></div>
-            <!-- 项目经验 -->
-            <div id="projects-section"></div>
-            <!-- GitHub作品集 -->
-            <div id="github-section"></div>
-            <!-- 专业技能 -->
-            <div id="skills-section"></div>
-            <div class="footer-contact">
-                <a href="tel:13322468805" target="_blank"><i class="fa-solid fa-phone"></i></a>
-                <a href="mailto:869320750@qq.com" target="_blank"><i class="fa-solid fa-envelope"></i></a>
-                <a href="#"><i class="fa-brands fa-weixin" target="_blank"></i></a>
-                <a href="https://github.com/a869320750" target="_blank"><i class="fa-brands fa-github"></i></a>
-                <button onclick="window.print()"><i class="fa-brands print"></i>打印/保存PDF</button>
-            </div>
+  <div class="page landing-page">
+    <div>
+      <div class="header landing-header">
+        <div class="name-contact">
+          <div class="name">简历入口</div>
+          <div class="position">选择一个岗位方向（打开详细简历）</div>
+          <div class="contact">
+            <a href="resume.html?profile=general"><i class="fa-solid fa-file-lines"></i> 直接打开：简历</a>
+            <a href="supplement.html"><i class="fa-solid fa-diagram-project"></i> 项目补充材料（模板）</a>
+            <a href="resume-legacy.html"><i class="fa-solid fa-box-archive"></i> 旧版页面（保留）</a>
+          </div>
         </div>
+      </div>
+
+      <div class="landing-grid">
+        <div class="variant-card">
+          <div class="variant-title">通用</div>
+          <div class="variant-desc">适合多数岗位的统一版本。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=general">打开</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">软件开发</div>
+          <div class="variant-desc">突出 C/C++、.NET、Linux、性能与稳定性、工程化交付。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=developer">打开</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">技术负责人 / 架构</div>
+          <div class="variant-desc">突出 0-1 基建、复用/边界、风险治理、资源受限决策。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=architect">打开</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">项目管理</div>
+          <div class="variant-desc">突出 交付闭环、需求/排期、风险与资源协调、质量门禁。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=pm">打开</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">系统工程</div>
+          <div class="variant-desc">突出 Linux/网络/通信、性能优化、排障与可运维。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=system">打开</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>如何维护</h2>
+        <ul>
+          <li>内容数据：<b>data/work.json</b>、<b>data/projects.json</b>、<b>data/skills.json</b>…</li>
+          <li>投递版本：<b>data/profiles/*.json</b>（控制“简版/详细版”的展示顺序与截断长度）</li>
+          <li>简历模板页：<b>resume.html</b>（按 profile/mode 动态渲染）</li>
+        </ul>
+      </div>
     </div>
+  </div>
 </body>
-<script>
-// 动态加载section html
-function loadSection(id, url, callback) {
-    fetch(url).then(r => r.text()).then(html => {
-        document.getElementById(id).outerHTML = html;
-        if (callback) callback();
-    });
-}
 
-function showLocalFileWarning() {
-    const container = document.querySelector('.page > div') || document.body;
-    const warning = document.createElement('div');
-    warning.className = 'local-warning';
-    warning.innerHTML = `
-        <div class="local-warning-title">检测到你正在用 <code>file://</code> 方式打开本页面</div>
-        <div class="local-warning-desc">
-            浏览器会阻止 <code>fetch()</code> 读取本地文件（CORS/安全策略），所以 <code>data/*</code> 和 <code>sections/*</code> 无法加载。
-            请用本地 HTTP 服务器打开（效果与 GitHub Pages 一致）。
-        </div>
-        <div class="local-warning-actions">
-            <div>Windows：运行 <code>scripts\\start-server.bat</code>，然后访问 <code>http://localhost:8000/index.html</code></div>
-            <div>或 VS Code 安装 Live Server 后用 "Open with Live Server"</div>
-        </div>
-    `.trim();
-    container.prepend(warning);
-}
-
-// 动态加载自我介绍
-function fillIntro() {
-    fetch('data/intro.txt').then(r=>r.text()).then(text => {
-        document.getElementById('intro-content').textContent = text.trim();
-    });
-}
-// 动态填充教育经历
-function fillEducation() {
-    fetch('data/education.json').then(r=>r.json()).then(data => {
-        let html = '';
-        data.forEach(item => {
-            html += `<div class='timeline-item'><h3>${item.school} - ${item.major} - ${item.degree}</h3><p>${item.period}</p><ul>`;
-            item.details.forEach(d => html += `<li>${d}</li>`);
-            html += '</ul></div>';
-        });
-        document.getElementById('education-content').innerHTML = html;
-    });
-}
-// 动态填充工作经历
-function fillWork() {
-    fetch('data/work.json').then(r=>r.json()).then(data => {
-        let html = '';
-        data.forEach(item => {
-            html += `<div class='timeline-item'><h3>${item.company} - ${item.position}</h3><p>${item.period}</p><ol>`;
-            item.details.forEach(d => {
-                html += `<li><b>${d.title}：</b><br>${d.desc}</li>`;
-            });
-            html += '</ol></div>';
-        });
-        document.getElementById('work-content').innerHTML = html;
-    });
-}
-// 动态填充项目经验
-function fillProjects() {
-    fetch('data/projects.json').then(r=>r.json()).then(data => {
-        let html = '';
-        data.forEach(item => {
-            html += `<div class='timeline-item'><h3>${item.name}</h3><p>${item.period}</p><h4>项目背景:</h4><ul><li>${item.background}</li></ul><h4>主要工作:</h4><ul>`;
-            item.work.forEach(w => html += `<li>${w}</li>`);
-            html += `</ul><h4>技术栈:</h4><ul><li>${item.tech}</li></ul><h4>成果</h4><ul>`;
-            item.result.forEach(r => html += `<li>${r}</li>`);
-            html += '</ul></div>';
-        });
-        document.getElementById('projects-content').innerHTML = html;
-    });
-}
-// 动态填充技能（仅雷达图）
-function fillSkills() {
-    fetch('data/skills.json').then(r=>r.json()).then(data => {
-        // 绘制雷达图
-        const ctx = document.getElementById('skillRadar');
-        if (ctx) {
-            new Chart(ctx.getContext('2d'), {
-                type: 'radar',
-                data: {
-                    labels: data.map(item => item.name),
-                    datasets: [{
-                        label: '技能掌握程度',
-                        data: data.map(item => item.percent),
-                        backgroundColor: 'rgba(102, 126, 234, 0.2)',
-                        borderColor: 'rgba(102, 126, 234, 1)',
-                        pointBackgroundColor: 'rgba(102, 126, 234, 1)',
-                        pointBorderColor: '#fff',
-                        pointHoverBackgroundColor: '#fff',
-                        pointHoverBorderColor: 'rgba(102, 126, 234, 1)'
-                    }]
-                },
-                options: {
-                    scales: {
-                        r: {
-                            angleLines: { color: '#ccc' },
-                            grid: { color: '#eee' },
-                            suggestedMin: 0,
-                            suggestedMax: 100,
-                            pointLabels: { font: { size: 12 } }
-                        }
-                    },
-                    plugins: {
-                        legend: { display: false }
-                    }
-                }
-            });
-        }
-        
-        // 生成技能列表
-        const listContainer = document.getElementById('skills-list');
-        if (listContainer) {
-            let html = '<div class="skills-grid">';
-            data.forEach(item => {
-                html += `
-                    <div class="skill-item" title="${item.description}">
-                        <div class="skill-name">${item.name}</div>
-                        <div class="skill-bar">
-                            <div class="skill-bar-fill" style="width: ${item.percent}%"></div>
-                            <span class="skill-percent">${item.percent}%</span>
-                        </div>
-                        <div class="skill-description">${item.description}</div>
-                    </div>
-                `;
-            });
-            html += '</div>';
-            listContainer.innerHTML = html;
-        }
-    });
-}
-// 动态填充GitHub项目
-function fillGithub() {
-    fetch('data/projects-github.json').then(r=>r.json()).then(data => {
-        // 高亮优先，其次按 stars 降序
-        data.sort((a, b) => ((b.highlight === true) - (a.highlight === true)) || ((b.stars||0) - (a.stars||0)));
-        let html = '<div class="github-grid">';
-        data.forEach(item => {
-            const highlightClass = item.highlight ? 'github-card-highlight' : '';
-            const starIcon = item.stars > 0 ? `<span class="github-stars"><i class="fa-solid fa-star"></i> ${item.stars}</span>` : '';
-            html += `
-                <a href="${item.url}" target="_blank" class="github-card ${highlightClass}">
-                    <div class="github-card-header">
-                        <h3><i class="fa-brands fa-github"></i> ${item.name} ${item.highlight ? '<span class="github-featured-badge" title="精选项目">精选</span>' : ''}</h3>
-                        ${starIcon}
-                    </div>
-                    <p class="github-description">${item.description}</p>
-                    <div class="github-footer">
-                        <span class="github-lang"><i class="fa-solid fa-circle"></i> ${item.language}</span>
-                        <span class="github-updated">Updated ${item.updated}</span>
-                    </div>
-                </a>
-            `;
-        });
-        html += '</div>';
-        document.getElementById('github-content').innerHTML = html;
-    });
-}
-// 加载所有section和数据
-window.addEventListener('DOMContentLoaded', function() {
-    if (window.location && window.location.protocol === 'file:') {
-        showLocalFileWarning();
-        const intro = document.getElementById('intro-content');
-        if (intro) {
-            intro.textContent = '请用本地服务器（http://localhost:8000/index.html）打开，以加载 data/ 与 sections/ 内容。';
-        }
-        return;
-    }
-    fillIntro();
-    loadSection('education-section', 'sections/education.html', fillEducation);
-    loadSection('work-section', 'sections/work.html', fillWork);
-    loadSection('projects-section', 'sections/projects.html', fillProjects);
-    loadSection('github-section', 'sections/github.html', fillGithub);
-    loadSection('skills-section', 'sections/skills.html', fillSkills);
-});
-</script>
 </html>
+}

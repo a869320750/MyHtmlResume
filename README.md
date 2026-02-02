@@ -1,8 +1,10 @@
 # MyHtmlResume
 
-这个简历页面会通过 `fetch()` 动态加载 `data/*` 与 `sections/*`。
+这是一个“纯静态 + 数据驱动”的个人简历站点：入口页 `index.html` 作为索引，`resume.html` 为统一模板页，通过 `data/profiles/*.json` 生成不同投递版本（简版/详细版）。
 
-如果你直接双击用 `file://` 打开 `index.html`，浏览器会把页面视为 `origin=null`，并阻止读取本地文件（CORS/安全策略），因此会出现 `Failed to fetch`。
+页面会通过 `fetch()` 动态加载 `data/*` 与 `sections/*`。
+
+如果你直接双击用 `file://` 打开页面，浏览器会把页面视为 `origin=null` 并阻止读取本地文件（CORS/安全策略），因此会出现 `Failed to fetch`。
 
 ## 本地打开（推荐）
 
@@ -19,8 +21,21 @@
 
 然后访问：`http://localhost:8000/index.html`
 
-## 其他方式
+## 投递版本
 
-- VS Code 安装 Live Server 插件，对 `index.html` 右键选择 "Open with Live Server"
+- 通用投递版：`resume.html?profile=general&mode=short`
+- 软件开发投递版：`resume.html?profile=developer&mode=short`
+- 架构师投递版：`resume.html?profile=architect&mode=short`
+- 项目经理投递版：`resume.html?profile=pm&mode=short`
+- 系统工程师投递版：`resume.html?profile=system&mode=short`
 
-更多说明见 `scripts/README.md`。
+`mode=detail` 为面试用详细版（同一套数据，展示更多条目并减少截断）。
+
+## 维护入口
+
+- 个人信息：`data/profile-base.json`
+- 投递版本配置：`data/profiles/*.json`（决定“简版/详细版”的模块顺序与截断长度）
+- 内容数据：`data/work.json`、`data/projects.json`、`data/skills.json` 等
+- 旧版页面保留：`resume-legacy.html`
+
+更多启动方式见 `scripts/README.md`。

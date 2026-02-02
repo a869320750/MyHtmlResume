@@ -1,0 +1,49 @@
+{
+  "key": "pm",
+  "label": "项目经理投递版",
+  "defaultMode": "detail",
+  "modes": {
+    "short": {
+      "pageTitle": "金英杰 - 项目经理投递简历",
+      "position": "项目经理 / 交付负责人（技术型）",
+      "sections": ["summary", "work", "projects", "skills", "education"],
+      "summaryBullets": [
+        "有端到端交付经验：需求管理、排期、风险与资源协调",
+        "擅长把“模糊需求”落成可执行方案并推动落地",
+        "关注质量门禁与回归策略，降低交付风险"
+      ],
+      "limits": {
+        "introMaxChars": 180,
+        "workCompanies": 3,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 220,
+        "projectCount": 5,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 240,
+        "skillCount": 10,
+        "githubCount": 0
+      }
+    },
+    "detail": {
+      "pageTitle": "金英杰 - 项目经理详细简历",
+      "position": "项目经理 / 交付负责人（技术型）",
+      "sections": ["summary", "work", "projects", "skills", "github", "education"],
+      "summaryBullets": [
+        "可承担：项目计划、里程碑管理、跨团队协作、质量与发布",
+        "能处理现场/现网问题，组织排障并沉淀流程",
+        "能把工程化手段转化为交付确定性"
+      ],
+      "limits": {
+        "introMaxChars": 560,
+        "workCompanies": 3,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 260,
+        "projectCount": 6,
+        "projectWorkBullets": 4,
+        "projectTextMaxChars": 380,
+        "skillCount": 12,
+        "githubCount": 0
+      }
+    }
+  }
+}
