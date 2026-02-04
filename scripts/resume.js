@@ -100,12 +100,12 @@ function renderFooter(baseProfile) {
     'beforeend',
     `
       <div class="footer-contact">
-        ${contacts.phone ? `<a href="tel:${escapeHtml(contacts.phone)}" target="_blank" title="电话"><i class="fa-solid fa-phone"></i></a>` : ''}
-        ${contacts.email ? `<a href="mailto:${escapeHtml(contacts.email)}" target="_blank" title="邮箱"><i class="fa-solid fa-envelope"></i></a>` : ''}
-        ${contacts.github ? `<a href="${escapeHtml(contacts.github)}" target="_blank" title="GitHub"><i class="fa-brands fa-github"></i></a>` : ''}
-        ${contacts.bilibili ? `<a href="${escapeHtml(contacts.bilibili)}" target="_blank" title="BiliBili"><i class="fa-brands fa-bilibili"></i></a>` : ''}
-        <a href="index.html" title="返回入口"><i class="fa-solid fa-house"></i></a>
-        <button class="print-btn" onclick="window.print()">打印/保存PDF</button>
+        ${contacts.phone ? `<a href="tel:${escapeHtml(contacts.phone)}" target="_blank" title="电话" aria-label="电话"><i class="fa-solid fa-phone"></i></a>` : ''}
+        ${contacts.email ? `<a href="mailto:${escapeHtml(contacts.email)}" target="_blank" title="邮箱" aria-label="邮箱"><i class="fa-solid fa-envelope"></i></a>` : ''}
+        ${contacts.github ? `<a href="${escapeHtml(contacts.github)}" target="_blank" title="GitHub" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>` : ''}
+        ${contacts.bilibili ? `<a href="${escapeHtml(contacts.bilibili)}" target="_blank" title="BiliBili" aria-label="BiliBili"><i class="fa-brands fa-bilibili"></i></a>` : ''}
+        <a href="index.html" title="返回入口" aria-label="返回入口"><i class="fa-solid fa-house"></i></a>
+        <button class="print-btn" onclick="window.print()" aria-label="打印或保存PDF">打印/保存PDF</button>
       </div>
     `.trim()
   );
@@ -113,12 +113,12 @@ function renderFooter(baseProfile) {
 
 async function appendSection(sectionName) {
   const root = $('#resume-root');
-  const html = await fetchText(`sections/${sectionName}.html`);
+  const html = await fetchText(`../sections/${sectionName}.html`);
   root.insertAdjacentHTML('beforeend', html);
 }
 
 async function fillIntro(limits) {
-  const text = await fetchText('data/intro.txt');
+  const text = await fetchText('../data/intro.txt');
   const intro = truncateText(text, limits.introMaxChars);
   const root = $('#resume-root');
   root.insertAdjacentHTML(
@@ -155,7 +155,7 @@ function limitArray(arr, maxCount) {
 }
 
 async function fillEducation() {
-  const data = await fetchJson('data/education.json');
+  const data = await fetchJson('../data/education.json');
   let html = '';
   data.forEach((item) => {
     html += `<div class='timeline-item'><h3>${escapeHtml(item.school)} - ${escapeHtml(item.major)} - ${escapeHtml(item.degree)}</h3><p>${escapeHtml(item.period)}</p><ul>`;
@@ -167,7 +167,7 @@ async function fillEducation() {
 }
 
 async function fillWork(limits) {
-  const data = await fetchJson('data/work.json');
+  const data = await fetchJson('../data/work.json');
   const companies = limitArray(data, limits.workCompanies);
   let html = '';
 
@@ -188,7 +188,7 @@ async function fillWork(limits) {
 }
 
 async function fillProjects(limits) {
-  const data = await fetchJson('data/projects.json');
+  const data = await fetchJson('../data/projects.json');
   const projects = limitArray(data, limits.projectCount);
   let html = '';
 
@@ -213,7 +213,7 @@ async function fillProjects(limits) {
 }
 
 async function fillSkills(limits) {
-  const data = await fetchJson('data/skills.json');
+  const data = await fetchJson('../data/skills.json');
   const skills = limitArray(data, limits.skillCount);
 
   // 绘制雷达图
@@ -282,7 +282,7 @@ async function fillGithub(limits) {
     return;
   }
 
-  const data = await fetchJson('data/projects-github.json');
+  const data = await fetchJson('../data/projects-github.json');
   data.sort(
     (a, b) =>
       (Boolean(b.highlight) - Boolean(a.highlight)) || ((b.stars || 0) - (a.stars || 0))
@@ -326,8 +326,8 @@ async function init() {
 
   const { profile: profileKey, mode: requestedMode, showProfile } = getParams();
 
-  const baseProfile = await fetchJson('data/profile-base.json');
-  const profileConfig = await fetchJson(`data/profiles/${profileKey}.json`);
+  const baseProfile = await fetchJson('../data/profile-base.json');
+  const profileConfig = await fetchJson(`../data/profiles/${profileKey}.json`);
 
   const mode = requestedMode || profileConfig.defaultMode || 'short';
   const modeConfig = (profileConfig.modes || {})[mode] || (profileConfig.modes || {}).short;

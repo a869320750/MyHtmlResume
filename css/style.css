@@ -46,22 +46,25 @@ body {
     margin-bottom: 22px;
 }
 
-        padding: 24px;
+.landing-grid {
+    padding: 24px;
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
     gap: 16px;
     margin-bottom: 22px;
 }
-        line-height: 1.55;
-        margin-bottom: 10px;
-        font-size: 13px;
+
+.variant-card {
+    line-height: 1.55;
+    font-size: 13px;
     border-radius: 14px;
     padding: 16px 16px 14px;
     box-shadow: 0 6px 16px rgba(0,0,0,0.06);
     border: 1px solid rgba(0,0,0,0.04);
+    background: #fff;
 }
-        margin-bottom: 18px;
-        padding: 18px;
+
+.variant-title {
     font-weight: 800;
     font-size: 18px;
     color: #1f2937;
@@ -69,32 +72,33 @@ body {
 }
 
 .variant-desc {
-        margin-bottom: 14px;
+    margin-bottom: 14px;
     color: #4b5563;
     line-height: 1.7;
-        margin-bottom: 14px;
 }
 
-        padding: 16px;
+.variant-actions {
+    margin-top: 12px;
+    padding-top: 12px;
     display: flex;
     gap: 10px;
     flex-wrap: wrap;
-        border-bottom: 1px solid var(--divider-color);
+    border-top: 1px solid var(--divider-color);
 }
 
-        font-size: 22px;
+.pill {
     display: inline-flex;
-        margin-bottom: 12px;
-        padding-bottom: 8px;
+    align-items: center;
+    gap: 6px;
+    font-weight: 700;
+    font-size: 13px;
     padding: 8px 12px;
     border-radius: 999px;
     text-decoration: none;
-        width: 48px;
-        height: 3px;
-    font-weight: 700;
-    font-size: 13px;
-        margin-bottom: 12px;
-        padding: 14px;
+    background: var(--primary-gradient);
+    color: #fff;
+    box-shadow: 0 6px 16px rgba(102,126,234,0.25);
+    transition: all 0.2s ease;
 }
 
 .pill:hover {
@@ -166,6 +170,35 @@ body {
     background: var(--primary-gradient);
     color: #fff;
     font-weight: 700;
+}
+
+@media (max-width: 860px) {
+    .page {
+        width: auto;
+        min-height: auto;
+        padding: 24px;
+    }
+
+    .header {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+    }
+
+    .name-contact {
+        margin-left: 0;
+    }
+
+    .contact {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+        justify-content: center;
+    }
+
+    .skills-container {
+        flex-direction: column;
+    }
 }
 
 @media print {
