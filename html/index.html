@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>简历入口</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet" href="../css/style.css">
+</head>
+
+<body>
+  <div class="page landing-page">
+    <div>
+      <div class="header landing-header">
+        <div class="name-contact">
+          <div class="name">简历入口</div>
+          <div class="position">选择一个岗位方向（打开详细简历）</div>
+          <div class="contact">
+            <a href="resume.html?profile=general"><i class="fa-solid fa-file-lines"></i> 直接打开：简历</a>
+            <a href="supplement.html"><i class="fa-solid fa-diagram-project"></i> 项目补充材料（模板）</a>
+            <a href="resume-legacy.html"><i class="fa-solid fa-box-archive"></i> 旧版页面（保留）</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="landing-grid">
+        <div class="variant-card">
+          <div class="variant-title">通用</div>
+          <div class="variant-desc">适合多数岗位的统一版本。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=general">打开</a>
+            <a class="pill pill-ghost" href="ats.html?profile=general&mode=detail">ATS版</a>
+            <a class="pill pill-ghost" href="ats.html?profile=general&mode=onepage">一页版</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">软件开发</div>
+          <div class="variant-desc">突出 C/C++、.NET、Linux、性能与稳定性、工程化交付。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=developer">打开</a>
+            <a class="pill pill-ghost" href="ats.html?profile=developer&mode=detail">ATS版</a>
+            <a class="pill pill-ghost" href="ats.html?profile=developer&mode=onepage">一页版</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">技术负责人 / 架构</div>
+          <div class="variant-desc">突出 0-1 基建、复用/边界、风险治理、资源受限决策。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=architect">打开</a>
+            <a class="pill pill-ghost" href="ats.html?profile=architect&mode=detail">ATS版</a>
+            <a class="pill pill-ghost" href="ats.html?profile=architect&mode=onepage">一页版</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">项目管理</div>
+          <div class="variant-desc">突出 交付闭环、需求/排期、风险与资源协调、质量门禁。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=pm">打开</a>
+            <a class="pill pill-ghost" href="ats.html?profile=pm&mode=detail">ATS版</a>
+            <a class="pill pill-ghost" href="ats.html?profile=pm&mode=onepage">一页版</a>
+          </div>
+        </div>
+
+        <div class="variant-card">
+          <div class="variant-title">系统工程</div>
+          <div class="variant-desc">突出 Linux/网络/通信、性能优化、排障与可运维。</div>
+          <div class="variant-actions">
+            <a class="pill" href="resume.html?profile=system">打开</a>
+            <a class="pill pill-ghost" href="ats.html?profile=system&mode=detail">ATS版</a>
+            <a class="pill pill-ghost" href="ats.html?profile=system&mode=onepage">一页版</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="section">
+        <h2>如何维护</h2>
+        <ul>
+          <li>内容数据：<b>data/work.json</b>、<b>data/projects.json</b>、<b>data/skills.json</b>…</li>
+          <li>投递版本：<b>data/profiles/*.json</b>（控制“简版/详细版”的展示顺序与截断长度）</li>
+          <li>简历模板页：<b>resume.html</b>（按 profile/mode 动态渲染）</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</body>
+
+</html>

@@ -1,13 +1,11 @@
 {
   "name": "金英杰",
-  "avatar": "images/avatar.jpg",
+  "avatar": "../images/avatar.jpg",
   "contacts": {
     "phone": "13322468805",
     "email": "869320750@qq.com",
     "wechat": "CsharpEssential",
     "github": "https://github.com/a869320750",
-    "githubLabel": "a869320750",
-    "bilibili": "https://space.bilibili.com/6550010",
-    "bilibiliLabel": "月都の贤者"
+    "githubLabel": "a869320750"
   }
 }
