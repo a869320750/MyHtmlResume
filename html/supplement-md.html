@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目补充材料（Markdown）</title>
+  <link rel="stylesheet" href="../css/markdown.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+  <script src="../scripts/markdown.js" defer></script>
+</head>
+
+<body>
+  <main class="md-page">
+    <header class="md-header">
+      <div>
+        <h1>项目补充材料（Markdown）</h1>
+        <p>支持 Markdown + 图片 + Mermaid</p>
+      </div>
+      <nav class="md-actions">
+        <a href="index.html"><i class="fa-solid fa-house"></i> 返回入口</a>
+        <a href="resume.html?profile=general&mode=detail"><i class="fa-solid fa-file-lines"></i> 打开详细简历</a>
+        <button class="md-print" onclick="window.print()">打印/保存PDF</button>
+      </nav>
+    </header>
+
+    <div class="md-layout">
+      <aside class="md-sidebar" id="md-sidebar">
+        <div class="md-sidebar-header">
+          <div class="md-sidebar-title">目录</div>
+          <button class="md-sidebar-toggle" id="md-sidebar-toggle" title="收起/展开">☰</button>
+        </div>
+        <ul id="markdown-list" class="md-list"></ul>
+      </aside>
+      <section id="markdown-root" class="md-content"></section>
+    </div>
+  </main>
+</body>
+
+</html>
