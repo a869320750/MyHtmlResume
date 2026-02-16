@@ -126,6 +126,31 @@ body.ats-two-page .ats-page::after {
   margin: 4px 0 8px 0;
 }
 
+.ats-oneliner {
+  margin: 4px 0 8px;
+  padding: 6px 10px;
+  background: #f5f7ff;
+  border-left: 3px solid #4f46e5;
+  border-radius: 6px;
+  font-weight: 600;
+}
+
+.ats-value-list,
+.ats-star-list {
+  margin: 6px 0 10px 18px;
+  padding: 0;
+}
+
+.ats-star-list li {
+  margin-bottom: 4px;
+}
+
+.ats-skill-evidence {
+  margin-top: 2px;
+  color: #4b5563;
+  font-size: 12px;
+}
+
 .ats-section ul,
 .ats-section ol {
   margin: 6px 0 10px 18px;

@@ -44,6 +44,54 @@
         "skillCount": 12,
         "githubCount": 0
       }
+    },
+    "onepage": {
+      "pageTitle": "金英杰 - 系统一页简历",
+      "position": "系统工程师（Linux/网络/性能）",
+      "sections": ["summary", "work", "projects", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "kernel": "star",
+            "performance": "star",
+            "embedded": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "huawei-io-kernel": "star",
+            "rtkgnss-delivery": "star",
+            "embedded-driver-test-system": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "kernel": "star",
+            "performance": "star",
+            "embedded": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "聚焦 Linux/网络/通信系统的稳定性与可运维",
+        "具备内核IO、驱动调试与性能优化实战经验",
+        "可组织问题定位、修复闭环与风险前置"
+      ],
+      "limits": {
+        "introMaxChars": 150,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 2,
+        "workDescMaxChars": 180,
+        "projectCount": 4,
+        "projectWorkBullets": 2,
+        "projectTextMaxChars": 220,
+        "skillCount": 8,
+        "githubCount": 0
+      }
     }
   }
 }

@@ -23,6 +23,93 @@ function limitArray(arr, maxCount) {
   return arr.slice(0, maxCount);
 }
 
+const DISPLAY_LEVEL_SET = new Set(['oneLiner', 'value3', 'star', 'full']);
+
+function pickFirstNonEmpty(...values) {
+  for (const value of values) {
+    if (typeof value === 'string' && value.trim()) return value.trim();
+  }
+  return '';
+}
+
+function normalizeLines(lines) {
+  if (!Array.isArray(lines)) return [];
+  return lines.map((line) => String(line || '').trim()).filter(Boolean);
+}
+
+function normalizeStar(star) {
+  const source = star || {};
+  return {
+    situation: pickFirstNonEmpty(source.situation, source.S),
+    task: pickFirstNonEmpty(source.task, source.T),
+    action: pickFirstNonEmpty(source.action, source.A),
+    result: pickFirstNonEmpty(source.result, source.R)
+  };
+}
+
+function hasStarContent(star) {
+  const normalized = normalizeStar(star);
+  return Boolean(normalized.situation || normalized.task || normalized.action || normalized.result);
+}
+
+function resolveDisplayLevel(item, sectionPolicy) {
+  let level = pickFirstNonEmpty(sectionPolicy?.defaultLevel) || 'full';
+
+  const tagPolicy = sectionPolicy?.byTag || {};
+  const itemTags = Array.isArray(item?.tags) ? item.tags : [];
+  for (const tag of itemTags) {
+    const nextLevel = tagPolicy[tag];
+    if (typeof nextLevel === 'string' && nextLevel.trim()) {
+      level = nextLevel.trim();
+      break;
+    }
+  }
+
+  const idPolicy = sectionPolicy?.byId || sectionPolicy?.overrides || {};
+  if (item?.id && typeof idPolicy[item.id] === 'string' && idPolicy[item.id].trim()) {
+    level = idPolicy[item.id].trim();
+  }
+
+  return DISPLAY_LEVEL_SET.has(level) ? level : 'full';
+}
+
+function getOneLiner(item, maxChars) {
+  const line = pickFirstNonEmpty(item?.oneLiner, item?.brief?.[0]);
+  return truncateText(line, maxChars);
+}
+
+function getValue3(item) {
+  const fromTemplate = normalizeLines(item?.value3);
+  if (fromTemplate.length) return fromTemplate;
+  return normalizeLines(item?.brief);
+}
+
+function renderValueListHtml(lines, maxChars) {
+  const values = normalizeLines(lines);
+  if (!values.length) return '';
+  return `<ul class="ats-value-list">${values
+    .map((line) => `<li>${escapeHtml(truncateText(line, maxChars))}</li>`)
+    .join('')}</ul>`;
+}
+
+function renderStarHtml(star, maxChars) {
+  const normalized = normalizeStar(star);
+  if (!hasStarContent(normalized)) return '';
+  const rows = [
+    ['S', '情境', normalized.situation],
+    ['T', '任务', normalized.task],
+    ['A', '行动', normalized.action],
+    ['R', '结果', normalized.result]
+  ]
+    .filter((row) => row[2])
+    .map(
+      ([key, label, text]) =>
+        `<li><strong>${key}(${label})：</strong>${escapeHtml(truncateText(text, maxChars))}</li>`
+    )
+    .join('');
+  return `<ul class="ats-star-list">${rows}</ul>`;
+}
+
 async function fetchText(url) {
   const response = await fetch(url);
   if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
@@ -90,49 +177,71 @@ function renderSummary(summaryBullets) {
   renderSection('摘要', `<ul>${summaryBullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`);
 }
 
-async function renderWork(limits, useBrief) {
+async function renderWork(limits, useBrief, contentPolicy) {
   const data = await fetchJson('../data/work.json');
   const companies = limitArray(data, limits?.workCompanies);
   let html = '';
 
   companies.forEach((item) => {
+    const level = resolveDisplayLevel(item, contentPolicy);
+    const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
+    const oneLiner = getOneLiner(item, limits?.workDescMaxChars);
+    const value3 = getValue3(item);
+    const starHtml = renderStarHtml(item.star, limits?.workDescMaxChars);
+
     html += `
       <h3>${escapeHtml(item.company)} - ${escapeHtml(item.position)}</h3>
       <p class="ats-muted">${escapeHtml(item.period || '')}</p>
-      <ol>
-        ${useBrief && Array.isArray(item.brief) && item.brief.length
-          ? item.brief.map((detail) => `<li>${escapeHtml(detail)}</li>`).join('')
-          : limitArray(item.details || [], limits?.workDetailsPerCompany)
-              .map((detail) => {
-                const desc = truncateText(detail.desc, limits?.workDescMaxChars);
-                return `<li><strong>${escapeHtml(detail.title)}：</strong>${escapeHtml(desc)}</li>`;
-              })
-              .join('')}
-      </ol>
     `;
+
+    if (oneLiner) {
+      html += `<p class="ats-oneliner">${escapeHtml(oneLiner)}</p>`;
+    }
+
+    if (effectiveLevel === 'oneLiner') {
+      return;
+    }
+
+    if (effectiveLevel === 'value3') {
+      html += renderValueListHtml(value3, limits?.workDescMaxChars);
+      return;
+    }
+
+    if (effectiveLevel === 'star') {
+      html += starHtml || renderValueListHtml(value3, limits?.workDescMaxChars);
+      return;
+    }
+
+    // full
+    html += renderValueListHtml(value3, limits?.workDescMaxChars);
+    if (starHtml) html += starHtml;
+
+    html += `<ol>
+      ${useBrief && Array.isArray(item.brief) && item.brief.length
+        ? item.brief.map((detail) => `<li>${escapeHtml(detail)}</li>`).join('')
+        : limitArray(item.details || [], limits?.workDetailsPerCompany)
+            .map((detail) => {
+              const desc = truncateText(detail.desc, limits?.workDescMaxChars);
+              return `<li><strong>${escapeHtml(detail.title)}：</strong>${escapeHtml(desc)}</li>`;
+            })
+            .join('')}
+    </ol>`;
   });
 
   if (html) renderSection('工作经历', html);
 }
 
-async function renderProjects(limits, useBrief) {
+async function renderProjects(limits, useBrief, contentPolicy) {
   const data = await fetchJson('../data/projects.json');
   const projects = limitArray(data, limits?.projectCount);
   let html = '';
 
   projects.forEach((item) => {
-    if (useBrief && Array.isArray(item.brief) && item.brief.length) {
-      const tech = item.tech ? truncateText(item.tech, limits?.projectTextMaxChars) : '';
-      html += `
-        <h3>${escapeHtml(item.name)}</h3>
-        <p class="ats-muted">${escapeHtml(item.period || '')}</p>
-        <ul>
-          ${item.brief.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}
-        </ul>
-        ${tech ? `<p><strong>技术栈：</strong>${escapeHtml(tech)}</p>` : ''}
-      `;
-      return;
-    }
+    const level = resolveDisplayLevel(item, contentPolicy);
+    const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
+    const oneLiner = getOneLiner(item, limits?.projectTextMaxChars);
+    const value3 = getValue3(item);
+    const starHtml = renderStarHtml(item.star, limits?.projectTextMaxChars);
 
     const background = truncateText(item.background, limits?.projectTextMaxChars);
     const tech = truncateText(item.tech, limits?.projectTextMaxChars);
@@ -140,6 +249,37 @@ async function renderProjects(limits, useBrief) {
     html += `
       <h3>${escapeHtml(item.name)}</h3>
       <p class="ats-muted">${escapeHtml(item.period || '')}</p>
+    `;
+
+    if (oneLiner) {
+      html += `<p class="ats-oneliner">${escapeHtml(oneLiner)}</p>`;
+    }
+
+    if (effectiveLevel === 'oneLiner') {
+      return;
+    }
+
+    if (effectiveLevel === 'value3') {
+      html += renderValueListHtml(value3, limits?.projectTextMaxChars);
+      return;
+    }
+
+    if (effectiveLevel === 'star') {
+      html += starHtml || renderValueListHtml(value3, limits?.projectTextMaxChars);
+      return;
+    }
+
+    // full
+    html += renderValueListHtml(value3, limits?.projectTextMaxChars);
+    if (starHtml) html += starHtml;
+
+    if (useBrief && Array.isArray(item.brief) && item.brief.length) {
+      html += `<ul>${item.brief.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}</ul>`;
+      if (tech) html += `<p><strong>技术栈：</strong>${escapeHtml(tech)}</p>`;
+      return;
+    }
+
+    html += `
       <p><strong>项目背景：</strong>${escapeHtml(background)}</p>
       <p><strong>主要工作：</strong></p>
       <ul>
@@ -162,13 +302,25 @@ async function renderSkills(limits) {
   const skills = limitArray(data, limits?.skillCount);
   if (!skills.length) return;
 
+  const normalizedSkills = skills.map((item) => {
+    const keywords = Array.isArray(item.keywords)
+      ? item.keywords.map((k) => String(k || '').trim()).filter(Boolean)
+      : String(item.description || '')
+          .split(/[，,、]/)
+          .map((k) => k.trim())
+          .filter(Boolean);
+    const level = item.level || (typeof item.percent === 'number' ? '熟练' : '了解');
+    const evidence = item.evidence || item.description || '';
+    return { name: item.name || '', level, keywords, evidence };
+  });
+
   const html = `
     <ul>
-      ${skills
+      ${normalizedSkills
         .map((item) => {
-          const desc = item.description ? ` - ${escapeHtml(item.description)}` : '';
-          const percent = typeof item.percent === 'number' ? `（${item.percent}%）` : '';
-          return `<li>${escapeHtml(item.name)}${desc}${percent}</li>`;
+          const keywords = item.keywords?.length ? `｜${escapeHtml(item.keywords.join(' / '))}` : '';
+          const evidence = item.evidence ? `<div class="ats-skill-evidence">${escapeHtml(item.evidence)}</div>` : '';
+          return `<li><strong>${escapeHtml(item.name)}</strong>（${escapeHtml(item.level)}）${keywords}${evidence}</li>`;
         })
         .join('')}
     </ul>
@@ -220,12 +372,27 @@ async function init() {
   const baseProfile = await fetchJson('../data/profile-base.json');
   const profileConfig = await fetchJson(`../data/profiles/${profile}.json`);
   const modeKey = mode || profileConfig.defaultMode || Object.keys(profileConfig.modes || {})[0] || 'detail';
-  const modeConfig = profileConfig.modes?.[modeKey] || Object.values(profileConfig.modes || {})[0] || {};
+  const fallbackModeConfig = profileConfig.modes?.short || profileConfig.modes?.detail || Object.values(profileConfig.modes || {})[0] || {};
+  let modeConfig = profileConfig.modes?.[modeKey] || fallbackModeConfig;
 
   const isOnePage = modeKey === 'onepage';
   if (isOnePage) {
     document.body.classList.add('ats-two-page');
+    if (!profileConfig.modes?.onepage) {
+      modeConfig = {
+        ...modeConfig,
+        limits: {
+          ...(modeConfig.limits || {}),
+          introMaxChars: Math.min(modeConfig.limits?.introMaxChars || 180, 180),
+          workDetailsPerCompany: Math.min(modeConfig.limits?.workDetailsPerCompany || 2, 2),
+          projectWorkBullets: Math.min(modeConfig.limits?.projectWorkBullets || 2, 2),
+          projectTextMaxChars: Math.min(modeConfig.limits?.projectTextMaxChars || 220, 220)
+        }
+      };
+    }
   }
+
+  const contentPolicy = modeConfig.contentPolicy || {};
 
   if (modeConfig.pageTitle) document.title = modeConfig.pageTitle;
 
@@ -235,8 +402,8 @@ async function init() {
   const sectionHandlers = {
     summary: async () => renderSummary(modeConfig.summaryBullets || []),
     intro: async () => renderIntro(modeConfig.limits),
-    work: async () => renderWork(modeConfig.limits, useBrief),
-    projects: async () => renderProjects(modeConfig.limits, useBrief),
+    work: async () => renderWork(modeConfig.limits, useBrief, contentPolicy.work),
+    projects: async () => renderProjects(modeConfig.limits, useBrief, contentPolicy.projects),
     skills: async () => renderSkills(modeConfig.limits),
     github: async () => renderGithub(modeConfig.limits),
     education: async () => renderEducation(useBrief)
@@ -251,7 +418,7 @@ async function init() {
   }
 
   addAtsRuler(isOnePage ? 2 : undefined);
-  setupPlainTextExport({ profileKey: profile, modeKey, modeConfig, useBrief });
+  setupPlainTextExport({ profileKey: profile, modeKey, modeConfig, useBrief, contentPolicy });
 }
 
 init().catch((err) => {
@@ -260,7 +427,7 @@ init().catch((err) => {
   console.error(err);
 });
 
-async function buildPlainText({ profileKey, modeConfig, useBrief }) {
+async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
   const baseProfile = await fetchJson('../data/profile-base.json');
   const contacts = baseProfile.contacts || {};
   const lines = [];
@@ -295,7 +462,44 @@ async function buildPlainText({ profileKey, modeConfig, useBrief }) {
   if (companies.length) {
     lines.push('工作经历');
     companies.forEach((item) => {
+      const level = resolveDisplayLevel(item, contentPolicy?.work);
+      const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
+      const oneLiner = getOneLiner(item, modeConfig.limits?.workDescMaxChars);
+      const value3 = getValue3(item);
+      const star = normalizeStar(item.star);
+
       lines.push(`  ${item.company} - ${item.position} (${item.period || ''})`);
+      if (oneLiner) lines.push(`    一句话：${oneLiner}`);
+
+      if (effectiveLevel === 'oneLiner') {
+        return;
+      }
+
+      if (effectiveLevel === 'value3') {
+        value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.workDescMaxChars)}`));
+        return;
+      }
+
+      if (effectiveLevel === 'star') {
+        if (hasStarContent(star)) {
+          if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.workDescMaxChars)}`);
+          if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.workDescMaxChars)}`);
+          if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.workDescMaxChars)}`);
+          if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.workDescMaxChars)}`);
+        } else {
+          value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.workDescMaxChars)}`));
+        }
+        return;
+      }
+
+      value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.workDescMaxChars)}`));
+      if (hasStarContent(star)) {
+        if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.workDescMaxChars)}`);
+        if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.workDescMaxChars)}`);
+        if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.workDescMaxChars)}`);
+        if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.workDescMaxChars)}`);
+      }
+
       if (useBrief && Array.isArray(item.brief) && item.brief.length) {
         item.brief.forEach((detail) => lines.push(`    - ${detail}`));
       } else {
@@ -313,7 +517,44 @@ async function buildPlainText({ profileKey, modeConfig, useBrief }) {
   if (projects.length) {
     lines.push('项目经历');
     projects.forEach((item) => {
+      const level = resolveDisplayLevel(item, contentPolicy?.projects);
+      const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
+      const oneLiner = getOneLiner(item, modeConfig.limits?.projectTextMaxChars);
+      const value3 = getValue3(item);
+      const star = normalizeStar(item.star);
+
       lines.push(`  ${item.name} (${item.period || ''})`);
+      if (oneLiner) lines.push(`    一句话：${oneLiner}`);
+
+      if (effectiveLevel === 'oneLiner') {
+        return;
+      }
+
+      if (effectiveLevel === 'value3') {
+        value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.projectTextMaxChars)}`));
+        return;
+      }
+
+      if (effectiveLevel === 'star') {
+        if (hasStarContent(star)) {
+          if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.projectTextMaxChars)}`);
+          if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.projectTextMaxChars)}`);
+          if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.projectTextMaxChars)}`);
+          if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.projectTextMaxChars)}`);
+        } else {
+          value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.projectTextMaxChars)}`));
+        }
+        return;
+      }
+
+      value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.projectTextMaxChars)}`));
+      if (hasStarContent(star)) {
+        if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.projectTextMaxChars)}`);
+        if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.projectTextMaxChars)}`);
+        if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.projectTextMaxChars)}`);
+        if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.projectTextMaxChars)}`);
+      }
+
       if (useBrief && Array.isArray(item.brief) && item.brief.length) {
         item.brief.forEach((line) => lines.push(`    - ${line}`));
         if (item.tech) lines.push(`    技术栈：${truncateText(item.tech, modeConfig.limits?.projectTextMaxChars)}`);
@@ -340,9 +581,14 @@ async function buildPlainText({ profileKey, modeConfig, useBrief }) {
   if (skills.length) {
     lines.push('技能');
     skills.forEach((skill) => {
-      const percent = typeof skill.percent === 'number' ? `（${skill.percent}%）` : '';
-      const desc = skill.description ? ` - ${skill.description}` : '';
-      lines.push(`  - ${skill.name}${percent}${desc}`);
+      const level = skill.level || (typeof skill.percent === 'number' ? '熟练' : '了解');
+      const keywords = Array.isArray(skill.keywords)
+        ? skill.keywords.join(' / ')
+        : String(skill.description || '').trim();
+      const evidence = String(skill.evidence || '').trim();
+
+      lines.push(`  - ${skill.name}（${level}）${keywords ? `｜${keywords}` : ''}`);
+      if (evidence) lines.push(`    证据：${evidence}`);
     });
     pushSeparator();
   }
@@ -374,7 +620,7 @@ async function buildPlainText({ profileKey, modeConfig, useBrief }) {
   return lines.join('\n');
 }
 
-function setupPlainTextExport({ profileKey, modeKey, modeConfig, useBrief }) {
+function setupPlainTextExport({ modeKey, modeConfig, useBrief, contentPolicy }) {
   const button = document.querySelector('#copy-plain-text');
   const note = document.querySelector('#copy-plain-text-note');
   if (!button) return;
@@ -391,7 +637,7 @@ function setupPlainTextExport({ profileKey, modeKey, modeConfig, useBrief }) {
 
   button.addEventListener('click', async () => {
     try {
-      const text = await buildPlainText({ profileKey, modeConfig, modeKey, useBrief });
+      const text = await buildPlainText({ modeConfig, modeKey, useBrief, contentPolicy });
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(text);
       } else {
