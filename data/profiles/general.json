@@ -7,6 +7,18 @@
       "pageTitle": "金英杰 - 通用投递简历",
       "position": "软件开发工程师",
       "sections": ["summary", "work", "projects", "skills", "github", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "full",
+          "byId": {},
+          "byTag": {}
+        },
+        "projects": {
+          "defaultLevel": "full",
+          "byId": {},
+          "byTag": {}
+        }
+      },
       "summaryBullets": [
         "后端/系统软件开发：C#/.NET、C/C++、Linux",
         "擅长工程效能与质量体系：CI/CD、自动化测试、交付规范",
@@ -28,6 +40,18 @@
       "pageTitle": "金英杰 - 详细简历",
       "position": "软件开发工程师",
       "sections": ["summary", "work", "projects", "skills", "github", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "full",
+          "byId": {},
+          "byTag": {}
+        },
+        "projects": {
+          "defaultLevel": "full",
+          "byId": {},
+          "byTag": {}
+        }
+      },
       "summaryBullets": [
         "覆盖后端/系统/嵌入式方向：C#/.NET、C/C++、Linux",
         "关注可交付与可维护：CI/CD、测试体系、规范与工具化",
@@ -43,6 +67,51 @@
         "projectTextMaxChars": 380,
         "skillCount": 12,
         "githubCount": 10
+      }
+    },
+    "onepage": {
+      "pageTitle": "金英杰 - 通用一页简历",
+      "position": "软件开发工程师",
+      "sections": ["summary", "work", "projects", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "team-process-zero-to-one": "star",
+            "gm-sm2-sm4-security": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "后端/系统/嵌入式：C#/.NET、C/C++、Linux",
+        "工程化交付：CI/CD、自动化测试、质量门禁",
+        "具备复杂系统落地与问题闭环能力"
+      ],
+      "limits": {
+        "introMaxChars": 160,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 2,
+        "workDescMaxChars": 180,
+        "projectCount": 4,
+        "projectWorkBullets": 2,
+        "projectTextMaxChars": 220,
+        "skillCount": 8,
+        "githubCount": 0
       }
     }
   }

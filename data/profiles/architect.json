@@ -7,6 +7,30 @@
       "pageTitle": "金英杰 - 架构师投递简历",
       "position": "软件架构 / 技术负责人",
       "sections": ["summary", "projects", "work", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-data-collector": "oneLiner",
+            "huawei-cluster-management": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star",
+            "management": "star"
+          }
+        }
+      },
       "summaryBullets": [
         "擅长从0到1：平台/流程/工程基建建设，推动团队可规模化交付",
         "重视边界与复用：模块化、可观测性、风险识别与治理",
@@ -28,6 +52,30 @@
       "pageTitle": "金英杰 - 架构师详细简历",
       "position": "软件架构 / 技术负责人",
       "sections": ["summary", "projects", "work", "skills", "github", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-data-collector": "oneLiner",
+            "huawei-cluster-management": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star",
+            "management": "star"
+          }
+        }
+      },
       "summaryBullets": [
         "架构/流程/质量三线并行：既能落地，也能带团队协作",
         "强调复用与长期成本：架构治理、规范、自动化与测试体系",
@@ -42,6 +90,53 @@
         "projectWorkBullets": 4,
         "projectTextMaxChars": 380,
         "skillCount": 12,
+        "githubCount": 0
+      }
+    },
+    "onepage": {
+      "pageTitle": "金英杰 - 架构师一页简历",
+      "position": "软件架构 / 技术负责人",
+      "sections": ["summary", "projects", "work", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "team-process-zero-to-one": "star",
+            "lnc-unc-dual-lines": "star",
+            "gm-sm2-sm4-security": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "management": "star",
+            "security": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "擅长从0到1构建研发体系并推动规模化交付",
+        "强调复用、边界与风险治理，保障长期可维护性",
+        "可在资源受限场景下完成架构决策与落地"
+      ],
+      "limits": {
+        "introMaxChars": 150,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 2,
+        "workDescMaxChars": 180,
+        "projectCount": 4,
+        "projectWorkBullets": 2,
+        "projectTextMaxChars": 220,
+        "skillCount": 8,
         "githubCount": 0
       }
     }

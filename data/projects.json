@@ -1,5 +1,19 @@
 [ 
   {
+    "id": "team-process-zero-to-one",
+    "tags": ["architecture", "engineering", "cicd", "team", "delivery"],
+    "oneLiner": "从0到1搭建研发体系与CI/CD，推动团队从人工交付向自动化工程化转型。",
+    "value3": [
+      "搭建研发平台与规范，建立可追溯代码协作流程。",
+      "主导CI/CD与质量内建，显著减少人工干预并提升交付质量。",
+      "通过培训与组织协同，提升团队上手效率与关键模块交付能力。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "软件团队技术体系与研发流程从0到1建设",
     "period": "2025.05 - 至今",
     "brief": [
@@ -22,6 +36,20 @@
     ]
   },
   {
+    "id": "lnc-unc-dual-lines",
+    "tags": ["architecture", "management", "delivery", "risk", "platform"],
+    "oneLiner": "在资源受限下支撑LNC/UNC双产品线并行开发，通过复用架构与风险管理保障按期交付。",
+    "value3": [
+      "设计可复用架构，核心逻辑复用率达到70%+。",
+      "建立需求澄清与风险前置机制，降低无效开发。",
+      "主动协调跨团队资源，保障关键路径功能按时落地。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "LNC/UNC双产品线并行开发与资源协调",
     "period": "2025.06 - 至今",
     "brief": [
@@ -43,6 +71,20 @@
     ]
   },
   {
+    "id": "embedded-driver-test-system",
+    "tags": ["embedded", "driver", "automation", "hardware"],
+    "oneLiner": "构建驱动测试与调试体系，协同硬件团队提升自研板卡稳定性与验证效率。",
+    "value3": [
+      "完成关键外设驱动深度测试并定位时序问题。",
+      "搭建嵌入式调试工具链，支持崩溃现场自动抓取分析。",
+      "开发统一测试框架原型，将驱动验证周期大幅缩短。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "自研硬件平台驱动适配与调试体系构建",
     "period": "2025.07 - 至今",
     "brief": [
@@ -64,6 +106,20 @@
     ]
   },
   {
+    "id": "gm-sm2-sm4-security",
+    "tags": ["security", "architecture", "crypto", "embedded"],
+    "oneLiner": "完成国密SM2/SM4通信端到端落地，在资源受限设备上兼顾合规与性能。",
+    "value3": [
+      "完成加密芯片对接与驱动适配，打通核心通信链路。",
+      "设计密钥管理与安全通信架构，抽象统一接口供业务复用。",
+      "构建功能/性能测试体系并沉淀接入规范，支持规模化推广。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "国密SM2/SM4安全通信体系建设(航天时代低空科技)",
     "period": "2025.09-2025.10",
     "brief": [
@@ -86,6 +142,20 @@
     ]
   },
   {
+    "id": "rtkgnss-delivery",
+    "tags": ["rtk", "gnss", "architecture", "delivery"],
+    "oneLiner": "打通RTK高精度定位端到端链路，完成多场景稳定性验证与文档沉淀。",
+    "value3": [
+      "完成GNSS模组与差分服务接入，统一NTRIP处理流程。",
+      "实现驱动与协议适配，设计定位数据融合与异常处理机制。",
+      "建立测试框架与排障手册，支撑跨项目快速复用。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "RTK高精度定位功能落地(航天时代低空科技)",
     "period": "2025.07-2025.09",
     "brief": [
@@ -107,6 +177,20 @@
     ]
   },
   {
+    "id": "huawei-compiler-migration",
+    "tags": ["compiler", "system", "architecture", "delivery"],
+    "oneLiner": "主导存储产品编译器替换预研，打通工具链与构建体系并完成量产前验证。",
+    "value3": [
+      "制定技术路线并协调多团队资源，推动端到端执行。",
+      "改造多代码仓构建脚本，实现编译器一键切换与稳定构建。",
+      "完成性能调优与标准沉淀，项目成果被产品线复用。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "华为存储产品编译器替换预研项目",
     "period": "2023.04-2023.08",
     "brief": [
@@ -128,6 +212,20 @@
     ]
   },
   {
+    "id": "huawei-cluster-management",
+    "tags": ["system", "cluster", "delivery"],
+    "oneLiner": "负责分布式集群监控模块开发与问题闭环，提升监控链路实时性与稳定性。",
+    "value3": [
+      "承担现网问题定位与修复，保障版本稳定运行。",
+      "优化心跳与订阅推送机制，提升监控实时性。",
+      "保持高质量需求交付并持续降低缺陷率。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "分布式集群管理软件开发(华为技术有限公司)",
     "period": "2022.03-2022.06",
     "brief": [
@@ -146,6 +244,20 @@
     ]
   },
   {
+    "id": "huawei-io-kernel",
+    "tags": ["kernel", "performance", "system"],
+    "oneLiner": "在内核IO路径完成问题修复与调优，实现性能指标达标。",
+    "value3": [
+      "快速接手遗留代码并修复核心稳定性问题。",
+      "完成性能打点与热点定位，明确优化路径。",
+      "实现调度策略与参数优化，达成项目性能目标。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "数据存储IO框架驱动开发(华为技术有限公司)",
     "period": "2022.07-2022.09",
     "brief": [
@@ -164,6 +276,20 @@
     ]
   },
   {
+    "id": "huawei-maintenance-patch",
+    "tags": ["delivery", "quality", "security", "maintenance"],
+    "oneLiner": "组织补丁交付与质量门禁，保障现网稳定并推动安全问题闭环。",
+    "value3": [
+      "制定补丁交付流程与回归策略，提升发布确定性。",
+      "主导现网与安全问题排查，建立闭环机制。",
+      "实现长期稳定交付并降低线上质量风险。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "数据存储维护与补丁交付管理(华为技术有限公司)",
     "period": "2023.09-2024.09",
     "brief": [
@@ -182,6 +308,20 @@
     ]
   },
   {
+    "id": "baosteel-data-collector",
+    "tags": ["csharp", "dotnet", "communication", "delivery"],
+    "oneLiner": "独立负责炼钢厂数据采集通信模块，完成多厂区稳定交付与长期运行保障。",
+    "value3": [
+      "搭建Socket监听与报文解码链路，实现稳定数据归档。",
+      "设计通用通信框架，兼容多数据库并统一适配。",
+      "完善持久化与归档策略，提升一致性与可追溯性。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "name": "炼钢厂炼铁数据自动采集程序(宝钢工程技术集团)",
     "period": "2020.04-2022.02",
     "brief": [

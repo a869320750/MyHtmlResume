@@ -1,14 +1,74 @@
 [
-  {"name": "后端开发", "description": "C#/.NET、C/C++服务端、Socket开发", "percent": 95},
-  {"name": "CI/CD与质量保障", "description": "软件交付周期管理、持续集成、质量体系建设", "percent": 95},
-  {"name": "Linux操作系统", "description": "熟悉Linux开发环境、内核开发、常规调优", "percent": 85},
-  {"name": "网络通信", "description": "熟悉Socket通信、TCP/IP协议,现场实战经验", "percent": 85},
-  {"name": "分布式系统", "description": "理解Zookeeper、集群管理,实际开发过项目", "percent": 90},
-  {"name": "性能优化", "description": "多次主导性能调优,火焰图分析、IO优化都做过", "percent": 85},
-  {"name": "编译器原理", "description": "主导过编译器替换项目,理解反馈编译和makefile体系", "percent": 75},
-  {"name": "数据库技术", "description": "用过SQL Server、Oracle,能配置、部署、用", "percent": 65},
-  {"name": "项目管理", "description": "subPM经验丰富,组织协调交付过多个项目", "percent": 85},
-  {"name": "嵌入式开发", "description": "RK3588平台外设调试、驱动验证", "percent": 70},
-  {"name": "前端开发", "description": "HTML、Winform、WPF", "percent": 60},
-  {"name": "人工智能", "description": "机器学习,神经网络", "percent": 60}
+  {
+    "name": "后端开发",
+    "level": "精通",
+    "keywords": ["C#/.NET", "C/C++", "Socket"],
+    "evidence": "多次承担通信与系统核心模块开发并落地交付。"
+  },
+  {
+    "name": "CI/CD与质量保障",
+    "level": "精通",
+    "keywords": ["GitLab CI/CD", "自动化测试", "质量门禁"],
+    "evidence": "主导从人工交付向自动化流水线转型。"
+  },
+  {
+    "name": "Linux操作系统",
+    "level": "熟练",
+    "keywords": ["Linux开发", "内核/驱动", "调优"],
+    "evidence": "长期参与Linux系统与驱动相关研发和排障。"
+  },
+  {
+    "name": "网络通信",
+    "level": "熟练",
+    "keywords": ["TCP/IP", "Socket", "NTRIP"],
+    "evidence": "有现场通信链路建设与稳定性优化经验。"
+  },
+  {
+    "name": "分布式系统",
+    "level": "熟练",
+    "keywords": ["Zookeeper", "集群管理", "一致性"],
+    "evidence": "参与分布式存储与集群监控相关开发。"
+  },
+  {
+    "name": "性能优化",
+    "level": "熟练",
+    "keywords": ["火焰图", "IO优化", "线程调度"],
+    "evidence": "多次主导性能瓶颈定位与指标达成。"
+  },
+  {
+    "name": "编译器与构建体系",
+    "level": "熟练",
+    "keywords": ["编译器替换", "CMake/Makefile", "FDO"],
+    "evidence": "主导华为存储编译器迁移预研与落地。"
+  },
+  {
+    "name": "数据库技术",
+    "level": "了解",
+    "keywords": ["SQL Server", "Oracle", "ORM"],
+    "evidence": "在工业项目中完成多数据库接入与维护。"
+  },
+  {
+    "name": "项目交付与协同",
+    "level": "熟练",
+    "keywords": ["需求澄清", "里程碑", "风险管理"],
+    "evidence": "多次在资源受限场景下协调跨团队交付。"
+  },
+  {
+    "name": "嵌入式开发",
+    "level": "熟练",
+    "keywords": ["RK3588", "I2C/SPI/UART", "驱动验证"],
+    "evidence": "完成国密与RTK相关设备侧适配与测试。"
+  },
+  {
+    "name": "前端与桌面应用",
+    "level": "了解",
+    "keywords": ["HTML", "WPF", "WinForm"],
+    "evidence": "可独立完成工具型页面与桌面界面开发。"
+  },
+  {
+    "name": "AI/数据分析",
+    "level": "了解",
+    "keywords": ["机器学习", "神经网络", "数据处理"],
+    "evidence": "具备研究生阶段算法研究与实现基础。"
+  }
 ]

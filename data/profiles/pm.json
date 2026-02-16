@@ -44,6 +44,52 @@
         "skillCount": 12,
         "githubCount": 0
       }
+    },
+    "onepage": {
+      "pageTitle": "金英杰 - 项目经理一页简历",
+      "position": "项目经理 / 交付负责人（技术型）",
+      "sections": ["summary", "work", "projects", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "delivery": "star",
+            "management": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "lnc-unc-dual-lines": "star",
+            "team-process-zero-to-one": "star",
+            "huawei-maintenance-patch": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "management": "star",
+            "delivery": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "可承担需求澄清、排期推进、风险管理与发布闭环",
+        "具备技术背景，能把模糊需求落成可执行方案",
+        "通过工程化手段提升交付确定性与质量稳定性"
+      ],
+      "limits": {
+        "introMaxChars": 150,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 2,
+        "workDescMaxChars": 180,
+        "projectCount": 4,
+        "projectWorkBullets": 2,
+        "projectTextMaxChars": 220,
+        "skillCount": 8,
+        "githubCount": 0
+      }
     }
   }
 }

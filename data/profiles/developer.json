@@ -44,6 +44,54 @@
         "skillCount": 12,
         "githubCount": 10
       }
+    },
+    "onepage": {
+      "pageTitle": "金英杰 - 软件开发一页简历",
+      "position": "软件开发工程师（后端/系统）",
+      "sections": ["summary", "projects", "work", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "kernel": "star",
+            "security": "star",
+            "embedded": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "huawei-compiler-migration": "star",
+            "gm-sm2-sm4-security": "star",
+            "rtkgnss-delivery": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "kernel": "star",
+            "security": "star",
+            "embedded": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "主力：C/C++、C#/.NET，具备系统与工程化交付经验",
+        "覆盖编译器/内核/通信/嵌入式等系统向场景",
+        "擅长性能优化、问题定位与跨团队协作"
+      ],
+      "limits": {
+        "introMaxChars": 150,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 2,
+        "workDescMaxChars": 180,
+        "projectCount": 5,
+        "projectWorkBullets": 2,
+        "projectTextMaxChars": 220,
+        "skillCount": 8,
+        "githubCount": 0
+      }
     }
   }
 }

@@ -1,5 +1,19 @@
 [
   {
+    "id": "astra-lowaltitude-platform",
+    "tags": ["architecture", "delivery", "security", "rtk", "embedded"],
+    "oneLiner": "在低空业务中负责关键能力落地与工程体系建设，提升交付效率与系统稳定性。",
+    "value3": [
+      "搭建自动化校验工具与测试平台，提升部署检查效率与一致性。",
+      "主导国密通信与RTK等关键能力落地，形成可复用方案。",
+      "推动团队流程规范与质量内建，增强项目可持续交付能力。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "company": "航天时代低空科技",
     "position": "高级软件工程师",
     "period": "2025.05 - 至今",
@@ -31,6 +45,20 @@
     ]
   },
   {
+    "id": "huawei-ccpp-engineer",
+    "tags": ["system", "compiler", "delivery", "kernel", "storage"],
+    "oneLiner": "在华为存储领域承担系统研发与交付协同，主导编译器替换预研并推动方案落地。",
+    "value3": [
+      "参与分布式集群管理、内核驱动与IO框架研发，覆盖设计到问题闭环。",
+      "主导编译器切换预研，完成方案设计、适配验证与结项交付。",
+      "在多项目并行与紧急场景下保持稳定交付并支撑现网问题修复。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "company": "华为技术有限公司",
     "position": "C/C++开发工程师",
     "period": "2022.03 - 2025.02",
@@ -54,6 +82,20 @@
     ]
   },
   {
+    "id": "baosteel-dotnet-communication",
+    "tags": ["csharp", "dotnet", "communication", "delivery"],
+    "oneLiner": "负责多钢厂通信系统开发与现场交付，持续提升链路稳定性与可维护性。",
+    "value3": [
+      "主导通信模块设计与优化，提升数据传输稳定性与可维护性。",
+      "完成现场部署与维护，处理兼容性与性能问题保障稳定交付。",
+      "推动系统重构与优化，沉淀可复用设计与工程实践。"
+    ],
+    "star": {
+      "situation": "",
+      "task": "",
+      "action": "",
+      "result": ""
+    },
     "company": "宝钢工程技术集团有限公司",
     "position": "C#/.NET开发工程师",
     "period": "2020.04 - 2022.03",
