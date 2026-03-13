@@ -82,14 +82,14 @@
         "擅长跨部门沟通与风险透明化"
       ],
       "limits": {
-        "introMaxChars": 560,
+        "introMaxChars": 460,
         "workCompanies": 2,
         "workDetailsPerCompany": 3,
         "workDescMaxChars": 260,
         "projectCount": 6,
-        "projectWorkBullets": 4,
-        "projectTextMaxChars": 380,
-        "skillCount": 12,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 320,
+        "skillCount": 10,
         "githubCount": 0
       }
     },

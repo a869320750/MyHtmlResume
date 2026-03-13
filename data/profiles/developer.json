@@ -28,21 +28,49 @@
       "pageTitle": "金英杰 - 软件开发详细简历",
       "position": "软件开发工程师（后端/系统）",
       "sections": ["summary", "projects", "work", "skills", "github", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "kernel": "star",
+            "security": "star",
+            "embedded": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "huawei-compiler-migration": "star",
+            "gm-sm2-sm4-security": "star",
+            "rtkgnss-delivery": "star",
+            "huawei-io-kernel": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "kernel": "star",
+            "security": "star",
+            "embedded": "star"
+          }
+        }
+      },
       "summaryBullets": [
         "可独立负责：需求澄清 → 方案设计 → 开发测试 → 上线维护",
         "有编译工具链/内核/IO/网络等系统向经验",
         "有交付与质量体系建设实践"
       ],
       "limits": {
-        "introMaxChars": 560,
+        "introMaxChars": 460,
         "workCompanies": 2,
-        "workDetailsPerCompany": 4,
+        "workDetailsPerCompany": 3,
         "workDescMaxChars": 260,
-        "projectCount": 8,
-        "projectWorkBullets": 4,
-        "projectTextMaxChars": 380,
-        "skillCount": 12,
-        "githubCount": 10
+        "projectCount": 6,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 320,
+        "skillCount": 10,
+        "githubCount": 6
       }
     },
     "onepage": {

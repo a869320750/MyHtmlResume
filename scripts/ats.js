@@ -213,7 +213,6 @@ async function renderWork(limits, useBrief, contentPolicy) {
     }
 
     // full
-    html += renderValueListHtml(value3, limits?.workDescMaxChars);
     if (starHtml) html += starHtml;
 
     html += `<ol>
@@ -270,7 +269,6 @@ async function renderProjects(limits, useBrief, contentPolicy) {
     }
 
     // full
-    html += renderValueListHtml(value3, limits?.projectTextMaxChars);
     if (starHtml) html += starHtml;
 
     if (useBrief && Array.isArray(item.brief) && item.brief.length) {
@@ -492,7 +490,6 @@ async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
         return;
       }
 
-      value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.workDescMaxChars)}`));
       if (hasStarContent(star)) {
         if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.workDescMaxChars)}`);
         if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.workDescMaxChars)}`);
@@ -547,7 +544,6 @@ async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
         return;
       }
 
-      value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.projectTextMaxChars)}`));
       if (hasStarContent(star)) {
         if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.projectTextMaxChars)}`);
         if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.projectTextMaxChars)}`);
