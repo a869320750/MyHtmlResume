@@ -28,6 +28,7 @@
 - 架构师投递版：`html/resume.html?profile=architect&mode=short`
 - 项目经理投递版：`html/resume.html?profile=pm&mode=short`
 - 系统工程师投递版：`html/resume.html?profile=system&mode=short`
+- DevOps / 平台工程投递版：`html/resume.html?profile=devops&mode=short`
 
 `mode=detail` 为面试用详细版（同一套数据，展示更多条目并减少截断）。
 

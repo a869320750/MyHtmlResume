@@ -42,14 +42,27 @@
       "sections": ["summary", "work", "projects", "skills", "github", "education"],
       "contentPolicy": {
         "work": {
-          "defaultLevel": "full",
-          "byId": {},
-          "byTag": {}
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star"
+          }
         },
         "projects": {
-          "defaultLevel": "full",
-          "byId": {},
-          "byTag": {}
+          "defaultLevel": "value3",
+          "byId": {
+            "team-process-zero-to-one": "star",
+            "gm-sm2-sm4-security": "star",
+            "huawei-compiler-migration": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "architecture": "star",
+            "security": "star"
+          }
         }
       },
       "summaryBullets": [
@@ -58,15 +71,15 @@
         "多次主导性能优化与问题定位，能端到端闭环"
       ],
       "limits": {
-        "introMaxChars": 600,
-        "workCompanies": 3,
-        "workDetailsPerCompany": 4,
+        "introMaxChars": 480,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 3,
         "workDescMaxChars": 260,
-        "projectCount": 8,
-        "projectWorkBullets": 4,
-        "projectTextMaxChars": 380,
-        "skillCount": 12,
-        "githubCount": 10
+        "projectCount": 6,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 320,
+        "skillCount": 10,
+        "githubCount": 6
       }
     },
     "onepage": {

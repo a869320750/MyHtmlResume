@@ -291,7 +291,6 @@ async function fillWork(limits, contentPolicy) {
 
     // full
     if (oneLiner) html += `<p class="value-oneliner">${escapeHtml(oneLiner)}</p>`;
-    html += renderValueList('三句价值摘要', value3, limits.workDescMaxChars);
     if (starHtml) html += starHtml;
 
     html += `<h4 class="value-block-title">完整经历（明细）</h4><ol>`;
@@ -344,7 +343,6 @@ async function fillProjects(limits, contentPolicy) {
 
     // full
     if (oneLiner) html += `<p class="value-oneliner">${escapeHtml(oneLiner)}</p>`;
-    html += renderValueList('三句价值摘要', value3, limits.projectTextMaxChars);
     if (starHtml) html += starHtml;
 
     html += `<h4 class="value-block-title">项目背景:</h4><ul><li>${escapeHtml(background)}</li></ul><h4 class="value-block-title">主要工作:</h4><ul>`;

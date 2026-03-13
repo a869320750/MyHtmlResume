@@ -1,0 +1,150 @@
+{
+  "key": "devops",
+  "label": "DevOps / 平台工程投递版",
+  "defaultMode": "detail",
+  "modes": {
+    "short": {
+      "pageTitle": "金英杰 - DevOps 投递简历",
+      "position": "DevOps / 平台工程师",
+      "sections": ["summary", "projects", "work", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "delivery": "star",
+            "cicd": "star",
+            "architecture": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "team-process-zero-to-one": "star",
+            "huawei-maintenance-patch": "star",
+            "huawei-compiler-migration": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "cicd": "star",
+            "delivery": "star",
+            "quality": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "擅长从0到1建设研发平台、CI/CD 与质量门禁体系",
+        "在复杂系统中通过自动化与流程治理提升交付确定性",
+        "可在多团队协同场景下推进标准化、可观测与问题闭环"
+      ],
+      "limits": {
+        "introMaxChars": 180,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 220,
+        "projectCount": 5,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 260,
+        "skillCount": 10,
+        "githubCount": 0
+      }
+    },
+    "detail": {
+      "pageTitle": "金英杰 - DevOps 详细简历",
+      "position": "DevOps / 平台工程师",
+      "sections": ["summary", "projects", "work", "skills", "github", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "delivery": "star",
+            "architecture": "star",
+            "security": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "team-process-zero-to-one": "star",
+            "huawei-maintenance-patch": "star",
+            "huawei-compiler-migration": "star",
+            "lnc-unc-dual-lines": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "cicd": "star",
+            "delivery": "star",
+            "quality": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "主导研发平台与 CI/CD 建设，推动交付从人工走向自动化",
+        "沉淀补丁交付、质量门禁与回归策略，保障现网稳定",
+        "通过流程标准化与工具化提升团队效能和跨团队协同效率"
+      ],
+      "limits": {
+        "introMaxChars": 460,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 3,
+        "workDescMaxChars": 260,
+        "projectCount": 6,
+        "projectWorkBullets": 3,
+        "projectTextMaxChars": 320,
+        "skillCount": 10,
+        "githubCount": 4
+      }
+    },
+    "onepage": {
+      "pageTitle": "金英杰 - DevOps 一页简历",
+      "position": "DevOps / 平台工程师",
+      "sections": ["summary", "projects", "work", "skills", "education"],
+      "contentPolicy": {
+        "work": {
+          "defaultLevel": "value3",
+          "byId": {
+            "baosteel-dotnet-communication": "oneLiner"
+          },
+          "byTag": {
+            "delivery": "star",
+            "architecture": "star"
+          }
+        },
+        "projects": {
+          "defaultLevel": "value3",
+          "byId": {
+            "team-process-zero-to-one": "star",
+            "huawei-maintenance-patch": "star",
+            "huawei-compiler-migration": "star",
+            "baosteel-data-collector": "oneLiner"
+          },
+          "byTag": {
+            "cicd": "star",
+            "delivery": "star"
+          }
+        }
+      },
+      "summaryBullets": [
+        "聚焦 CI/CD、质量门禁、可观测与交付流程标准化",
+        "擅长在资源受限场景推进自动化并提升交付确定性",
+        "可承担平台建设、流程治理与跨团队协同落地"
+      ],
+      "limits": {
+        "introMaxChars": 150,
+        "workCompanies": 2,
+        "workDetailsPerCompany": 2,
+        "workDescMaxChars": 180,
+        "projectCount": 4,
+        "projectWorkBullets": 2,
+        "projectTextMaxChars": 220,
+        "skillCount": 8,
+        "githubCount": 0
+      }
+    }
+  }
+}
