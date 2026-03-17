@@ -117,8 +117,8 @@ async function appendSection(sectionName) {
   root.insertAdjacentHTML('beforeend', html);
 }
 
-async function fillIntro(limits) {
-  const text = await fetchText('../data/intro.txt');
+async function fillIntro(limits, introText) {
+  const text = pickFirstNonEmpty(introText) || (await fetchText('../data/intro.txt'));
   const intro = truncateText(text, limits.introMaxChars);
   const root = $('#resume-root');
   root.insertAdjacentHTML(
@@ -152,6 +152,39 @@ function limitArray(arr, maxCount) {
   if (!Array.isArray(arr)) return [];
   if (!maxCount || maxCount >= arr.length) return arr;
   return arr.slice(0, maxCount);
+}
+
+function sortByPriorityIds(items, sectionPolicy) {
+  if (!Array.isArray(items)) return [];
+  const prioritizedIds = Array.isArray(sectionPolicy?.prioritizedIds)
+    ? sectionPolicy.prioritizedIds.map((id) => String(id || '').trim()).filter(Boolean)
+    : [];
+
+  if (!prioritizedIds.length) return items;
+
+  const priorityMap = new Map(prioritizedIds.map((id, index) => [id, index]));
+  return [...items].sort((a, b) => {
+    const rankA = priorityMap.has(a?.id) ? priorityMap.get(a.id) : Number.MAX_SAFE_INTEGER;
+    const rankB = priorityMap.has(b?.id) ? priorityMap.get(b.id) : Number.MAX_SAFE_INTEGER;
+    return rankA - rankB;
+  });
+}
+
+function filterByIncludeIds(items, sectionPolicy) {
+  if (!Array.isArray(items)) return [];
+  const includeIds = Array.isArray(sectionPolicy?.includeIds)
+    ? sectionPolicy.includeIds.map((id) => String(id || '').trim()).filter(Boolean)
+    : [];
+
+  if (!includeIds.length) return items;
+
+  const itemMap = new Map(items.map((item) => [item?.id, item]));
+  return includeIds.map((id) => itemMap.get(id)).filter(Boolean);
+}
+
+function prepareSectionItems(items, sectionPolicy) {
+  const filtered = filterByIncludeIds(items, sectionPolicy);
+  return sortByPriorityIds(filtered, sectionPolicy);
 }
 
 const DISPLAY_LEVEL_SET = new Set(['oneLiner', 'value3', 'star', 'full']);
@@ -258,7 +291,7 @@ async function fillEducation() {
 
 async function fillWork(limits, contentPolicy) {
   const data = await fetchJson('../data/work.json');
-  const companies = limitArray(data, limits.workCompanies);
+  const companies = limitArray(prepareSectionItems(data, contentPolicy), limits.workCompanies);
   let html = '';
 
   companies.forEach((item) => {
@@ -308,7 +341,7 @@ async function fillWork(limits, contentPolicy) {
 
 async function fillProjects(limits, contentPolicy) {
   const data = await fetchJson('../data/projects.json');
-  const projects = limitArray(data, limits.projectCount);
+  const projects = limitArray(prepareSectionItems(data, contentPolicy), limits.projectCount);
   let html = '';
 
   projects.forEach((item) => {
@@ -513,7 +546,7 @@ async function init() {
   renderHeader(baseProfile, profileConfig.label, modeConfig.position, showProfile);
 
   // intro
-  await fillIntro(modeConfig.limits);
+  await fillIntro(modeConfig.limits, modeConfig.introText);
 
   // sections
   for (const sectionName of modeConfig.sections) {

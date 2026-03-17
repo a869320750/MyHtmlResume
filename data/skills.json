@@ -12,6 +12,12 @@
     "evidence": "主导从人工交付向自动化流水线转型。"
   },
   {
+    "name": "容器化技术",
+    "level": "熟悉",
+    "keywords": ["Docker", "容器化部署", "环境隔离"],
+    "evidence": "在华为分布式集群管理项目中使用 Docker 搭建测试环境，实现快速部署与环境隔离。"
+  },
+  {
     "name": "Linux操作系统",
     "level": "熟练",
     "keywords": ["Linux开发", "内核/驱动", "调优"],
@@ -60,15 +66,15 @@
     "evidence": "完成国密与RTK相关设备侧适配与测试。"
   },
   {
-    "name": "前端与桌面应用",
-    "level": "了解",
-    "keywords": ["HTML", "WPF", "WinForm"],
-    "evidence": "可独立完成工具型页面与桌面界面开发。"
-  },
-  {
     "name": "AI/数据分析",
     "level": "了解",
     "keywords": ["机器学习", "神经网络", "数据处理"],
     "evidence": "具备研究生阶段算法研究与实现基础。"
+  },
+  {
+    "name": "前端与桌面应用",
+    "level": "了解",
+    "keywords": ["HTML", "WPF", "WinForm"],
+    "evidence": "可独立完成工具型页面与桌面界面开发。"
   }
 ]

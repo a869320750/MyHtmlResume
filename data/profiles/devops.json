@@ -6,6 +6,7 @@
     "short": {
       "pageTitle": "金英杰 - DevOps 投递简历",
       "position": "DevOps / 平台工程师",
+      "introText": "我是一名专注于工程效能与系统架构的技术负责人，擅长在嵌入式及复杂系统中构建高效研发体系。长期围绕研发平台、CI/CD、质量门禁与发布治理展开实践，能够将模糊需求转化为标准化、可追溯、可持续的交付流程。在多团队协同与高压交付场景下，我通过流程标准化、自动化与风险前置提升交付确定性，持续推动团队从人治式交付走向工程化交付。",
       "sections": ["summary", "projects", "work", "skills", "education"],
       "contentPolicy": {
         "work": {
@@ -21,11 +22,20 @@
         },
         "projects": {
           "defaultLevel": "value3",
+          "prioritizedIds": [
+            "team-process-zero-to-one",
+            "huawei-maintenance-patch",
+            "huawei-compiler-migration",
+            "lnc-unc-dual-lines"
+          ],
           "byId": {
             "team-process-zero-to-one": "star",
             "huawei-maintenance-patch": "star",
             "huawei-compiler-migration": "star",
-            "baosteel-data-collector": "oneLiner"
+            "baosteel-data-collector": "oneLiner",
+            "embedded-driver-test-system": "oneLiner",
+            "gm-sm2-sm4-security": "oneLiner",
+            "rtkgnss-delivery": "oneLiner"
           },
           "byTag": {
             "cicd": "star",
@@ -44,20 +54,31 @@
         "workCompanies": 2,
         "workDetailsPerCompany": 3,
         "workDescMaxChars": 220,
-        "projectCount": 5,
+        "projectCount": 4,
         "projectWorkBullets": 3,
         "projectTextMaxChars": 260,
-        "skillCount": 10,
+        "skillCount": 11,
         "githubCount": 0
       }
     },
     "detail": {
       "pageTitle": "金英杰 - DevOps 详细简历",
       "position": "DevOps / 平台工程师",
+      "introText": "我是一名专注于工程效能与系统架构的技术负责人，擅长在嵌入式及复杂系统中构建高效研发体系。长期围绕研发平台、CI/CD、质量门禁与发布治理展开实践，能够将模糊需求转化为标准化、可追溯、可持续的交付流程。在多团队协同与高压交付场景下，我通过流程标准化、自动化与风险前置提升交付确定性，持续推动团队从人治式交付走向工程化交付。",
       "sections": ["summary", "projects", "work", "skills", "github", "education"],
       "contentPolicy": {
         "work": {
           "defaultLevel": "value3",
+          "includeIds": [
+            "astra-lowaltitude-platform",
+            "huawei-ccpp-engineer",
+            "baosteel-dotnet-communication"
+          ],
+          "prioritizedIds": [
+            "huawei-ccpp-engineer",
+            "astra-lowaltitude-platform",
+            "baosteel-dotnet-communication"
+          ],
           "byId": {
             "baosteel-dotnet-communication": "oneLiner"
           },
@@ -69,12 +90,27 @@
         },
         "projects": {
           "defaultLevel": "value3",
+          "includeIds": [
+            "team-process-zero-to-one",
+            "lnc-unc-dual-lines",
+            "huawei-compiler-migration",
+            "huawei-maintenance-patch"
+          ],
+          "prioritizedIds": [
+            "team-process-zero-to-one",
+            "huawei-maintenance-patch",
+            "huawei-compiler-migration",
+            "lnc-unc-dual-lines"
+          ],
           "byId": {
             "team-process-zero-to-one": "star",
             "huawei-maintenance-patch": "star",
             "huawei-compiler-migration": "star",
             "lnc-unc-dual-lines": "star",
-            "baosteel-data-collector": "oneLiner"
+            "baosteel-data-collector": "oneLiner",
+            "embedded-driver-test-system": "oneLiner",
+            "gm-sm2-sm4-security": "oneLiner",
+            "rtkgnss-delivery": "oneLiner"
           },
           "byTag": {
             "cicd": "star",
@@ -90,23 +126,34 @@
       ],
       "limits": {
         "introMaxChars": 460,
-        "workCompanies": 2,
+        "workCompanies": 3,
         "workDetailsPerCompany": 3,
         "workDescMaxChars": 260,
-        "projectCount": 6,
+        "projectCount": 4,
         "projectWorkBullets": 3,
         "projectTextMaxChars": 320,
-        "skillCount": 10,
+        "skillCount": 11,
         "githubCount": 4
       }
     },
     "onepage": {
       "pageTitle": "金英杰 - DevOps 一页简历",
       "position": "DevOps / 平台工程师",
+      "introText": "我专注于工程效能与系统架构，擅长通过 CI/CD、质量门禁与流程治理提升复杂系统的交付确定性。",
       "sections": ["summary", "projects", "work", "skills", "education"],
       "contentPolicy": {
         "work": {
           "defaultLevel": "value3",
+          "includeIds": [
+            "astra-lowaltitude-platform",
+            "huawei-ccpp-engineer",
+            "baosteel-dotnet-communication"
+          ],
+          "prioritizedIds": [
+            "huawei-ccpp-engineer",
+            "astra-lowaltitude-platform",
+            "baosteel-dotnet-communication"
+          ],
           "byId": {
             "baosteel-dotnet-communication": "oneLiner"
           },
@@ -117,11 +164,26 @@
         },
         "projects": {
           "defaultLevel": "value3",
+          "includeIds": [
+            "team-process-zero-to-one",
+            "lnc-unc-dual-lines",
+            "huawei-compiler-migration",
+            "huawei-maintenance-patch"
+          ],
+          "prioritizedIds": [
+            "team-process-zero-to-one",
+            "huawei-maintenance-patch",
+            "huawei-compiler-migration",
+            "lnc-unc-dual-lines"
+          ],
           "byId": {
             "team-process-zero-to-one": "star",
             "huawei-maintenance-patch": "star",
             "huawei-compiler-migration": "star",
-            "baosteel-data-collector": "oneLiner"
+            "baosteel-data-collector": "oneLiner",
+            "embedded-driver-test-system": "oneLiner",
+            "gm-sm2-sm4-security": "oneLiner",
+            "rtkgnss-delivery": "oneLiner"
           },
           "byTag": {
             "cicd": "star",
@@ -136,7 +198,7 @@
       ],
       "limits": {
         "introMaxChars": 150,
-        "workCompanies": 2,
+        "workCompanies": 3,
         "workDetailsPerCompany": 2,
         "workDescMaxChars": 180,
         "projectCount": 4,
