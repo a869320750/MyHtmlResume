@@ -401,7 +401,7 @@ body {
     transform: translateX(5px);
 }
 .timeline-item h3 {
-    font-size: 22px;
+    font-size: 16px;
     font-weight: 600;
     margin-bottom: 8px;
     color: #2d3748;
@@ -420,6 +420,9 @@ body {
     background: rgba(102, 126, 234, 0.08);
     color: #334155;
     font-weight: 600;
+    font-size: 22px;
+    line-height: 1.55;
+    border-top: 1px dashed rgba(79, 70, 229, 0.25);
 }
 
 .value-block-title {
@@ -450,8 +453,8 @@ body {
 
 .star-key {
     display: inline-block;
-    font-weight: 700;
-    font-size: 12px;
+    font-weight: 500;
+    font-size: 14px;
     color: #4f46e5;
     margin-bottom: 4px;
 }

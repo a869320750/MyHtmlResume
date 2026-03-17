@@ -23,6 +23,39 @@ function limitArray(arr, maxCount) {
   return arr.slice(0, maxCount);
 }
 
+function sortByPriorityIds(items, sectionPolicy) {
+  if (!Array.isArray(items)) return [];
+  const prioritizedIds = Array.isArray(sectionPolicy?.prioritizedIds)
+    ? sectionPolicy.prioritizedIds.map((id) => String(id || '').trim()).filter(Boolean)
+    : [];
+
+  if (!prioritizedIds.length) return items;
+
+  const priorityMap = new Map(prioritizedIds.map((id, index) => [id, index]));
+  return [...items].sort((a, b) => {
+    const rankA = priorityMap.has(a?.id) ? priorityMap.get(a.id) : Number.MAX_SAFE_INTEGER;
+    const rankB = priorityMap.has(b?.id) ? priorityMap.get(b.id) : Number.MAX_SAFE_INTEGER;
+    return rankA - rankB;
+  });
+}
+
+function filterByIncludeIds(items, sectionPolicy) {
+  if (!Array.isArray(items)) return [];
+  const includeIds = Array.isArray(sectionPolicy?.includeIds)
+    ? sectionPolicy.includeIds.map((id) => String(id || '').trim()).filter(Boolean)
+    : [];
+
+  if (!includeIds.length) return items;
+
+  const itemMap = new Map(items.map((item) => [item?.id, item]));
+  return includeIds.map((id) => itemMap.get(id)).filter(Boolean);
+}
+
+function prepareSectionItems(items, sectionPolicy) {
+  const filtered = filterByIncludeIds(items, sectionPolicy);
+  return sortByPriorityIds(filtered, sectionPolicy);
+}
+
 const DISPLAY_LEVEL_SET = new Set(['oneLiner', 'value3', 'star', 'full']);
 
 function pickFirstNonEmpty(...values) {
@@ -166,8 +199,8 @@ function renderSection(title, bodyHtml) {
   );
 }
 
-async function renderIntro(limits) {
-  const text = await fetchText('../data/intro.txt');
+async function renderIntro(limits, introText) {
+  const text = pickFirstNonEmpty(introText) || (await fetchText('../data/intro.txt'));
   const intro = truncateText(text, limits?.introMaxChars);
   renderSection('简介', `<p class="ats-line">${escapeHtml(intro)}</p>`);
 }
@@ -179,7 +212,7 @@ function renderSummary(summaryBullets) {
 
 async function renderWork(limits, useBrief, contentPolicy) {
   const data = await fetchJson('../data/work.json');
-  const companies = limitArray(data, limits?.workCompanies);
+  const companies = limitArray(prepareSectionItems(data, contentPolicy), limits?.workCompanies);
   let html = '';
 
   companies.forEach((item) => {
@@ -232,7 +265,7 @@ async function renderWork(limits, useBrief, contentPolicy) {
 
 async function renderProjects(limits, useBrief, contentPolicy) {
   const data = await fetchJson('../data/projects.json');
-  const projects = limitArray(data, limits?.projectCount);
+  const projects = limitArray(prepareSectionItems(data, contentPolicy), limits?.projectCount);
   let html = '';
 
   projects.forEach((item) => {
@@ -399,7 +432,7 @@ async function init() {
   const useBrief = modeKey === 'onepage';
   const sectionHandlers = {
     summary: async () => renderSummary(modeConfig.summaryBullets || []),
-    intro: async () => renderIntro(modeConfig.limits),
+    intro: async () => renderIntro(modeConfig.limits, modeConfig.introText),
     work: async () => renderWork(modeConfig.limits, useBrief, contentPolicy.work),
     projects: async () => renderProjects(modeConfig.limits, useBrief, contentPolicy.projects),
     skills: async () => renderSkills(modeConfig.limits),
@@ -408,7 +441,7 @@ async function init() {
   };
 
   const sections = modeConfig.sections || [];
-  if (!sections.includes('summary')) await renderIntro(modeConfig.limits);
+  if (!sections.includes('summary')) await renderIntro(modeConfig.limits, modeConfig.introText);
 
   for (const section of sections) {
     const handler = sectionHandlers[section];
@@ -447,8 +480,8 @@ async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
     pushSeparator();
   }
 
-  const introText = await fetchText('../data/intro.txt');
-  const intro = truncateText(introText, modeConfig.limits?.introMaxChars);
+  const introSource = pickFirstNonEmpty(modeConfig.introText) || (await fetchText('../data/intro.txt'));
+  const intro = truncateText(introSource, modeConfig.limits?.introMaxChars);
   if (intro) {
     lines.push('简介');
     lines.push(`  ${intro}`);
@@ -456,7 +489,10 @@ async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
   }
 
   const workData = await fetchJson('../data/work.json');
-  const companies = limitArray(workData, modeConfig.limits?.workCompanies);
+  const companies = limitArray(
+    prepareSectionItems(workData, contentPolicy?.work),
+    modeConfig.limits?.workCompanies
+  );
   if (companies.length) {
     lines.push('工作经历');
     companies.forEach((item) => {
@@ -510,7 +546,10 @@ async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
   }
 
   const projectData = await fetchJson('../data/projects.json');
-  const projects = limitArray(projectData, modeConfig.limits?.projectCount);
+  const projects = limitArray(
+    prepareSectionItems(projectData, contentPolicy?.projects),
+    modeConfig.limits?.projectCount
+  );
   if (projects.length) {
     lines.push('项目经历');
     projects.forEach((item) => {
