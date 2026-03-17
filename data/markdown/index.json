@@ -10,5 +10,17 @@
   {
     "title": "RTK功能文档",
     "file": "rtkgnss/detail_design.md"
+  },
+  {
+    "title": "软件团队技术体系与研发流程从0到1建设",
+    "file": "team-process-zero-to-one/detail_design.md"
+  },
+  {
+    "title": "LNC/UNC双产品线并行开发与资源协调",
+    "file": "lnc-unc-dual-lines/detail_design.md"
+  },
+  {
+    "title": "华为存储产品编译器替换预研项目",
+    "file": "huawei-compiler-migration/detail_design.md"
   }
 ]
