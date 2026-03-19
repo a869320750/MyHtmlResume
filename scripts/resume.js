@@ -20,13 +20,13 @@ function truncateText(text, maxChars) {
 }
 
 async function fetchText(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
   return await response.text();
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
   return await response.json();
 }
@@ -185,6 +185,47 @@ function filterByIncludeIds(items, sectionPolicy) {
 function prepareSectionItems(items, sectionPolicy) {
   const filtered = filterByIncludeIds(items, sectionPolicy);
   return sortByPriorityIds(filtered, sectionPolicy);
+}
+
+function normalizeNameList(values) {
+  if (!Array.isArray(values)) return [];
+  return values.map((name) => String(name || '').trim()).filter(Boolean);
+}
+
+function hasNamedPolicy(sectionPolicy) {
+  return Boolean(
+    normalizeNameList(sectionPolicy?.includeNames).length ||
+      normalizeNameList(sectionPolicy?.prioritizedNames).length
+  );
+}
+
+function filterByIncludeNames(items, sectionPolicy, field = 'name') {
+  if (!Array.isArray(items)) return [];
+  const includeNames = normalizeNameList(sectionPolicy?.includeNames);
+  if (!includeNames.length) return items;
+
+  const itemMap = new Map(items.map((item) => [String(item?.[field] || '').trim(), item]));
+  return includeNames.map((name) => itemMap.get(name)).filter(Boolean);
+}
+
+function sortByPriorityNames(items, sectionPolicy, field = 'name') {
+  if (!Array.isArray(items)) return [];
+  const prioritizedNames = normalizeNameList(sectionPolicy?.prioritizedNames);
+  if (!prioritizedNames.length) return items;
+
+  const priorityMap = new Map(prioritizedNames.map((name, index) => [name, index]));
+  return [...items].sort((a, b) => {
+    const keyA = String(a?.[field] || '').trim();
+    const keyB = String(b?.[field] || '').trim();
+    const rankA = priorityMap.has(keyA) ? priorityMap.get(keyA) : Number.MAX_SAFE_INTEGER;
+    const rankB = priorityMap.has(keyB) ? priorityMap.get(keyB) : Number.MAX_SAFE_INTEGER;
+    return rankA - rankB;
+  });
+}
+
+function prepareNamedItems(items, sectionPolicy, field = 'name') {
+  const filtered = filterByIncludeNames(items, sectionPolicy, field);
+  return sortByPriorityNames(filtered, sectionPolicy, field);
 }
 
 const DISPLAY_LEVEL_SET = new Set(['oneLiner', 'value3', 'star', 'full']);
@@ -394,9 +435,10 @@ async function fillProjects(limits, contentPolicy) {
   if (container) container.innerHTML = html;
 }
 
-async function fillSkills(limits) {
+async function fillSkills(limits, contentPolicy) {
   const data = await fetchJson('../data/skills.json');
-  const skills = limitArray(data, limits.skillCount);
+  const source = hasNamedPolicy(contentPolicy) ? prepareNamedItems(data, contentPolicy, 'name') : data;
+  const skills = limitArray(source, limits.skillCount);
 
   const normalizedSkills = skills.map((item) => {
     const keywords = Array.isArray(item.keywords)
@@ -482,7 +524,7 @@ async function fillSkills(limits) {
   }
 }
 
-async function fillGithub(limits) {
+async function fillGithub(limits, contentPolicy) {
   if (!limits.githubCount) {
     const section = $('#github-section');
     if (section) section.style.display = 'none';
@@ -490,12 +532,14 @@ async function fillGithub(limits) {
   }
 
   const data = await fetchJson('../data/projects-github.json');
-  data.sort(
-    (a, b) =>
-      (Boolean(b.highlight) - Boolean(a.highlight)) || ((b.stars || 0) - (a.stars || 0))
-  );
+  const source = hasNamedPolicy(contentPolicy)
+    ? prepareNamedItems(data, contentPolicy, 'name')
+    : [...data].sort(
+        (a, b) =>
+          (Boolean(b.highlight) - Boolean(a.highlight)) || ((b.stars || 0) - (a.stars || 0))
+      );
 
-  const items = limitArray(data, limits.githubCount);
+  const items = limitArray(source, limits.githubCount);
   let html = '<div class="github-grid">';
 
   items.forEach((item) => {
@@ -559,8 +603,8 @@ async function init() {
     if (sectionName === 'education') await fillEducation();
     if (sectionName === 'work') await fillWork(modeConfig.limits, contentPolicy.work);
     if (sectionName === 'projects') await fillProjects(modeConfig.limits, contentPolicy.projects);
-    if (sectionName === 'skills') await fillSkills(modeConfig.limits);
-    if (sectionName === 'github') await fillGithub(modeConfig.limits);
+    if (sectionName === 'skills') await fillSkills(modeConfig.limits, contentPolicy.skills);
+    if (sectionName === 'github') await fillGithub(modeConfig.limits, contentPolicy.github);
   }
 
   renderFooter(baseProfile);
