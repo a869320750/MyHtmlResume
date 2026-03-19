@@ -2,7 +2,7 @@
   {
     "id": "astra-lowaltitude-platform",
     "tags": ["architecture", "delivery", "security", "rtk", "embedded"],
-    "oneLiner": "在低空业务中负责关键能力落地与工程体系建设，提升交付效率与系统稳定性。",
+    "oneLiner": "推动终端软件交付从“人工部署+现场验证”向“自动校验+版本可追溯”演进。",
     "value3": [
       "搭建自动化校验工具与测试平台，提升部署检查效率与一致性。",
       "主导国密通信与RTK等关键能力落地，形成可复用方案。",

@@ -18,11 +18,11 @@ echo ""
 
 # 检查Python版本并启动服务器
 if command -v python3 &> /dev/null; then
-    echo "使用 Python3 启动服务器..."
-    python3 -m http.server $PORT
+    echo "使用 Python3 启动禁缓存开发服务器..."
+    python3 scripts/dev_server.py $PORT
 elif command -v python &> /dev/null; then
-    echo "使用 Python 启动服务器..."
-    python -m http.server $PORT
+    echo "使用 Python 启动禁缓存开发服务器..."
+    python scripts/dev_server.py $PORT
 else
     echo "错误: 未找到 Python，请先安装 Python"
     exit 1

@@ -56,6 +56,47 @@ function prepareSectionItems(items, sectionPolicy) {
   return sortByPriorityIds(filtered, sectionPolicy);
 }
 
+function normalizeNameList(values) {
+  if (!Array.isArray(values)) return [];
+  return values.map((name) => String(name || '').trim()).filter(Boolean);
+}
+
+function hasNamedPolicy(sectionPolicy) {
+  return Boolean(
+    normalizeNameList(sectionPolicy?.includeNames).length ||
+      normalizeNameList(sectionPolicy?.prioritizedNames).length
+  );
+}
+
+function filterByIncludeNames(items, sectionPolicy, field = 'name') {
+  if (!Array.isArray(items)) return [];
+  const includeNames = normalizeNameList(sectionPolicy?.includeNames);
+  if (!includeNames.length) return items;
+
+  const itemMap = new Map(items.map((item) => [String(item?.[field] || '').trim(), item]));
+  return includeNames.map((name) => itemMap.get(name)).filter(Boolean);
+}
+
+function sortByPriorityNames(items, sectionPolicy, field = 'name') {
+  if (!Array.isArray(items)) return [];
+  const prioritizedNames = normalizeNameList(sectionPolicy?.prioritizedNames);
+  if (!prioritizedNames.length) return items;
+
+  const priorityMap = new Map(prioritizedNames.map((name, index) => [name, index]));
+  return [...items].sort((a, b) => {
+    const keyA = String(a?.[field] || '').trim();
+    const keyB = String(b?.[field] || '').trim();
+    const rankA = priorityMap.has(keyA) ? priorityMap.get(keyA) : Number.MAX_SAFE_INTEGER;
+    const rankB = priorityMap.has(keyB) ? priorityMap.get(keyB) : Number.MAX_SAFE_INTEGER;
+    return rankA - rankB;
+  });
+}
+
+function prepareNamedItems(items, sectionPolicy, field = 'name') {
+  const filtered = filterByIncludeNames(items, sectionPolicy, field);
+  return sortByPriorityNames(filtered, sectionPolicy, field);
+}
+
 const DISPLAY_LEVEL_SET = new Set(['oneLiner', 'value3', 'star', 'full']);
 
 function pickFirstNonEmpty(...values) {
@@ -144,13 +185,13 @@ function renderStarHtml(star, maxChars) {
 }
 
 async function fetchText(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
   return await response.text();
 }
 
 async function fetchJson(url) {
-  const response = await fetch(url);
+  const response = await fetch(url, { cache: 'no-store' });
   if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
   return await response.json();
 }
@@ -328,9 +369,10 @@ async function renderProjects(limits, useBrief, contentPolicy) {
   if (html) renderSection('项目经历', html);
 }
 
-async function renderSkills(limits) {
+async function renderSkills(limits, contentPolicy) {
   const data = await fetchJson('../data/skills.json');
-  const skills = limitArray(data, limits?.skillCount);
+  const source = hasNamedPolicy(contentPolicy) ? prepareNamedItems(data, contentPolicy, 'name') : data;
+  const skills = limitArray(source, limits?.skillCount);
   if (!skills.length) return;
 
   const normalizedSkills = skills.map((item) => {
@@ -378,9 +420,10 @@ async function renderEducation(useBrief) {
   renderSection('教育经历', html);
 }
 
-async function renderGithub(limits) {
+async function renderGithub(limits, contentPolicy) {
   const data = await fetchJson('../data/projects-github.json');
-  const repos = limitArray(data, limits?.githubCount);
+  const source = hasNamedPolicy(contentPolicy) ? prepareNamedItems(data, contentPolicy, 'name') : data;
+  const repos = limitArray(source, limits?.githubCount);
   if (!repos.length) return;
 
   const html = `
@@ -435,8 +478,8 @@ async function init() {
     intro: async () => renderIntro(modeConfig.limits, modeConfig.introText),
     work: async () => renderWork(modeConfig.limits, useBrief, contentPolicy.work),
     projects: async () => renderProjects(modeConfig.limits, useBrief, contentPolicy.projects),
-    skills: async () => renderSkills(modeConfig.limits),
-    github: async () => renderGithub(modeConfig.limits),
+    skills: async () => renderSkills(modeConfig.limits, contentPolicy.skills),
+    github: async () => renderGithub(modeConfig.limits, contentPolicy.github),
     education: async () => renderEducation(useBrief)
   };
 
@@ -612,7 +655,10 @@ async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
   }
 
   const skillData = await fetchJson('../data/skills.json');
-  const skills = limitArray(skillData, modeConfig.limits?.skillCount);
+  const preparedSkills = hasNamedPolicy(contentPolicy?.skills)
+    ? prepareNamedItems(skillData, contentPolicy.skills, 'name')
+    : skillData;
+  const skills = limitArray(preparedSkills, modeConfig.limits?.skillCount);
   if (skills.length) {
     lines.push('技能');
     skills.forEach((skill) => {
@@ -629,7 +675,11 @@ async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
   }
 
   if (modeConfig.limits?.githubCount) {
-    const repos = limitArray(await fetchJson('../data/projects-github.json'), modeConfig.limits.githubCount);
+    const repoData = await fetchJson('../data/projects-github.json');
+    const preparedRepos = hasNamedPolicy(contentPolicy?.github)
+      ? prepareNamedItems(repoData, contentPolicy.github, 'name')
+      : repoData;
+    const repos = limitArray(preparedRepos, modeConfig.limits.githubCount);
     if (repos.length) {
       lines.push('开源项目');
       repos.forEach((repo) => {

@@ -5,7 +5,7 @@
   "modes": {
     "short": {
       "pageTitle": "金英杰 - DevOps 投递简历",
-      "position": "DevOps / 平台工程师",
+      "position": "DevOps / 平台工程师（CI/CD · 发布治理 · 工程效能）",
       "introText": "我是一名专注于工程效能与系统架构的技术负责人，擅长在嵌入式及复杂系统中构建高效研发体系。长期围绕研发平台、CI/CD、质量门禁与发布治理展开实践，能够将模糊需求转化为标准化、可追溯、可持续的交付流程。在多团队协同与高压交付场景下，我通过流程标准化、自动化与风险前置提升交付确定性，持续推动团队从人治式交付走向工程化交付。",
       "sections": ["summary", "projects", "work", "skills", "education"],
       "contentPolicy": {
@@ -42,6 +42,18 @@
             "delivery": "star",
             "quality": "star"
           }
+        },
+        "skills": {
+          "includeNames": [
+            "平台与交付工程（核心）",
+            "环境与稳定性工程",
+            "系统与基础设施能力"
+          ],
+          "prioritizedNames": [
+            "平台与交付工程（核心）",
+            "环境与稳定性工程",
+            "系统与基础设施能力"
+          ]
         }
       },
       "summaryBullets": [
@@ -63,7 +75,7 @@
     },
     "detail": {
       "pageTitle": "金英杰 - DevOps 详细简历",
-      "position": "DevOps / 平台工程师",
+      "position": "DevOps / 平台工程师（CI/CD · 发布治理 · 工程效能）",
       "introText": "我是一名专注于工程效能与系统架构的技术负责人，擅长在嵌入式及复杂系统中构建高效研发体系。长期围绕研发平台、CI/CD、质量门禁与发布治理展开实践，能够将模糊需求转化为标准化、可追溯、可持续的交付流程。在多团队协同与高压交付场景下，我通过流程标准化、自动化与风险前置提升交付确定性，持续推动团队从人治式交付走向工程化交付。",
       "sections": ["summary", "projects", "work", "skills", "github", "education"],
       "contentPolicy": {
@@ -117,12 +129,37 @@
             "delivery": "star",
             "quality": "star"
           }
+        },
+        "skills": {
+          "includeNames": [
+            "平台与交付工程（核心）",
+            "环境与稳定性工程",
+            "系统与基础设施能力"
+          ],
+          "prioritizedNames": [
+            "平台与交付工程（核心）",
+            "环境与稳定性工程",
+            "系统与基础设施能力"
+          ]
+        },
+        "github": {
+          "includeNames": [
+            "rtk-gnss-worker",
+            "XuanYu",
+            "MyHtmlResume",
+            "LeetcodeCppPractice"
+          ],
+          "prioritizedNames": [
+            "rtk-gnss-worker",
+            "XuanYu",
+            "MyHtmlResume",
+            "LeetcodeCppPractice"
+          ]
         }
       },
       "summaryBullets": [
-        "主导研发平台与 CI/CD 建设，推动交付从人工走向自动化",
-        "沉淀补丁交付、质量门禁与回归策略，保障现网稳定",
-        "通过流程标准化与工具化提升团队效能和跨团队协同效率"
+        "专注工程效能与平台化建设，具备在复杂嵌入式与分布式系统中设计CI/CD体系、发布治理与稳定性交付流程的实践经验",
+        "擅长从0到1构建研发基建，通过自动化与标准化提升团队研发确定性与交付效率。"
       ],
       "limits": {
         "introMaxChars": 460,
@@ -138,7 +175,7 @@
     },
     "onepage": {
       "pageTitle": "金英杰 - DevOps 一页简历",
-      "position": "DevOps / 平台工程师",
+      "position": "DevOps / 平台工程师（CI/CD · 发布治理 · 工程效能）",
       "introText": "我专注于工程效能与系统架构，擅长通过 CI/CD、质量门禁与流程治理提升复杂系统的交付确定性。",
       "sections": ["summary", "projects", "work", "skills", "education"],
       "contentPolicy": {
@@ -189,6 +226,18 @@
             "cicd": "star",
             "delivery": "star"
           }
+        },
+        "skills": {
+          "includeNames": [
+            "平台与交付工程（核心）",
+            "环境与稳定性工程",
+            "系统与基础设施能力"
+          ],
+          "prioritizedNames": [
+            "平台与交付工程（核心）",
+            "环境与稳定性工程",
+            "系统与基础设施能力"
+          ]
         }
       },
       "summaryBullets": [

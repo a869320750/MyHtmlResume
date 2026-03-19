@@ -18,13 +18,13 @@ echo.
 REM 检查Python是否安装
 where python >nul 2>nul
 if %ERRORLEVEL% EQU 0 (
-    echo 使用 Python 启动服务器...
-    python -m http.server %PORT%
+    echo 使用 Python 启动禁缓存开发服务器...
+    python scripts\dev_server.py %PORT%
 ) else (
     where python3 >nul 2>nul
     if %ERRORLEVEL% EQU 0 (
-        echo 使用 Python3 启动服务器...
-        python3 -m http.server %PORT%
+        echo 使用 Python3 启动禁缓存开发服务器...
+        python3 scripts\dev_server.py %PORT%
     ) else (
         echo 错误: 未找到 Python，请先安装 Python
         pause

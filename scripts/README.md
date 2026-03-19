@@ -56,7 +56,16 @@ scripts\start-server.bat 3000
 
 ### 文件修改后未更新
 
-浏览器可能缓存了旧文件，按 `Ctrl + F5` (Windows/Linux) 或 `Cmd + Shift + R` (Mac) 强制刷新。
+启动脚本已默认使用“禁缓存开发服务器”，理论上修改后应立即生效。
+
+若仍看到旧内容，请按以下步骤排查：
+- 停掉旧的 `python -m http.server` 进程后，重新运行 `scripts/start-server.bat` 或 `./scripts/start-server.sh`。
+- 确认日志中显示“禁缓存开发服务器”字样。
+- 访问时带一个时间戳参数进行兜底验证，例如：`http://localhost:8000/html/ats.html?profile=devops&mode=detail&t=123`。
+
+### 日志里出现 favicon.ico 404
+
+这是浏览器自动请求站点图标导致的提示，不影响页面功能和数据加载，可忽略。
 
 ## 其他启动方式
 
