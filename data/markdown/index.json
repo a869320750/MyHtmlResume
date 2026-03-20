@@ -24,6 +24,10 @@
     "file": "huawei-compiler-migration/detail_design.md"
   },
   {
+    "title": "华为维护subPM补丁交付工作",
+    "file": "huawei-patch-subpm/detail_design.md"
+  },
+  {
     "title": "Question & Answer",
     "file": "questions.md"
   }
