@@ -1,215 +1,105 @@
 # 航天时代低空科技工程体系从0到1建设实践
 
-## 一、版本控制体系建立
+## 一句话定位
 
-入职初期团队开发模式：
-
-* 无统一代码仓库
-* 代码通过压缩包分发
-* 无版本追溯能力
-
-推动团队引入 GitLab：
-
-* 建立首个 tutorial 仓库
-* 编写 Git 使用文档
-* 组织版本控制培训
-
-实现：
-
-* 团队从个人开发向协作开发转型
+这段经历里，我做的不是单点开发，而是把团队从“能写代码”逐步带到“能协作、能交付、能追溯、能度量”的工程化研发状态。
 
 ---
 
-## 二、Release 基线与分支治理
+## 1. 背景与问题（20秒）
 
-接收飞控代码后：
+我刚进入团队时，研发流程还比较原始：
 
-* 建立统一仓库
-* 创建首个 Release Tag：重庆620
+- 没有统一代码仓库
+- 代码靠压缩包分发
+- 没有版本追溯能力
+- 测试取包、版本发布、任务协同都比较依赖人工
 
-后续通过：
-
-* feature 分支承载新终端开发
-* 演示版本独立分支维护
-
-逐步形成轻量 Release Branch 策略。
-```yml
-stages:
-  - lint
-  - test
-  - version
-  - deploy_unc
-  - deploy_lnc
-include:
-  - local: 'ci/lint.yml'
-  - local: 'ci/deploy_unc.yml'
-  - local: 'ci/test_main.yml'
-  - local: 'ci/version_bump_mr.yml'
-  - local: 'ci/deploy_lnc.yml'
-```
----
-
-## 三、代码质量门禁建设
-
-针对 Python 飞控代码质量问题：
-
-* 引入 flake8 规范检查
-* 在 GitLab CI 中配置自动检查
-
-实现：
-
-* 提交即触发质量验证
-* Merge Request 必须通过规范检查
-```yml
-lint:
-  stage: lint
-  script:
-    # 1. 统一使用项目 .flake8 配置（不要在命令行重复参数）
-    - docker run --rm -v "$PWD":/workspace -w /workspace uav_python_lint:latest python -m flake8 . --format=codeclimate > gl-code-quality-report.json || true
-    # 2. 生成人类可读报告（同一套配置）
-    - docker run --rm -v "$PWD":/workspace -w /workspace uav_python_lint:latest python -m flake8 . | tee flake8_report.txt || true
-    # 3. 生成 HTML 报告（脚本复制仍可）
-    - cp ci/code_quality_viewer.py ./
-    - docker run --rm -v "$PWD":/workspace -w /workspace uav_python_lint:latest python code_quality_viewer.py gl-code-quality-report.json
-    # 4. 严格检查：仅致命错误，与 .flake8 保持一致
-    - docker run --rm -v "$PWD":/workspace -w /workspace uav_python_lint:latest python -m flake8 . --select=E9,F63,F7,F82 --count
-  tags:
-    - python
-  artifacts:
-    reports:
-      codequality: gl-code-quality-report.json
-    paths:
-      - gl-code-quality-report.json
-      - flake8_report.txt
-      - code_quality_report.html
-    when: always
-```
----
-
-## 四、交付流水线打通
-
-为解决测试取包效率问题：
-
-* 在 CI 中新增打包 Job
-* 自动上传产物至 GitLab Package Registry
-
-形成交付链路：
-
-开发 → CI打包 → 包仓 → 测试 OTA
-
-显著提升测试交付效率。
-```yml
-deploy_unc:
-  stage: deploy_unc
-  variables:
-    # 可配置的产品信息
-    # DJI PSDK 二进制包来源：从 psdk_work 的包仓下载“最新的 arm32 包”
-    # 说明：使用 CI_JOB_TOKEN 拉取，不需要额外 token（前提：GitLab 允许 job token 跨项目访问该工程包仓）
-    DJI_PSDK_PROJECT_ID: "29"   # psdk_work 工程在 GitLab 的 project id
-    DJI_PSDK_PACKAGE_NAME: "dji_psdk"  # 同一时间戳版本下包含 arm/arm64 文件
-
-    # FPAPP 二进制包来源：从 fp_fsdk_work 的包仓下载“最新的大包”（内含 arm/arm64 两个 fpapp）
-    FPAPP_PROJECT_ID: "44"   # fp_fsdk_work 工程在 GitLab 的 project id（请填）
-    FPAPP_PACKAGE_NAME: "fpapp"
-
-  needs: []
-  before_script:
-    - |
-      set -e
-      if [ "$(id -u)" = "0" ]; then
-        apt-get update && apt-get install -y curl tar jq
-      elif command -v sudo >/dev/null 2>&1 && sudo -n true >/dev/null 2>&1; then
-        sudo -n apt-get update && sudo -n apt-get install -y curl tar jq
-      else
-        echo "WARN: 无法非交互安装依赖（无 root 且 sudo 需要密码）。假设 runner 已预装 curl/tar/jq。"
-      fi
-  script:
-    - echo "开始构建发布包..."
-    - chmod +x scripts/ci/*.sh
-    - bash ./scripts/ci/deploy_unc_package.sh
-  artifacts:
-    paths:
-      - ${PACKAGE_NAME}-*.tar.gz
-      - release_info.json
-    expire_in: 1 week
-  rules:
-    - when: manual
-      allow_failure: true
-  allow_failure: false
-  tags:
-    - TestRunner
-
-```
----
-
-## 五、自动化测试 Pipeline 雏形
-
-在测试团队逐步扩充后：
-
-* 推动自动化测试脚本接入 CI
-* 支持代码提交触发自动测试
-
-实现持续验证能力初步落地。
+所以我后面做的事情，本质上是在补齐一套最基础的工程体系。
 
 ---
 
-## 六、敏捷协作平台建设
+## 2. 我推进的四件关键事情
 
-替代线下玻璃墙看板：
+### 2.1 先把版本控制建起来
 
-* 使用 GitLab Issue / Label 构建任务看板
-* 统一任务创建规范
-* 每周跟踪 Issue 进展
+- 推动团队引入 GitLab
+- 建立 tutorial 仓库
+- 编写 Git 使用文档并做培训
 
-推动团队进入可追踪研发节奏。
+结果是团队从个人式开发，逐步转向可协作、可追溯的研发方式。
 
+![](./images/gitlabtutorial.png)
+
+### 2.2 再把版本基线和分支策略立起来
+
+- 接收飞控代码后，建立统一仓库
+- 创建首个 Release Tag，作为可追溯基线
+- 逐步形成 feature 分支开发、演示分支隔离、Release 基线维护的轻量策略
+
+![](./images/tags.png)
+
+这一步解决的是“代码能不能长期维护”的问题。
+
+### 2.3 把质量门禁和交付流水线接进 CI
+
+- 引入 flake8 规范检查
+- 在 GitLab CI 中配置自动校验
+- 增加打包 Job，并将产物上传到包仓
+
+最终形成一条比较完整的链路：
+
+开发提交 -> CI校验 -> 自动打包 -> 测试取包 -> OTA验证
+
+![](./images/cicd.png)
+![](./images/Software_package_repository.png)
+
+这一步最直接的价值，是把测试取包和交付效率明显提上来了。
+
+### 2.4 把过程管理和数据统计也补上
+
+- 用 GitLab Issue / Label 替代线下看板
+- 统一任务创建和跟踪方式
+- 通过 CI 调 GitLab API，自动汇总 Issue、提交、日报数据
+
+这一步让团队开始具备了基本的过程透明度和数据化管理能力。
 
 ![](./images/minjie.png)
 ---
 
-## 七、研发数据自动化统计
+## 3. 一个能体现体系思维的点
 
-通过 CI 调用 GitLab API：
+我当时比较看重的一点，不是只把某个工具接进来，而是把它们串成闭环。
 
-* 自动收集 Issue 活动
-* 汇总成员提交情况
-* 生成日报页面
+比如版本号管理这件事，很多团队一开始都是手工维护，短期看没问题，但产品一多、分支一多，就很容易出现遗漏和不一致。
 
-并通过内部 nginx 服务发布。
+所以我后面又把版本号管理自动化接进了 CI：
 
-初步构建研发数据可视化能力。
+- 自动更新版本登记信息
+- 自动生成历史记录
+- 自动创建版本变更 MR，纳入审核流程
+
+这样版本管理就从“靠人记得改”，变成“靠流程保证正确”。
 
 ---
 
-## 八、版本号自动化管理
+## 4. 这段经历最能说明我的地方
 
-随着多终端产品并行交付，手动维护版本号易出现遗漏和不一致问题。
+这段经历体现的不是某一项技术点，而是我有能力从 0 到 1 搭一个研发团队最基本的工程秩序：
 
-为此设计并落地版本号自动化管理机制：
+- 先解决协作问题
+- 再解决质量问题
+- 再解决交付问题
+- 最后补上数据和流程闭环
 
-* 引入 `version_manager.py` 脚本，统一管理 `docs/version_registry.json`
-* CI 触发后自动读取当前提交信息，完成版本字段更新
-* 同步重新生成 LNC / UNC 归档 CSV 及版本发布历史记录
+也就是说，我不是只会写代码，而是能把团队研发效率和交付确定性一起拉起来。
 
-在 GitLab CI 中配置 `version_bump_mr` Job：
+---
 
-* 仅在 `main` 分支手动触发，避免意外更新
-* 自动创建独立的 `version/bump-*` 分支并提交变更
-* 通过 GitLab API 自动发起 Merge Request，附带标准描述，供人工审核后合并
+## 5.收尾
 
-```yml
-version_bump_mr:
-  stage: version
-  rules:
-    - if: '$CI_COMMIT_BRANCH == "main" || $CI_COMMIT_BRANCH == $CI_DEFAULT_BRANCH'
-      when: manual
-    - when: never
-  script:
-    - bash scripts/ci/run_version_bump_mr.sh
-```
+如果让我总结，这段经历最大的价值是：我把一个偏“作坊式”的研发环境，逐步推进到了一个具备版本管理、质量门禁、自动交付和过程追踪能力的工程化团队。
 
-实现效果：
+这类工作短期不一定最显眼，但对团队长期研发效率和产品可持续交付非常关键。
 
-* 版本号更新有迹可查，纳入 MR 审核流程
-* 消除手动维护版本的人为失误风险
-* 版本历史自动归档，支撑交付溯源
+---

@@ -31,7 +31,7 @@
 
 ### 2️⃣ 编译器行为差异
 
-* 优化策略不同（O2/O3差异明显）
+* 优化策略不同
 * GCC扩展依赖较重
 * Undefined Behavior 在新优化策略下暴露
 
@@ -52,19 +52,7 @@
 
 ### 分阶段推进
 
-```mermaid
-flowchart TD
-A[基础设施模块迁移] --> B[冒烟验证]
-B --> C[业务模块并行迁移]
-C --> D[大包构建验证]
-D --> E[性能优化验证]
-```
-
-迁移优先级：
-
-1. 通信 / 内存 / 进程 / 日志等基础模块
-2. IO路径核心组件
-3. 上层业务协议模块
+![](./images/flow_diagram.png)
 
 ---
 
@@ -76,13 +64,7 @@ D --> E[性能优化验证]
 * 动态注入新编译器环境
 * 避免影响现网构建链路
 
-```mermaid
-flowchart LR
-DevCommit --> PipelineA[日志增强验证]
-DevCommit --> PipelineB[方案尝试验证]
-DevCommit --> PipelineC[替代方案验证]
-DevCommit --> PipelineD[稳定性能验证]
-```
+![](./images/CICD_flowchart.png)
 
 ### 并行验证方法论
 
@@ -138,27 +120,7 @@ DevCommit --> PipelineD[稳定性能验证]
 
 ---
 
-### 案例2：优化级别导致性能波动
-
-**现象**
-
-* O3性能反而下降
-* IO路径延迟增加
-
-**原因**
-
-* aggressive loop unrolling
-* cache miss增加
-* 指令调度策略差异
-
-**解决**
-
-* 核心模块降级优化等级
-* 精细化控制编译选项
-
----
-
-### 案例3：Warning升级为Error
+### 案例2：Warning升级为Error
 
 **现象**
 
@@ -175,21 +137,17 @@ DevCommit --> PipelineD[稳定性能验证]
 
 ---
 
-## 七、PGO性能优化链路
+## 七、PGO性能优化链路（反馈编译） 反馈导向优化（Profile-Guided Optimization, PGO）
 
-```mermaid
-flowchart LR
-A[Instrument Build] --> B[运行IO压力测试]
-B --> C[导出Profile数据]
-C --> D[生成权重参数]
-D --> E[优化编译]
-```
+![](./images/Feedback_Compilation.png)
 
-优化点：
-
-* 热点函数布局优化
-* 分支预测优化
-* 循环路径优化
+* 为什么能提升性能？
+  - 编译器拿到这个配置文件后，会根据“热点函数”的执行频率，做针对性的优化：
+  - 热点函数（执行频率高的函数）：编译器会对其做激进优化，比如：
+  - 内联展开（Inline Expansion）：把函数调用替换成函数体，减少调用开销。
+  - 循环展开（Loop Unrolling）：减少循环的判断次数。
+  - 寄存器分配优化：把热点函数的变量尽量放在寄存器里，减少内存访问。
+  - 冷门函数（执行频率低的函数）：编译器会对其做轻量优化，甚至不优化，以节省编译时间和二进制体积。
 
 ---
 
