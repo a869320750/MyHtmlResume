@@ -28,12 +28,12 @@
     "file": "huawei-patch-subpm/detail_design.md"
   },
   {
-    "title": "八股文",
-    "file": "eight-butt/detail_design.md"
+    "title": "CICD基础知识",
+    "file": "eight-butt/detail_design_dirt.md"
   },  
   {
-    "title": "基础八股文",
-    "file": "eight-butt/detail_design_dirt.md"
+    "title": "C++基础知识",
+    "file": "eight-butt/cpp_new_features_dirt.md"
   },
   {
     "title": "Question & Answer",
