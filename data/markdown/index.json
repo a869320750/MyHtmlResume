@@ -1,42 +1,30 @@
 [
   {
-    "title": "DevOps职业生涯规划",
-    "file": "supplement.md"
+    "title": "【华为3】存储产品编译器替换预研项目",
+    "file": "[2][huawei][3]compiler-migration/detail_design.md"
   },
   {
-    "title": "安全通信适配层开发项目",
-    "file": "crypto/detailed_design.md"
+    "title": "【华为4】维护subPM补丁交付工作",
+    "file": "[2][huawei][4]maintenance-subpm/detail_design.md"
   },
   {
-    "title": "RTK功能文档",
-    "file": "rtkgnss/detail_design.md"
+    "title": "【低空1】软件团队技术体系与研发流程从0到1建设",
+    "file": "[3][Low-altitude][1]team-process-zero-to-one/detail_design.md"
   },
   {
-    "title": "软件团队技术体系与研发流程从0到1建设",
-    "file": "team-process-zero-to-one/detail_design.md"
+    "title": "【低空3】RTK功能开发项目",
+    "file": "[3][Low-altitude][3]rtkgnss/detail_design.md"
   },
   {
-    "title": "LNC/UNC双产品线并行开发与资源协调",
-    "file": "lnc-unc-dual-lines/detail_design.md"
+    "title": "【低空4】安全通信适配层开发项目",
+    "file": "[3][Low-altitude][4]crypto/detailed_design.md"
   },
   {
-    "title": "华为存储产品编译器替换预研项目",
-    "file": "huawei-compiler-migration/detail_design.md"
+    "title": "【低空5】LNC/UNC双产品线并行开发项目",
+    "file": "[3][Low-altitude][5]lnc-unc-dual-lines/detail_design.md"
   },
   {
-    "title": "华为维护subPM补丁交付工作",
-    "file": "huawei-patch-subpm/detail_design.md"
-  },
-  {
-    "title": "CICD基础知识",
-    "file": "eight-butt/detail_design_dirt.md"
-  },  
-  {
-    "title": "C++基础知识",
-    "file": "eight-butt/cpp_new_features_dirt.md"
-  },
-  {
-    "title": "Question & Answer",
-    "file": "questions.md"
+    "title": "【低空7】天通开发项目",
+    "file": "[3][Low-altitude][7]tiantong/detail_design.md"
   }
 ]
