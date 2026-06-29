@@ -1,17 +1,12 @@
 # MyHtmlResume
 
-这是一个“纯静态 + 数据驱动”的个人简历站点：入口页 `html/index.html` 作为索引，`html/resume.html` 为统一模板页，通过 `data/profiles/*.json` 生成不同投递版本（简版/详细版）。
+纯静态数据驱动简历站点。所有内容通过 `fetch()` 动态加载 `data/*` JSON 文件渲染，仅保留一个简历展示页。
 
-页面会通过 `fetch()` 动态加载 `data/*` 与 `sections/*`。
-
-如果你直接双击用 `file://` 打开页面，浏览器会把页面视为 `origin=null` 并阻止读取本地文件（CORS/安全策略），因此会出现 `Failed to fetch`。
-
-## 本地打开（推荐）
+## 本地打开
 
 ### Windows
 
-- 双击运行 `scripts\start-server.bat`
-- 浏览器访问：`http://localhost:8000/index.html`
+双击运行 `scripts\start-server.bat`，浏览器访问 `http://localhost:8000/index.html`
 
 ### Linux / Mac / WSL
 
@@ -19,24 +14,38 @@
 ./scripts/start-server.sh
 ```
 
-然后访问：`http://localhost:8000/index.html`
+访问 `http://localhost:8000/index.html`
 
-## 投递版本
+> 不要用 `file://` 直接打开，浏览器会因 CORS 安全策略阻止 `fetch()` 加载本地数据文件。
 
-- 通用投递版：`html/resume.html?profile=general&mode=short`
-- 软件开发投递版：`html/resume.html?profile=developer&mode=short`
-- 架构师投递版：`html/resume.html?profile=architect&mode=short`
-- 项目经理投递版：`html/resume.html?profile=pm&mode=short`
-- 系统工程师投递版：`html/resume.html?profile=system&mode=short`
-- DevOps / 平台工程投递版：`html/resume.html?profile=devops&mode=short`
+## 文件结构
 
-`mode=detail` 为面试用详细版（同一套数据，展示更多条目并减少截断）。
+```
+html/
+  index.html      — 入口页（跳转到简历）
+  ats.html        — 唯一简历展示页，加载全部数据完整渲染
+data/
+  profile-base.json  — 个人基础信息（姓名、联系方式）
+  profiles/
+    general.json     — 简历配置（展示哪些模块、摘要文案）
+  work.json          — 工作经历
+  projects.json      — 项目经验
+  skills.json        — 技能
+  education.json     — 教育经历
+  projects-github.json — 开源项目
+  intro.txt          — 个人简介
+scripts/
+  ats.js             — 简历渲染脚本
+  dev_server.py      — Python 开发服务器
+  start-server.bat   — Windows 启动脚本
+  start-server.sh    — Linux/Mac 启动脚本
+css/
+  ats.css            — 简历页样式
+  style.css          — 入口页样式
+```
 
-## 维护入口
+## 如何维护
 
-- 个人信息：`data/profile-base.json`
-- 投递版本配置：`data/profiles/*.json`（决定“简版/详细版”的模块顺序与截断长度）
-- 内容数据：`data/work.json`、`data/projects.json`、`data/skills.json` 等
-- 旧版页面保留：`html/resume-legacy.html`
-
-更多启动方式见 `scripts/README.md`。
+- 修改内容：编辑 `data/` 下对应的 JSON 文件
+- 修改个人信息：编辑 `data/profile-base.json`（头像、联系方式）
+- 简历全局配置：编辑 `data/profiles/general.json`（标题、摘要、显示限制）

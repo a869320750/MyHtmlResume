@@ -1,6 +1,6 @@
-function $(selector) {
-  return document.querySelector(selector);
-}
+/* eslint-disable no-console */
+
+function $(selector) { return document.querySelector(selector); }
 
 function escapeHtml(value) {
   return String(value)
@@ -11,177 +11,10 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;');
 }
 
-function truncateText(text, maxChars) {
-  const value = (text ?? '').trim();
-  if (!maxChars || maxChars >= value.length) return value;
-  return value.slice(0, Math.max(0, maxChars - 1)).trimEnd() + '…';
-}
-
-function limitArray(arr, maxCount) {
-  if (!Array.isArray(arr)) return [];
-  if (!maxCount || maxCount >= arr.length) return arr;
-  return arr.slice(0, maxCount);
-}
-
-function sortByPriorityIds(items, sectionPolicy) {
-  if (!Array.isArray(items)) return [];
-  const prioritizedIds = Array.isArray(sectionPolicy?.prioritizedIds)
-    ? sectionPolicy.prioritizedIds.map((id) => String(id || '').trim()).filter(Boolean)
-    : [];
-
-  if (!prioritizedIds.length) return items;
-
-  const priorityMap = new Map(prioritizedIds.map((id, index) => [id, index]));
-  return [...items].sort((a, b) => {
-    const rankA = priorityMap.has(a?.id) ? priorityMap.get(a.id) : Number.MAX_SAFE_INTEGER;
-    const rankB = priorityMap.has(b?.id) ? priorityMap.get(b.id) : Number.MAX_SAFE_INTEGER;
-    return rankA - rankB;
-  });
-}
-
-function filterByIncludeIds(items, sectionPolicy) {
-  if (!Array.isArray(items)) return [];
-  const includeIds = Array.isArray(sectionPolicy?.includeIds)
-    ? sectionPolicy.includeIds.map((id) => String(id || '').trim()).filter(Boolean)
-    : [];
-
-  if (!includeIds.length) return items;
-
-  const itemMap = new Map(items.map((item) => [item?.id, item]));
-  return includeIds.map((id) => itemMap.get(id)).filter(Boolean);
-}
-
-function prepareSectionItems(items, sectionPolicy) {
-  const filtered = filterByIncludeIds(items, sectionPolicy);
-  return sortByPriorityIds(filtered, sectionPolicy);
-}
-
-function normalizeNameList(values) {
-  if (!Array.isArray(values)) return [];
-  return values.map((name) => String(name || '').trim()).filter(Boolean);
-}
-
-function hasNamedPolicy(sectionPolicy) {
-  return Boolean(
-    normalizeNameList(sectionPolicy?.includeNames).length ||
-      normalizeNameList(sectionPolicy?.prioritizedNames).length
-  );
-}
-
-function filterByIncludeNames(items, sectionPolicy, field = 'name') {
-  if (!Array.isArray(items)) return [];
-  const includeNames = normalizeNameList(sectionPolicy?.includeNames);
-  if (!includeNames.length) return items;
-
-  const itemMap = new Map(items.map((item) => [String(item?.[field] || '').trim(), item]));
-  return includeNames.map((name) => itemMap.get(name)).filter(Boolean);
-}
-
-function sortByPriorityNames(items, sectionPolicy, field = 'name') {
-  if (!Array.isArray(items)) return [];
-  const prioritizedNames = normalizeNameList(sectionPolicy?.prioritizedNames);
-  if (!prioritizedNames.length) return items;
-
-  const priorityMap = new Map(prioritizedNames.map((name, index) => [name, index]));
-  return [...items].sort((a, b) => {
-    const keyA = String(a?.[field] || '').trim();
-    const keyB = String(b?.[field] || '').trim();
-    const rankA = priorityMap.has(keyA) ? priorityMap.get(keyA) : Number.MAX_SAFE_INTEGER;
-    const rankB = priorityMap.has(keyB) ? priorityMap.get(keyB) : Number.MAX_SAFE_INTEGER;
-    return rankA - rankB;
-  });
-}
-
-function prepareNamedItems(items, sectionPolicy, field = 'name') {
-  const filtered = filterByIncludeNames(items, sectionPolicy, field);
-  return sortByPriorityNames(filtered, sectionPolicy, field);
-}
-
-const DISPLAY_LEVEL_SET = new Set(['oneLiner', 'value3', 'star', 'full']);
-
-function pickFirstNonEmpty(...values) {
-  for (const value of values) {
-    if (typeof value === 'string' && value.trim()) return value.trim();
-  }
-  return '';
-}
-
-function normalizeLines(lines) {
-  if (!Array.isArray(lines)) return [];
-  return lines.map((line) => String(line || '').trim()).filter(Boolean);
-}
-
-function normalizeStar(star) {
-  const source = star || {};
-  return {
-    situation: pickFirstNonEmpty(source.situation, source.S),
-    task: pickFirstNonEmpty(source.task, source.T),
-    action: pickFirstNonEmpty(source.action, source.A),
-    result: pickFirstNonEmpty(source.result, source.R)
-  };
-}
-
-function hasStarContent(star) {
-  const normalized = normalizeStar(star);
-  return Boolean(normalized.situation || normalized.task || normalized.action || normalized.result);
-}
-
-function resolveDisplayLevel(item, sectionPolicy) {
-  let level = pickFirstNonEmpty(sectionPolicy?.defaultLevel) || 'full';
-
-  const tagPolicy = sectionPolicy?.byTag || {};
-  const itemTags = Array.isArray(item?.tags) ? item.tags : [];
-  for (const tag of itemTags) {
-    const nextLevel = tagPolicy[tag];
-    if (typeof nextLevel === 'string' && nextLevel.trim()) {
-      level = nextLevel.trim();
-      break;
-    }
-  }
-
-  const idPolicy = sectionPolicy?.byId || sectionPolicy?.overrides || {};
-  if (item?.id && typeof idPolicy[item.id] === 'string' && idPolicy[item.id].trim()) {
-    level = idPolicy[item.id].trim();
-  }
-
-  return DISPLAY_LEVEL_SET.has(level) ? level : 'full';
-}
-
-function getOneLiner(item, maxChars) {
-  const line = pickFirstNonEmpty(item?.oneLiner, item?.brief?.[0]);
-  return truncateText(line, maxChars);
-}
-
-function getValue3(item) {
-  const fromTemplate = normalizeLines(item?.value3);
-  if (fromTemplate.length) return fromTemplate;
-  return normalizeLines(item?.brief);
-}
-
-function renderValueListHtml(lines, maxChars) {
-  const values = normalizeLines(lines);
-  if (!values.length) return '';
-  return `<ul class="ats-value-list">${values
-    .map((line) => `<li>${escapeHtml(truncateText(line, maxChars))}</li>`)
-    .join('')}</ul>`;
-}
-
-function renderStarHtml(star, maxChars) {
-  const normalized = normalizeStar(star);
-  if (!hasStarContent(normalized)) return '';
-  const rows = [
-    ['S', '情境', normalized.situation],
-    ['T', '任务', normalized.task],
-    ['A', '行动', normalized.action],
-    ['R', '结果', normalized.result]
-  ]
-    .filter((row) => row[2])
-    .map(
-      ([key, label, text]) =>
-        `<li><strong>${key}(${label})：</strong>${escapeHtml(truncateText(text, maxChars))}</li>`
-    )
-    .join('');
-  return `<ul class="ats-star-list">${rows}</ul>`;
+async function fetchJson(url) {
+  const response = await fetch(url, { cache: 'no-store' });
+  if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
+  return await response.json();
 }
 
 async function fetchText(url) {
@@ -190,17 +23,16 @@ async function fetchText(url) {
   return await response.text();
 }
 
-async function fetchJson(url) {
-  const response = await fetch(url, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
-  return await response.json();
-}
+// ----- Render helpers -----
 
-function getParams() {
-  const params = new URLSearchParams(window.location.search);
-  const profile = (params.get('profile') || 'general').trim();
-  const mode = (params.get('mode') || '').trim();
-  return { profile, mode };
+function renderSection(title, bodyHtml) {
+  const root = $('#ats-root');
+  root.insertAdjacentHTML('beforeend', `
+    <section class="ats-section">
+      <h2>${escapeHtml(title)}</h2>
+      ${bodyHtml}
+    </section>
+  `.trim());
 }
 
 function renderHeader(baseProfile, position) {
@@ -208,557 +40,310 @@ function renderHeader(baseProfile, position) {
   const name = escapeHtml(baseProfile.name || '');
   const contacts = baseProfile.contacts || {};
   const contactParts = [];
-
   if (contacts.phone) contactParts.push(`电话: ${escapeHtml(contacts.phone)}`);
   if (contacts.email) contactParts.push(`邮箱: ${escapeHtml(contacts.email)}`);
   if (contacts.wechat) contactParts.push(`微信: ${escapeHtml(contacts.wechat)}`);
   if (contacts.github) contactParts.push(`GitHub: ${escapeHtml(contacts.githubLabel || contacts.github)}`);
-  if (contacts.bilibili) contactParts.push(`BiliBili: ${escapeHtml(contacts.bilibiliLabel || contacts.bilibili)}`);
 
-  root.insertAdjacentHTML(
-    'beforeend',
-    `
-      <section class="ats-header">
-        <div class="ats-name">${name}</div>
-        ${position ? `<div class="ats-position">${escapeHtml(position)}</div>` : ''}
-        ${contactParts.length ? `<div class="ats-contact">${contactParts.map((item) => `<span>${item}</span>`).join('')}</div>` : ''}
-      </section>
-    `.trim()
-  );
+  root.insertAdjacentHTML('beforeend', `
+    <section class="ats-header">
+      <div class="ats-name">${name}</div>
+      ${position ? `<div class="ats-position">${escapeHtml(position)}</div>` : ''}
+      ${contactParts.length ? `<div class="ats-contact">${contactParts.map(item => `<span>${item}</span>`).join('')}</div>` : ''}
+    </section>
+  `.trim());
 }
 
-function renderSection(title, bodyHtml) {
-  const root = $('#ats-root');
-  root.insertAdjacentHTML(
-    'beforeend',
-    `
-      <section class="ats-section">
-        <h2>${escapeHtml(title)}</h2>
-        ${bodyHtml}
-      </section>
-    `.trim()
-  );
+// ----- Section renderers -----
+
+async function renderSummary(bullets) {
+  if (!bullets?.length) return;
+  renderSection('摘要', `<ul>${bullets.map(item => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`);
 }
 
-async function renderIntro(limits, introText) {
-  const text = pickFirstNonEmpty(introText) || (await fetchText('../data/intro.txt'));
-  const intro = truncateText(text, limits?.introMaxChars);
-  renderSection('简介', `<p class="ats-line">${escapeHtml(intro)}</p>`);
+async function renderIntro() {
+  const text = await fetchText('../data/intro.txt');
+  renderSection('简介', `<p class="ats-line">${escapeHtml(text.trim())}</p>`);
 }
 
-function renderSummary(summaryBullets) {
-  if (!summaryBullets?.length) return;
-  renderSection('摘要', `<ul>${summaryBullets.map((item) => `<li>${escapeHtml(item)}</li>`).join('')}</ul>`);
-}
-
-async function renderWork(limits, useBrief, contentPolicy) {
+async function renderWork() {
   const data = await fetchJson('../data/work.json');
-  const companies = limitArray(prepareSectionItems(data, contentPolicy), limits?.workCompanies);
+  if (!data?.length) return;
+
   let html = '';
-
-  companies.forEach((item) => {
-    const level = resolveDisplayLevel(item, contentPolicy);
-    const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
-    const oneLiner = getOneLiner(item, limits?.workDescMaxChars);
-    const value3 = getValue3(item);
-    const starHtml = renderStarHtml(item.star, limits?.workDescMaxChars);
-
+  data.forEach(item => {
     html += `
       <h3>${escapeHtml(item.company)} - ${escapeHtml(item.position)}</h3>
       <p class="ats-muted">${escapeHtml(item.period || '')}</p>
     `;
 
-    if (oneLiner) {
-      html += `<p class="ats-oneliner">${escapeHtml(oneLiner)}</p>`;
+    const details = item.details || [];
+    if (details.length) {
+      html += '<ol>';
+      details.forEach(d => {
+        html += `<li><strong>${escapeHtml(d.title)}：</strong>${escapeHtml(d.desc || '')}</li>`;
+      });
+      html += '</ol>';
     }
-
-    if (effectiveLevel === 'oneLiner') {
-      return;
-    }
-
-    if (effectiveLevel === 'value3') {
-      html += renderValueListHtml(value3, limits?.workDescMaxChars);
-      return;
-    }
-
-    if (effectiveLevel === 'star') {
-      html += starHtml || renderValueListHtml(value3, limits?.workDescMaxChars);
-      return;
-    }
-
-    // full
-    if (starHtml) html += starHtml;
-
-    html += `<ol>
-      ${useBrief && Array.isArray(item.brief) && item.brief.length
-        ? item.brief.map((detail) => `<li>${escapeHtml(detail)}</li>`).join('')
-        : limitArray(item.details || [], limits?.workDetailsPerCompany)
-            .map((detail) => {
-              const desc = truncateText(detail.desc, limits?.workDescMaxChars);
-              return `<li><strong>${escapeHtml(detail.title)}：</strong>${escapeHtml(desc)}</li>`;
-            })
-            .join('')}
-    </ol>`;
   });
 
   if (html) renderSection('工作经历', html);
 }
 
-async function renderProjects(limits, useBrief, contentPolicy) {
+async function renderProjects() {
   const data = await fetchJson('../data/projects.json');
-  const projects = limitArray(prepareSectionItems(data, contentPolicy), limits?.projectCount);
+  if (!data?.length) return;
+
   let html = '';
-
-  projects.forEach((item) => {
-    const level = resolveDisplayLevel(item, contentPolicy);
-    const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
-    const oneLiner = getOneLiner(item, limits?.projectTextMaxChars);
-    const value3 = getValue3(item);
-    const starHtml = renderStarHtml(item.star, limits?.projectTextMaxChars);
-
-    const background = truncateText(item.background, limits?.projectTextMaxChars);
-    const tech = truncateText(item.tech, limits?.projectTextMaxChars);
-
+  data.forEach(item => {
     html += `
       <h3>${escapeHtml(item.name)}</h3>
       <p class="ats-muted">${escapeHtml(item.period || '')}</p>
     `;
 
-    if (oneLiner) {
-      html += `<p class="ats-oneliner">${escapeHtml(oneLiner)}</p>`;
+    if (item.oneLiner) {
+      html += `<p class="ats-oneliner">${escapeHtml(item.oneLiner)}</p>`;
     }
 
-    if (effectiveLevel === 'oneLiner') {
-      return;
+    // STAR
+    const star = item.star || {};
+    if (star.situation || star.task || star.action || star.result) {
+      html += '<ul class="ats-star-list">';
+      if (star.situation) html += `<li><strong>S(情境)：</strong>${escapeHtml(star.situation)}</li>`;
+      if (star.task) html += `<li><strong>T(任务)：</strong>${escapeHtml(star.task)}</li>`;
+      if (star.action) html += `<li><strong>A(行动)：</strong>${escapeHtml(star.action)}</li>`;
+      if (star.result) html += `<li><strong>R(结果)：</strong>${escapeHtml(star.result)}</li>`;
+      html += '</ul>';
     }
 
-    if (effectiveLevel === 'value3') {
-      html += renderValueListHtml(value3, limits?.projectTextMaxChars);
-      return;
+    // 背景
+    if (item.background) {
+      html += `<p><strong>项目背景：</strong>${escapeHtml(item.background)}</p>`;
     }
 
-    if (effectiveLevel === 'star') {
-      html += starHtml || renderValueListHtml(value3, limits?.projectTextMaxChars);
-      return;
+    // 主要工作
+    const work = item.work || [];
+    if (work.length) {
+      html += '<p><strong>主要工作：</strong></p><ul>';
+      work.forEach(w => html += `<li>${escapeHtml(w)}</li>`);
+      html += '</ul>';
     }
 
-    // full
-    if (starHtml) html += starHtml;
-
-    if (useBrief && Array.isArray(item.brief) && item.brief.length) {
-      html += `<ul>${item.brief.map((line) => `<li>${escapeHtml(line)}</li>`).join('')}</ul>`;
-      if (tech) html += `<p><strong>技术栈：</strong>${escapeHtml(tech)}</p>`;
-      return;
+    // 技术栈
+    if (item.tech) {
+      html += `<p><strong>技术栈：</strong>${escapeHtml(item.tech)}</p>`;
     }
 
-    html += `
-      <p><strong>项目背景：</strong>${escapeHtml(background)}</p>
-      <p><strong>主要工作：</strong></p>
-      <ul>
-        ${limitArray(item.work || [], limits?.projectWorkBullets)
-          .map((work) => `<li>${escapeHtml(truncateText(work, limits?.projectTextMaxChars))}</li>`)
-          .join('')}
-      </ul>
-      <p><strong>技术栈：</strong>${escapeHtml(tech)}</p>
-      ${item.result?.length ? `<p><strong>成果：</strong></p><ul>${item.result
-        .map((r) => `<li>${escapeHtml(truncateText(r, limits?.projectTextMaxChars))}</li>`)
-        .join('')}</ul>` : ''}
-    `;
+    // 成果
+    const result = item.result || [];
+    if (result.length) {
+      html += '<p><strong>成果：</strong></p><ul>';
+      result.forEach(r => html += `<li>${escapeHtml(r)}</li>`);
+      html += '</ul>';
+    }
   });
 
   if (html) renderSection('项目经历', html);
 }
 
-async function renderSkills(limits, contentPolicy) {
+async function renderSkills() {
   const data = await fetchJson('../data/skills.json');
-  const source = hasNamedPolicy(contentPolicy) ? prepareNamedItems(data, contentPolicy, 'name') : data;
-  const skills = limitArray(source, limits?.skillCount);
-  if (!skills.length) return;
+  if (!data?.length) return;
 
-  const normalizedSkills = skills.map((item) => {
-    const keywords = Array.isArray(item.keywords)
-      ? item.keywords.map((k) => String(k || '').trim()).filter(Boolean)
-      : String(item.description || '')
-          .split(/[，,、]/)
-          .map((k) => k.trim())
-          .filter(Boolean);
-    const level = item.level || (typeof item.percent === 'number' ? '熟练' : '了解');
-    const evidence = item.evidence || item.description || '';
-    return { name: item.name || '', level, keywords, evidence };
-  });
+  const html = `<ul>${
+    data.map(item => {
+      const keywords = Array.isArray(item.keywords)
+        ? item.keywords.map(k => String(k || '').trim()).filter(Boolean)
+        : String(item.description || '').split(/[，,、]/).map(k => k.trim()).filter(Boolean);
+      const level = item.level || (typeof item.percent === 'number' ? '熟练' : '了解');
+      const kw = keywords.length ? `｜${escapeHtml(keywords.join(' / '))}` : '';
+      const evidence = item.evidence ? `<div class="ats-skill-evidence">${escapeHtml(item.evidence)}</div>` : '';
+      return `<li><strong>${escapeHtml(item.name)}</strong>（${escapeHtml(level)}）${kw}${evidence}</li>`;
+    }).join('')
+  }</ul>`;
 
-  const html = `
-    <ul>
-      ${normalizedSkills
-        .map((item) => {
-          const keywords = item.keywords?.length ? `｜${escapeHtml(item.keywords.join(' / '))}` : '';
-          const evidence = item.evidence ? `<div class="ats-skill-evidence">${escapeHtml(item.evidence)}</div>` : '';
-          return `<li><strong>${escapeHtml(item.name)}</strong>（${escapeHtml(item.level)}）${keywords}${evidence}</li>`;
-        })
-        .join('')}
-    </ul>
-  `;
   renderSection('技能', html);
 }
 
-async function renderEducation(useBrief) {
+async function renderEducation() {
   const data = await fetchJson('../data/education.json');
   if (!data?.length) return;
 
-  const html = data
-    .map((item) => {
-      const source = useBrief && Array.isArray(item.brief) && item.brief.length ? item.brief : item.details || [];
-      const details = source.map((d) => `<li>${escapeHtml(d)}</li>`).join('');
-      return `
-        <h3>${escapeHtml(item.school)} - ${escapeHtml(item.major)} - ${escapeHtml(item.degree)}</h3>
-        <p class="ats-muted">${escapeHtml(item.period || '')}</p>
-        <ul>${details}</ul>
-      `;
-    })
-    .join('');
+  const html = data.map(item => {
+    const details = item.details || [];
+    return `
+      <h3>${escapeHtml(item.school)} - ${escapeHtml(item.major)} - ${escapeHtml(item.degree)}</h3>
+      <p class="ats-muted">${escapeHtml(item.period || '')}</p>
+      ${details.length ? `<ul>${details.map(d => `<li>${escapeHtml(d)}</li>`).join('')}</ul>` : ''}
+    `;
+  }).join('');
 
   renderSection('教育经历', html);
 }
 
-async function renderGithub(limits, contentPolicy) {
+async function renderGithub() {
   const data = await fetchJson('../data/projects-github.json');
-  const source = hasNamedPolicy(contentPolicy) ? prepareNamedItems(data, contentPolicy, 'name') : data;
-  const repos = limitArray(source, limits?.githubCount);
-  if (!repos.length) return;
+  if (!data?.length) return;
 
-  const html = `
-    <ul>
-      ${repos
-        .map((repo) => {
-          const desc = repo.description ? ` - ${escapeHtml(repo.description)}` : '';
-          const lang = repo.language ? `（${escapeHtml(repo.language)}）` : '';
-          return `<li>${escapeHtml(repo.name)}${lang}${desc} - ${escapeHtml(repo.url || '')}</li>`;
-        })
-        .join('')}
-    </ul>
-  `;
+  const html = `<ul>${
+    data.map(repo => {
+      const desc = repo.description ? ` - ${escapeHtml(repo.description)}` : '';
+      const lang = repo.language ? `（${escapeHtml(repo.language)}）` : '';
+      return `<li>${escapeHtml(repo.name)}${lang}${desc} - ${escapeHtml(repo.url || '')}</li>`;
+    }).join('')
+  }</ul>`;
 
   renderSection('开源项目', html);
 }
 
-async function init() {
-  const { profile, mode } = getParams();
-  const baseProfile = await fetchJson('../data/profile-base.json');
-  const profileConfig = await fetchJson(`../data/profiles/${profile}.json`);
-  const modeKey = mode || profileConfig.defaultMode || Object.keys(profileConfig.modes || {})[0] || 'detail';
-  const fallbackModeConfig = profileConfig.modes?.short || profileConfig.modes?.detail || Object.values(profileConfig.modes || {})[0] || {};
-  let modeConfig = profileConfig.modes?.[modeKey] || fallbackModeConfig;
+// ----- Plain text export -----
 
-  const isOnePage = modeKey === 'onepage';
-  if (isOnePage) {
-    document.body.classList.add('ats-two-page');
-    if (!profileConfig.modes?.onepage) {
-      modeConfig = {
-        ...modeConfig,
-        limits: {
-          ...(modeConfig.limits || {}),
-          introMaxChars: Math.min(modeConfig.limits?.introMaxChars || 180, 180),
-          workDetailsPerCompany: Math.min(modeConfig.limits?.workDetailsPerCompany || 2, 2),
-          projectWorkBullets: Math.min(modeConfig.limits?.projectWorkBullets || 2, 2),
-          projectTextMaxChars: Math.min(modeConfig.limits?.projectTextMaxChars || 220, 220)
-        }
-      };
-    }
-  }
-
-  const contentPolicy = modeConfig.contentPolicy || {};
-
-  if (modeConfig.pageTitle) document.title = modeConfig.pageTitle;
-
-  renderHeader(baseProfile, modeConfig.position || '');
-
-  const useBrief = modeKey === 'onepage';
-  const sectionHandlers = {
-    summary: async () => renderSummary(modeConfig.summaryBullets || []),
-    intro: async () => renderIntro(modeConfig.limits, modeConfig.introText),
-    work: async () => renderWork(modeConfig.limits, useBrief, contentPolicy.work),
-    projects: async () => renderProjects(modeConfig.limits, useBrief, contentPolicy.projects),
-    skills: async () => renderSkills(modeConfig.limits, contentPolicy.skills),
-    github: async () => renderGithub(modeConfig.limits, contentPolicy.github),
-    education: async () => renderEducation(useBrief)
-  };
-
-  const sections = modeConfig.sections || [];
-  if (!sections.includes('summary')) await renderIntro(modeConfig.limits, modeConfig.introText);
-
-  for (const section of sections) {
-    const handler = sectionHandlers[section];
-    if (handler) await handler();
-  }
-
-  addAtsRuler(isOnePage ? 2 : undefined);
-  setupPlainTextExport({ profileKey: profile, modeKey, modeConfig, useBrief, contentPolicy });
-}
-
-init().catch((err) => {
-  const root = $('#ats-root');
-  if (root) root.textContent = `加载失败：${err.message}`;
-  console.error(err);
-});
-
-async function buildPlainText({ modeConfig, useBrief, contentPolicy }) {
-  const baseProfile = await fetchJson('../data/profile-base.json');
+async function buildPlainText(baseProfile, position, summaryBullets) {
   const contacts = baseProfile.contacts || {};
   const lines = [];
+  const sep = () => lines.push('----------------------------------------');
 
-  const pushSeparator = () => lines.push('----------------------------------------');
-
-  lines.push(`${baseProfile.name || ''}${modeConfig.position ? ` | ${modeConfig.position}` : ''}`.trim());
+  lines.push(`${baseProfile.name || ''}${position ? ` | ${position}` : ''}`.trim());
   if (contacts.phone) lines.push(`电话: ${contacts.phone}`);
   if (contacts.email) lines.push(`邮箱: ${contacts.email}`);
   if (contacts.wechat) lines.push(`微信: ${contacts.wechat}`);
   if (contacts.github) lines.push(`GitHub: ${contacts.githubLabel || contacts.github}`);
-  if (contacts.bilibili) lines.push(`BiliBili: ${contacts.bilibiliLabel || contacts.bilibili}`);
+  sep();
 
-  pushSeparator();
-
-  if (modeConfig.summaryBullets?.length) {
+  if (summaryBullets?.length) {
     lines.push('摘要');
-    modeConfig.summaryBullets.forEach((item) => lines.push(`  - ${item}`));
-    pushSeparator();
+    summaryBullets.forEach(item => lines.push(`  - ${item}`));
+    sep();
   }
 
-  const introSource = pickFirstNonEmpty(modeConfig.introText) || (await fetchText('../data/intro.txt'));
-  const intro = truncateText(introSource, modeConfig.limits?.introMaxChars);
-  if (intro) {
-    lines.push('简介');
-    lines.push(`  ${intro}`);
-    pushSeparator();
-  }
+  const intro = (await fetchText('../data/intro.txt')).trim();
+  if (intro) { lines.push('简介'); lines.push(`  ${intro}`); sep(); }
 
   const workData = await fetchJson('../data/work.json');
-  const companies = limitArray(
-    prepareSectionItems(workData, contentPolicy?.work),
-    modeConfig.limits?.workCompanies
-  );
-  if (companies.length) {
+  if (workData.length) {
     lines.push('工作经历');
-    companies.forEach((item) => {
-      const level = resolveDisplayLevel(item, contentPolicy?.work);
-      const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
-      const oneLiner = getOneLiner(item, modeConfig.limits?.workDescMaxChars);
-      const value3 = getValue3(item);
-      const star = normalizeStar(item.star);
-
+    workData.forEach(item => {
       lines.push(`  ${item.company} - ${item.position} (${item.period || ''})`);
-      if (oneLiner) lines.push(`    一句话：${oneLiner}`);
-
-      if (effectiveLevel === 'oneLiner') {
-        return;
-      }
-
-      if (effectiveLevel === 'value3') {
-        value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.workDescMaxChars)}`));
-        return;
-      }
-
-      if (effectiveLevel === 'star') {
-        if (hasStarContent(star)) {
-          if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.workDescMaxChars)}`);
-          if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.workDescMaxChars)}`);
-          if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.workDescMaxChars)}`);
-          if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.workDescMaxChars)}`);
-        } else {
-          value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.workDescMaxChars)}`));
-        }
-        return;
-      }
-
-      if (hasStarContent(star)) {
-        if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.workDescMaxChars)}`);
-        if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.workDescMaxChars)}`);
-        if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.workDescMaxChars)}`);
-        if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.workDescMaxChars)}`);
-      }
-
-      if (useBrief && Array.isArray(item.brief) && item.brief.length) {
-        item.brief.forEach((detail) => lines.push(`    - ${detail}`));
-      } else {
-        limitArray(item.details || [], modeConfig.limits?.workDetailsPerCompany).forEach((detail) => {
-          const desc = truncateText(detail.desc, modeConfig.limits?.workDescMaxChars);
-          lines.push(`    - ${detail.title}：${desc}`);
-        });
-      }
+      (item.details || []).forEach(d => lines.push(`    - ${d.title}：${d.desc || ''}`));
     });
-    pushSeparator();
+    sep();
   }
 
   const projectData = await fetchJson('../data/projects.json');
-  const projects = limitArray(
-    prepareSectionItems(projectData, contentPolicy?.projects),
-    modeConfig.limits?.projectCount
-  );
-  if (projects.length) {
+  if (projectData.length) {
     lines.push('项目经历');
-    projects.forEach((item) => {
-      const level = resolveDisplayLevel(item, contentPolicy?.projects);
-      const effectiveLevel = useBrief && level === 'full' ? 'value3' : level;
-      const oneLiner = getOneLiner(item, modeConfig.limits?.projectTextMaxChars);
-      const value3 = getValue3(item);
-      const star = normalizeStar(item.star);
-
+    projectData.forEach(item => {
       lines.push(`  ${item.name} (${item.period || ''})`);
-      if (oneLiner) lines.push(`    一句话：${oneLiner}`);
-
-      if (effectiveLevel === 'oneLiner') {
-        return;
-      }
-
-      if (effectiveLevel === 'value3') {
-        value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.projectTextMaxChars)}`));
-        return;
-      }
-
-      if (effectiveLevel === 'star') {
-        if (hasStarContent(star)) {
-          if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.projectTextMaxChars)}`);
-          if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.projectTextMaxChars)}`);
-          if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.projectTextMaxChars)}`);
-          if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.projectTextMaxChars)}`);
-        } else {
-          value3.forEach((line) => lines.push(`    - ${truncateText(line, modeConfig.limits?.projectTextMaxChars)}`));
-        }
-        return;
-      }
-
-      if (hasStarContent(star)) {
-        if (star.situation) lines.push(`    S: ${truncateText(star.situation, modeConfig.limits?.projectTextMaxChars)}`);
-        if (star.task) lines.push(`    T: ${truncateText(star.task, modeConfig.limits?.projectTextMaxChars)}`);
-        if (star.action) lines.push(`    A: ${truncateText(star.action, modeConfig.limits?.projectTextMaxChars)}`);
-        if (star.result) lines.push(`    R: ${truncateText(star.result, modeConfig.limits?.projectTextMaxChars)}`);
-      }
-
-      if (useBrief && Array.isArray(item.brief) && item.brief.length) {
-        item.brief.forEach((line) => lines.push(`    - ${line}`));
-        if (item.tech) lines.push(`    技术栈：${truncateText(item.tech, modeConfig.limits?.projectTextMaxChars)}`);
-      } else {
-        lines.push(`    项目背景：${truncateText(item.background, modeConfig.limits?.projectTextMaxChars)}`);
-        lines.push('    主要工作：');
-        limitArray(item.work || [], modeConfig.limits?.projectWorkBullets).forEach((work) => {
-          lines.push(`      - ${truncateText(work, modeConfig.limits?.projectTextMaxChars)}`);
-        });
-        lines.push(`    技术栈：${truncateText(item.tech, modeConfig.limits?.projectTextMaxChars)}`);
-        if (item.result?.length) {
-          lines.push('    成果：');
-          item.result.forEach((result) => {
-            lines.push(`      - ${truncateText(result, modeConfig.limits?.projectTextMaxChars)}`);
-          });
-        }
+      if (item.oneLiner) lines.push(`    一句话：${item.oneLiner}`);
+      const star = item.star || {};
+      if (star.situation) lines.push(`    S: ${star.situation}`);
+      if (star.task) lines.push(`    T: ${star.task}`);
+      if (star.action) lines.push(`    A: ${star.action}`);
+      if (star.result) lines.push(`    R: ${star.result}`);
+      if (item.background) lines.push(`    项目背景：${item.background}`);
+      lines.push('    主要工作：');
+      (item.work || []).forEach(w => lines.push(`      - ${w}`));
+      lines.push(`    技术栈：${item.tech || ''}`);
+      if (item.result?.length) {
+        lines.push('    成果：');
+        item.result.forEach(r => lines.push(`      - ${r}`));
       }
     });
-    pushSeparator();
+    sep();
   }
 
   const skillData = await fetchJson('../data/skills.json');
-  const preparedSkills = hasNamedPolicy(contentPolicy?.skills)
-    ? prepareNamedItems(skillData, contentPolicy.skills, 'name')
-    : skillData;
-  const skills = limitArray(preparedSkills, modeConfig.limits?.skillCount);
-  if (skills.length) {
+  if (skillData.length) {
     lines.push('技能');
-    skills.forEach((skill) => {
-      const level = skill.level || (typeof skill.percent === 'number' ? '熟练' : '了解');
-      const keywords = Array.isArray(skill.keywords)
-        ? skill.keywords.join(' / ')
-        : String(skill.description || '').trim();
-      const evidence = String(skill.evidence || '').trim();
-
+    skillData.forEach(skill => {
+      const level = skill.level || '熟练';
+      const keywords = Array.isArray(skill.keywords) ? skill.keywords.join(' / ') : '';
+      const evidence = skill.evidence || '';
       lines.push(`  - ${skill.name}（${level}）${keywords ? `｜${keywords}` : ''}`);
       if (evidence) lines.push(`    证据：${evidence}`);
     });
-    pushSeparator();
-  }
-
-  if (modeConfig.limits?.githubCount) {
-    const repoData = await fetchJson('../data/projects-github.json');
-    const preparedRepos = hasNamedPolicy(contentPolicy?.github)
-      ? prepareNamedItems(repoData, contentPolicy.github, 'name')
-      : repoData;
-    const repos = limitArray(preparedRepos, modeConfig.limits.githubCount);
-    if (repos.length) {
-      lines.push('开源项目');
-      repos.forEach((repo) => {
-        const lang = repo.language ? `（${repo.language}）` : '';
-        const desc = repo.description ? ` - ${repo.description}` : '';
-        lines.push(`  - ${repo.name}${lang}${desc}`);
-        if (repo.url) lines.push(`    ${repo.url}`);
-      });
-      pushSeparator();
-    }
+    sep();
   }
 
   const eduData = await fetchJson('../data/education.json');
   if (eduData?.length) {
     lines.push('教育经历');
-    eduData.forEach((item) => {
+    eduData.forEach(item => {
       lines.push(`  ${item.school} - ${item.major} - ${item.degree} (${item.period || ''})`);
-      const source = useBrief && Array.isArray(item.brief) && item.brief.length ? item.brief : item.details || [];
-      source.forEach((detail) => lines.push(`    - ${detail}`));
+      (item.details || []).forEach(d => lines.push(`    - ${d}`));
     });
   }
 
   return lines.join('\n');
 }
 
-function setupPlainTextExport({ modeKey, modeConfig, useBrief, contentPolicy }) {
-  const button = document.querySelector('#copy-plain-text');
-  const note = document.querySelector('#copy-plain-text-note');
+function setupPlainTextExport(baseProfile, position, summaryBullets) {
+  const button = $('#copy-plain-text');
+  const note = $('#copy-plain-text-note');
   if (!button) return;
 
-  const setNote = (message) => {
+  const setNote = (msg) => {
     if (!note) return;
-    note.textContent = message;
-    if (message) {
-      setTimeout(() => {
-        if (note.textContent === message) note.textContent = '';
-      }, 2000);
-    }
+    note.textContent = msg;
+    if (msg) setTimeout(() => { if (note.textContent === msg) note.textContent = ''; }, 2000);
   };
 
   button.addEventListener('click', async () => {
     try {
-      const text = await buildPlainText({ modeConfig, modeKey, useBrief, contentPolicy });
+      const text = await buildPlainText(baseProfile, position, summaryBullets);
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(text);
       } else {
-        const textarea = document.createElement('textarea');
-        textarea.value = text;
-        textarea.setAttribute('readonly', '');
-        textarea.style.position = 'absolute';
-        textarea.style.left = '-9999px';
-        document.body.appendChild(textarea);
-        textarea.select();
+        const ta = document.createElement('textarea');
+        ta.value = text;
+        ta.setAttribute('readonly', '');
+        ta.style.position = 'absolute';
+        ta.style.left = '-9999px';
+        document.body.appendChild(ta);
+        ta.select();
         document.execCommand('copy');
-        textarea.remove();
+        ta.remove();
       }
       setNote('已复制到剪贴板');
-    } catch (error) {
-      console.error(error);
+    } catch (err) {
+      console.error(err);
       setNote('复制失败');
     }
   });
 }
 
-function addAtsRuler(pageCount) {
-  const page = document.querySelector('.ats-page');
-  if (!page) return;
-  if (page.querySelector('.ats-ruler')) return;
+// ----- Init -----
 
-  const pxPerMm = 96 / 25.4;
-  const pageHeightPx = 297 * pxPerMm;
-  const estimatedPages = pageCount || Math.max(1, Math.ceil(page.scrollHeight / pageHeightPx));
-  const count = Math.max(1, Math.min(estimatedPages, 6));
+async function init() {
+  const baseProfile = await fetchJson('../data/profile-base.json');
+  const config = await fetchJson('../data/profiles/general.json');
 
-  const ruler = document.createElement('div');
-  ruler.className = 'ats-ruler no-print';
-  ruler.innerHTML = Array.from({ length: count }, (_, index) => {
-    const pageNumber = index + 1;
-    return `<span class="ats-ruler-label" style="top: calc(${(pageNumber - 1) * 297}mm + 6mm)">第${pageNumber}页</span>`;
-  }).join('');
-  page.prepend(ruler);
+  const position = config.position || '';
+  const sections = config.sections || ['summary', 'work', 'projects', 'skills', 'github', 'education'];
+  const summaryBullets = config.summaryBullets || [];
+
+  document.title = `${baseProfile.name} - 简历`;
+
+  renderHeader(baseProfile, position);
+
+  if (!sections.includes('summary')) await renderIntro();
+  for (const section of sections) {
+    switch (section) {
+      case 'summary': await renderSummary(summaryBullets); break;
+      case 'intro': await renderIntro(); break;
+      case 'work': await renderWork(); break;
+      case 'projects': await renderProjects(); break;
+      case 'skills': await renderSkills(); break;
+      case 'education': await renderEducation(); break;
+      case 'github': await renderGithub(); break;
+    }
+  }
+
+  setupPlainTextExport(baseProfile, position, summaryBullets);
 }
+
+init().catch(err => {
+  const root = $('#ats-root');
+  if (root) root.textContent = `加载失败：${err.message}`;
+  console.error(err);
+});
