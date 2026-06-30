@@ -1,1 +1,0 @@
-9、【低空】UOM开发项目，就是我们的remoteID功能，需要通过uom平台的http上报给一个国家官方平台，rtk进程发定位信息给rid，rid打包成格式发给uom_sender，uom_sender通过http发出去。这里面做了一些进程间通信的架构设计

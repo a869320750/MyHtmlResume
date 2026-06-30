@@ -91,11 +91,19 @@ async function renderWork() {
 }
 
 async function renderProjects() {
-  const data = await fetchJson('../data/projects.json');
-  if (!data?.length) return;
+  const indexData = await fetchJson('../data/projects/index.json');
+  if (!indexData?.length) return;
+
+  // 加载所有项目 meta.json
+  const items = await Promise.all(
+    indexData.map(async (entry) => {
+      const meta = await fetchJson(`../data/projects/${entry.path}/meta.json`);
+      return { ...meta, ...entry };
+    })
+  );
 
   let html = '';
-  data.forEach(item => {
+  items.forEach(item => {
     html += `
       <h3>${escapeHtml(item.name)}</h3>
       <p class="ats-muted">${escapeHtml(item.period || '')}</p>
@@ -105,23 +113,10 @@ async function renderProjects() {
       html += `<p class="ats-oneliner">${escapeHtml(item.oneLiner)}</p>`;
     }
 
-    // STAR
-    const star = item.star || {};
-    if (star.situation || star.task || star.action || star.result) {
-      html += '<ul class="ats-star-list">';
-      if (star.situation) html += `<li><strong>S(情境)：</strong>${escapeHtml(star.situation)}</li>`;
-      if (star.task) html += `<li><strong>T(任务)：</strong>${escapeHtml(star.task)}</li>`;
-      if (star.action) html += `<li><strong>A(行动)：</strong>${escapeHtml(star.action)}</li>`;
-      if (star.result) html += `<li><strong>R(结果)：</strong>${escapeHtml(star.result)}</li>`;
-      html += '</ul>';
-    }
-
-    // 背景
     if (item.background) {
       html += `<p><strong>项目背景：</strong>${escapeHtml(item.background)}</p>`;
     }
 
-    // 主要工作
     const work = item.work || [];
     if (work.length) {
       html += '<p><strong>主要工作：</strong></p><ul>';
@@ -129,12 +124,10 @@ async function renderProjects() {
       html += '</ul>';
     }
 
-    // 技术栈
     if (item.tech) {
       html += `<p><strong>技术栈：</strong>${escapeHtml(item.tech)}</p>`;
     }
 
-    // 成果
     const result = item.result || [];
     if (result.length) {
       html += '<p><strong>成果：</strong></p><ul>';
@@ -229,17 +222,19 @@ async function buildPlainText(baseProfile, position, summaryBullets) {
     sep();
   }
 
-  const projectData = await fetchJson('../data/projects.json');
-  if (projectData.length) {
+  // 项目经历（从 index.json + meta.json 加载）
+  const projectIndex = await fetchJson('../data/projects/index.json');
+  if (projectIndex.length) {
+    const projectItems = await Promise.all(
+      projectIndex.map(async (entry) => {
+        const meta = await fetchJson(`../data/projects/${entry.path}/meta.json`);
+        return { ...meta, ...entry };
+      })
+    );
     lines.push('项目经历');
-    projectData.forEach(item => {
+    projectItems.forEach(item => {
       lines.push(`  ${item.name} (${item.period || ''})`);
       if (item.oneLiner) lines.push(`    一句话：${item.oneLiner}`);
-      const star = item.star || {};
-      if (star.situation) lines.push(`    S: ${star.situation}`);
-      if (star.task) lines.push(`    T: ${star.task}`);
-      if (star.action) lines.push(`    A: ${star.action}`);
-      if (star.result) lines.push(`    R: ${star.result}`);
       if (item.background) lines.push(`    项目背景：${item.background}`);
       lines.push('    主要工作：');
       (item.work || []).forEach(w => lines.push(`      - ${w}`));
@@ -333,9 +328,7 @@ async function init() {
       case 'intro': await renderIntro(); break;
       case 'work': await renderWork(); break;
       case 'projects': await renderProjects(); break;
-      case 'skills': await renderSkills(); break;
       case 'education': await renderEducation(); break;
-      case 'github': await renderGithub(); break;
     }
   }
 

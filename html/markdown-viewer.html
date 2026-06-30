@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>项目文档</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.5.1/github-markdown.min.css">
+  <style>
+    body {
+      margin: 0;
+      padding: 32px 24px;
+      background: #fff;
+      display: flex;
+      justify-content: center;
+    }
+    .markdown-body {
+      max-width: 960px;
+      width: 100%;
+    }
+    .markdown-body .mermaid {
+      text-align: center;
+      margin: 24px 0;
+      padding: 16px;
+      background: #f8f9fa;
+      border-radius: 8px;
+    }
+    .mv-loading,
+    .mv-error {
+      text-align: center;
+      padding: 80px 24px;
+      font-size: 18px;
+      color: #666;
+    }
+    .mv-error {
+      color: #e74c3c;
+    }
+    .mv-nav {
+      max-width: 960px;
+      width: 100%;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .mv-nav a {
+      color: #667eea;
+      text-decoration: none;
+      font-size: 14px;
+    }
+    .mv-nav a:hover {
+      text-decoration: underline;
+    }
+    .mv-nav .mv-title {
+      font-size: 14px;
+      color: #999;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    @media (max-width: 600px) {
+      body { padding: 16px 12px; }
+    }
+  </style>
+</head>
+<body>
+  <div>
+    <div class="mv-nav">
+      <a href="index.html"><i class="fa-solid fa-arrow-left"></i> 返回主页</a>
+      <span class="mv-title" id="mv-title"></span>
+    </div>
+    <div id="mv-content" class="markdown-body mv-loading">加载中…</div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({
+      startOnLoad: false,
+      theme: 'default',
+      securityLevel: 'loose'
+    });
+
+    (async function () {
+      const params = new URLSearchParams(window.location.search);
+      const file = params.get('file');
+      const titleEl = document.getElementById('mv-title');
+      const contentEl = document.getElementById('mv-content');
+
+      if (!file) {
+        contentEl.className = 'markdown-body mv-error';
+        contentEl.textContent = '未指定文件参数 (?file=)';
+        return;
+      }
+
+      const mdUrl = '../data/projects/' + file;
+
+      try {
+        const resp = await fetch(mdUrl);
+        if (!resp.ok) throw new Error('HTTP ' + resp.status);
+        const md = await resp.text();
+
+        // 提取第一个 # 标题作为页面标题
+        const titleMatch = md.match(/^#\s+(.+)/m);
+        if (titleMatch) {
+          document.title = titleMatch[1] + ' - 项目文档';
+          titleEl.textContent = titleMatch[1];
+        } else {
+          titleEl.textContent = file.split('/').pop();
+        }
+
+        // 自定义 marked renderer：将 ```mermaid 块渲染为 <pre class="mermaid">
+        const renderer = new marked.Renderer();
+        const originalCode = renderer.code.bind(renderer);
+        renderer.code = function ({ text, lang }) {
+          if (lang === 'mermaid') {
+            return '<pre class="mermaid">' + text + '</pre>';
+          }
+          return originalCode({ text, lang, escaped: false });
+        };
+
+        marked.setOptions({ renderer, breaks: true, gfm: true });
+        contentEl.innerHTML = marked.parse(md);
+        contentEl.className = 'markdown-body';
+
+        // 修正图片路径：从 markdown 文件所在目录解析相对路径
+        const mdDir = file.substring(0, file.lastIndexOf('/') + 1);
+        contentEl.querySelectorAll('img').forEach(img => {
+          const src = img.getAttribute('src');
+          if (src && !src.startsWith('http') && !src.startsWith('data:')) {
+            img.src = '../data/projects/' + mdDir + src.replace(/^\.\//, '');
+          }
+        });
+
+        // 渲染 Mermaid 图表
+        try {
+          await mermaid.run({ nodes: contentEl.querySelectorAll('.mermaid') });
+        } catch (e) {
+          console.warn('Mermaid 渲染部分失败:', e);
+        }
+      } catch (err) {
+        contentEl.className = 'markdown-body mv-error';
+        contentEl.innerHTML = '加载失败: ' + err.message;
+      }
+    })();
+  </script>
+</body>
+</html>

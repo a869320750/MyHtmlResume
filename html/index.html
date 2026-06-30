@@ -4,34 +4,55 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>简历入口</title>
+  <title>金英杰 - 个人主页</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
   <link rel="stylesheet" href="../css/style.css">
+  <script src="../scripts/homepage.js" defer></script>
 </head>
 
 <body>
-  <div class="page landing-page">
-    <div>
-      <div class="header landing-header">
-        <div class="name-contact">
-          <div class="name">简历</div>
-          <div class="position">金英杰 · 软件开发工程师</div>
-          <div class="contact">
-            <a href="ats.html"><i class="fa-solid fa-file-lines"></i> 打开简历</a>
-            <a href="ats.html" onclick="window.print()"><i class="fa-solid fa-print"></i> 打印/PDF</a>
-          </div>
-        </div>
-      </div>
+  <div class="hp-page" id="hp-app">
 
-      <div class="section" style="margin-top: 2rem;">
-        <h2>如何维护</h2>
-        <ul>
-          <li>内容数据：<b>data/work.json</b>、<b>data/projects.json</b>、<b>data/skills.json</b>…</li>
-          <li>个人基础信息：<b>data/profile-base.json</b></li>
-          <li>简历页：<b>ats.html</b>（唯一简历展示页）</li>
-        </ul>
+    <!-- Header -->
+    <header id="hp-header"></header>
+
+    <!-- 项目经验 -->
+    <section class="hp-section">
+      <h2 class="hp-section-title"><i class="fa-solid fa-briefcase"></i> 项目经验</h2>
+      <div class="hp-tabs" id="hp-tabs"></div>
+      <div class="hp-cards" id="hp-cards">
+        <div class="hp-loading"><i class="fa-solid fa-spinner fa-spin"></i> 加载中...</div>
       </div>
-    </div>
+    </section>
+
+    <!-- 开源项目 -->
+    <section class="hp-section">
+      <h2 class="hp-section-title"><i class="fa-brands fa-github"></i> 开源项目</h2>
+      <div id="hp-github-content">
+        <div class="hp-loading"><i class="fa-solid fa-spinner fa-spin"></i> 加载中...</div>
+      </div>
+    </section>
+
+    <!-- 技能 -->
+    <section class="hp-section">
+      <h2 class="hp-section-title"><i class="fa-solid fa-code"></i> 技术栈</h2>
+      <div class="hp-skills" id="hp-skills-content">
+        <div class="hp-loading"><i class="fa-solid fa-spinner fa-spin"></i> 加载中...</div>
+      </div>
+    </section>
+
+    <!-- 教育经历 -->
+    <section class="hp-section">
+      <h2 class="hp-section-title"><i class="fa-solid fa-graduation-cap"></i> 教育经历</h2>
+      <div id="hp-education-content">
+        <div class="hp-loading"><i class="fa-solid fa-spinner fa-spin"></i> 加载中...</div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="hp-footer">
+      <p>&copy; 2026 金英杰 &middot; 数据驱动渲染 &middot; <a href="https://github.com/a869320750/MyHtmlResume" target="_blank">MyHtmlResume</a></p>
+    </footer>
   </div>
 </body>
 
