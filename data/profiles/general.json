@@ -2,7 +2,7 @@
   "key": "general",
   "label": "主简历",
   "position": "软件开发工程师",
-  "sections": ["summary", "work", "projects", "skills", "github", "education"],
+  "sections": ["summary", "work", "projects", "education"],
   "summaryBullets": [
     "后端/系统软件开发：C#/.NET、C/C++、Linux",
     "擅长工程效能与质量体系：CI/CD、自动化测试、交付规范",
