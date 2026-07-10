@@ -14,10 +14,10 @@
     "githubUrl": ""
   },
   {
-    "id": "huawei-io-kernel",
+    "id": "huawei-technology-project",
     "category": "华为",
     "icon": "⚡",
-    "path": "huawei/02-io-kernel",
+    "path": "huawei/02-technology-project",
     "githubUrl": ""
   },
   {
@@ -32,6 +32,13 @@
     "category": "华为",
     "icon": "🩹",
     "path": "huawei/04-maintenance-patch",
+    "githubUrl": ""
+  },
+  {
+    "id": "huawei-ongoing-research",
+    "category": "华为",
+    "icon": "🔬",
+    "path": "huawei/05-ongoing-research",
     "githubUrl": ""
   },
   {
@@ -67,6 +74,13 @@
     "category": "低空经济",
     "icon": "📱",
     "path": "low-altitude/05-lnc-unc-dual-lines",
+    "githubUrl": ""
+  },
+    {
+    "id": "tiantong",
+    "category": "低空经济",
+    "icon": "📡",
+    "path": "low-altitude/07-tiantong",
     "githubUrl": ""
   }
 ]

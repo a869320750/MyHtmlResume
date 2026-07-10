@@ -21,7 +21,7 @@ chmod +x scripts/start-server.sh
 
 双击运行 `scripts/start-server.bat` 或在命令行中执行：
 
-```cmd
+```集群管理d
 scripts\start-server.bat
 
 REM 指定端口
