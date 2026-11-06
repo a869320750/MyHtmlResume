@@ -44,7 +44,7 @@
   {
     "name": "编译器与构建体系",
     "level": "熟练",
-    "keywords": ["编译器替换", "集群管理ake/Makefile", "FDO"],
+    "keywords": ["编译器替换", "CMake/Makefile", "FDO"],
     "evidence": "主导华为存储编译器迁移预研与落地。"
   },
   {

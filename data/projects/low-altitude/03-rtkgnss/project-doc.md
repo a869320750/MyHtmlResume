@@ -16,7 +16,7 @@
 RTK GNSS Worker 提供实时厘米级定位服务，面向无人机、农业自动化、测绘等场景，覆盖 NTRIP 差分接入、NMEA 解析与位置信息发布。
 
 ### 2.2 目标范围
-- 支持 NTRIP（RT集群管理）差分数据接收并转发给GNSS接收机，实现厘米级定位精度；
+- 支持 NTRIP（RTCM）差分数据接收并转发给GNSS接收机，实现厘米级定位精度；
 - 实时解析NMEA语句（GGA/RMC/GSA等），提取位置、时间、质量与卫星信息；
 - 将解析后的位置数据标准化为JSON并支持文件、网络、回调等多种发布方式；
 - 不包含硬件驱动与坐标系转换（仅使用WGS84）；
@@ -31,11 +31,11 @@ RTK GNSS Worker 提供实时厘米级定位服务，面向无人机、农业自�
 ### 3.2 模块划分
 | 模块 | 类型 | 职责简介 |
 |------|------|-----------|
-| ntrip_client | 网络客户端 | 连接NTRIP Caster，接收RT集群管理并转发到串口 |
+| ntrip_client | 网络客户端 | 连接NTRIP Caster，接收RTCM并转发到串口 |
 | serial_handler | 串口管理 | 管理串口/TCP串口读取，提供 read_nmea() 等接口 |
 | nmea_parser | 数据解析 | 校验并解析NMEA语句，生成 LocationData 对象 |
 | location_publisher | 发布模块 | 根据配置把位置数据输出为文件/HTTP/回调/消息队列 |
-| gnss_worker | 主控制守护进程 | 启动线程（NTRIP、NMEA、RT集群管理）、管理状态和重试策略 |
+| gnss_worker | 主控制守护进程 | 启动线程（NTRIP、NMEA、RTCM）、管理状态和重试策略 |
 
 ---
 
@@ -44,8 +44,8 @@ RTK GNSS Worker 提供实时厘米级定位服务，面向无人机、农业自�
 ### 4.1 NTRIP 差分数据接收（ntrip_client）
 
 #### 功能范围
-* 连接NTRIP服务器并接收RT集群管理差分数据；
-* 将接收到的有效RT集群管理帧转发到串口或TCP给GNSS接收机；
+* 连接NTRIP服务器并接收RTCM差分数据；
+* 将接收到的有效RTCM帧转发到串口或TCP给GNSS接收机；
 * 维护GGA心跳（周期性向服务器发送当前位置）以保持服务；
 * 连接监控、重连策略与统计信息上报（带退避机制）。
 
@@ -55,7 +55,7 @@ RTK GNSS Worker 提供实时厘米级定位服务，面向无人机、农业自�
 
 #### 功能范围
 * 管理本地串口或TCP串口连接；
-* 提供 `read_nmea(timeout)`、`write_rt集群管理()` 等接口；
+* 提供 `read_nmea(timeout)`、`write_rtcm()` 等接口；
 * 处理粘包、断线重连与数据缓冲策略。
 
 ---

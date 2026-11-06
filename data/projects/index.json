@@ -1,5 +1,12 @@
 [
   {
+    "id": "quantpi-trading-ops",
+    "category": "量化",
+    "icon": "📈",
+    "path": "quantpi/01-trading-ops",
+    "githubUrl": ""
+  },
+  {
     "id": "baosteel-data-collector",
     "category": "宝钢",
     "icon": "🏭",

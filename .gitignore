@@ -1,0 +1,8 @@
+# 私人草稿不进入发布目录（GitHub Pages 会公开仓库根目录下所有文件）
+# 草稿统一存放在 E:\Codes\Personal\PersonalDocs\resume-drafts\
+caogao.md
+caogao_*.md
+**/caogao*
+*.tmp
+.DS_Store
+Thumbs.db

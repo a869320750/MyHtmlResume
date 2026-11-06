@@ -148,15 +148,37 @@ function renderEducation(eduData) {
   $('#hp-education-content').innerHTML = html;
 }
 
+// ----- 渲染：工作经历 -----
+function renderWork(workData) {
+  if (!workData?.length) return;
+  const html = workData.map(job => {
+    const items = (job.details || []).map(d =>
+      `<li><strong>${escapeHtml(d.title || '')}</strong>${d.title ? '：' : ''}${escapeHtml(d.desc || '')}</li>`
+    ).join('');
+    return `
+      <div class="hp-work-item">
+        <div class="hp-work-head">
+          <div class="hp-work-company">${escapeHtml(job.company || '')}</div>
+          <div class="hp-work-period">${escapeHtml(job.period || '')}</div>
+        </div>
+        <div class="hp-work-position">${escapeHtml(job.position || '')}</div>
+        ${items ? `<ul class="hp-work-details">${items}</ul>` : ''}
+      </div>
+    `;
+  }).join('');
+  $('#hp-work-content').innerHTML = html;
+}
+
 // ----- 启动 -----
 async function init() {
   try {
-    const [profile, indexData, repos, skills, education] = await Promise.all([
+    const [profile, indexData, repos, skills, education, work] = await Promise.all([
       fetchJson('../data/profile-base.json'),
       fetchJson('../data/projects/index.json'),
       fetchJson('../data/projects-github.json'),
       fetchJson('../data/skills.json'),
-      fetchJson('../data/education.json')
+      fetchJson('../data/education.json'),
+      fetchJson('../data/work.json')
     ]);
 
     // 加载每个项目的 meta.json 并与 index 信息合并
@@ -168,6 +190,7 @@ async function init() {
     );
 
     renderHeader(profile);
+    renderWork(work);
     renderProjects(projects);
     renderGithub(repos);
     renderSkills(skills);

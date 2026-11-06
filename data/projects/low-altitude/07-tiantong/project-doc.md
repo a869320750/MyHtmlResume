@@ -228,7 +228,7 @@
 #### 3.5.1 AT 客户端 (`at_client.py`)
 
 - 独立 reader 线程持续读取串口
-- `send(集群管理d, timeout)`：发送指令并等待 OK/ERROR，带 tail_collect 延迟
+- `send(cmd, timeout)`：发送指令并等待 OK/ERROR，带 tail_collect 延迟
 - `read_nonblocking(n)`：无竞争时读取未消费的串口数据
 - `query_error()`：查询 `AT+RIGETERROR`
 - 内部缓冲区自动压缩防内存泄漏
@@ -368,7 +368,7 @@ ctx = {
 ```
 MQTT 下行消息
   → 1. business_registry.encode() 业务编码器
-       ├─ FUNC_REQ 类型 → 按 集群管理d 分发到对应 Schema
+       ├─ FUNC_REQ 类型 → 按 cmd 分发到对应 Schema
        │  ├─ takeoff/land/rtl/loiter/obstacle → ControlDownlinkSchema (0x02)
        └─ 非 FUNC_REQ → 跳过
 
@@ -400,7 +400,7 @@ MQTT 下行消息
 ```python
 # 唯一源头（驼峰格式）
 EVENT_MAP = {
-    "集群管理dReceived": 1, "集群管理dCompleted": 2,
+    "cmdReceived": 1, "cmdCompleted": 2,
     ......
 }
 ```
@@ -574,7 +574,7 @@ tiantong_server根据上行数字查表，取出缓存的原始完整UUID，替�
   → down_queue
   → down_worker
      ├─ 1. business_registry.encode() 业务编码
-     │     FUNC_REQ → 按 集群管理d 路由到对应 Schema → build_frame
+     │     FUNC_REQ → 按 cmd 路由到对应 Schema → build_frame
      ├─ 2. 显式 schema_msg_id 直接编码
      └─ 3. 回退 encode_down_message_values 紧凑 JSON
   → session.send → TCP

@@ -10,7 +10,7 @@
 8. 技术思考与设计取舍
 9. 个人技术成长收获
 
-# 华为 集群管理软件（集群管理）全套修正版Mermaid
+# 华为 集群管理软件（CM）全套修正版Mermaid
 全部只保留记忆确定、无模糊描述、紧扣集群管理单一主题，删除无关流程图，杜绝不确定细节，适配手绘放入公开主页。
 ## 图1 系统部署架构 Deployment
 ```mermaid
@@ -46,13 +46,13 @@ flowchart LR
     集群管理服务端Worker[集群管理服务端Worker 心跳/视图处理子模块]
     ViewCache[内存全局视图缓存]
     ZK[ZooKeeper 持久层]
-    集群管理dChannel[命令通道组件]
+    cmdChannel[命令通道组件]
 
     集群管理服务端 --> 集群管理服务端Worker
     集群管理服务端 <--> ViewCache
     集群管理服务端 <--> ZK
-    集群管理服务端 <--> 集群管理dChannel
-    集群管理dChannel -.能力复用.-> CCDB[外部CCDB模块]
+    集群管理服务端 <--> cmdChannel
+    cmdChannel -.能力复用.-> CCDB[外部CCDB模块]
 ```
 
 ## 图3 客户端核心时序 Sequence（新增，补齐缺失时序视图）
@@ -142,13 +142,13 @@ flowchart LR
     集群管理服务端Worker[集群管理服务端Worker 心跳/视图处理子模块]
     ViewCache[内存全局视图缓存]
     ZK[ZooKeeper 持久层]
-    集群管理dChannel[命令通道组件]
+    cmdChannel[命令通道组件]
 
     集群管理服务端 --> 集群管理服务端Worker
     集群管理服务端 <--> ViewCache
     集群管理服务端 <--> ZK
-    集群管理服务端 <--> 集群管理dChannel
-    集群管理dChannel -.能力复用.-> CCDB[外部CCDB模块]
+    集群管理服务端 <--> cmdChannel
+    cmdChannel -.能力复用.-> CCDB[外部CCDB模块]
 ```
 
 ## 核心数据流时序 Sequence

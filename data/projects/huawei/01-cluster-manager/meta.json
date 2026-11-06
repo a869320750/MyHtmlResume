@@ -12,7 +12,7 @@
     "问题定位与修复、功能开发与维护,支持现网版本补丁交付",
     "优化进程心跳与订阅推送机制,提升监控实时性与稳定性"
   ],
-  "tech": "C/C++、Linux、Zookeeper、Protobuf、集群管理ake、Docker、Shell",
+  "tech": "C/C++、Linux、Zookeeper、Protobuf、CMake、Docker、Shell",
   "result": [
     "独立定位并闭环数百项问题,缺陷率低于0.3/千行",
     "高质量交付需求,项目上线后运行稳定"

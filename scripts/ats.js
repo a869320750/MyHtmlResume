@@ -321,13 +321,14 @@ async function init() {
 
   renderHeader(baseProfile, position);
 
-  if (!sections.includes('summary')) await renderIntro();
   for (const section of sections) {
     switch (section) {
       case 'summary': await renderSummary(summaryBullets); break;
       case 'intro': await renderIntro(); break;
       case 'work': await renderWork(); break;
       case 'projects': await renderProjects(); break;
+      case 'skills': await renderSkills(); break;
+      case 'github': await renderGithub(); break;
       case 'education': await renderEducation(); break;
     }
   }
