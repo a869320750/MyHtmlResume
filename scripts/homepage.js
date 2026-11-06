@@ -8,12 +8,6 @@ function escapeHtml(v) {
     .replaceAll('"', '&quot;').replaceAll("'", '&#39;');
 }
 
-async function fetchJson(url) {
-  const r = await fetch(url, { cache: 'no-store' });
-  if (!r.ok) throw new Error(`Failed to fetch ${url}: ${r.status}`);
-  return r.json();
-}
-
 // ----- 渲染：Header -----
 function renderHeader(profile) {
   const name = escapeHtml(profile.name || '');
@@ -172,22 +166,14 @@ function renderWork(workData) {
 // ----- 启动 -----
 async function init() {
   try {
-    const [profile, indexData, repos, skills, education, work] = await Promise.all([
+    const [profile, projects, repos, skills, education, work] = await Promise.all([
       fetchJson('../data/profile-base.json'),
-      fetchJson('../data/projects/index.json'),
+      loadProjects(),
       fetchJson('../data/projects-github.json'),
       fetchJson('../data/skills.json'),
       fetchJson('../data/education.json'),
       fetchJson('../data/work.json')
     ]);
-
-    // 加载每个项目的 meta.json 并与 index 信息合并
-    const projects = await Promise.all(
-      indexData.map(async (item) => {
-        const meta = await fetchJson(`../data/projects/${item.path}/meta.json`);
-        return { ...meta, ...item };
-      })
-    );
 
     renderHeader(profile);
     renderWork(work);

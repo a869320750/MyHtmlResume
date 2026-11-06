@@ -38,12 +38,13 @@ data/
   projects-github.json   — 开源项目
   intro.txt              — 个人简介（sections 含 intro 时渲染）
   projects/
-    index.json           — 项目注册表（顺序 / 分类 / 图标 / path / githubUrl）
+    index.json           — 项目注册表（顺序 / 分类 / 图标 / path / githubUrl；id 已废弃不必填写）
     <公司>/<项目>/
       meta.json          — 项目元信息（name / period / tags / oneLiner / background / work / tech / result）
       project-doc.md     — 项目详细文档
       images/            — 项目配图
 scripts/
+  data.js                — 共享数据访问层（fetch + index/meta 合并，全页只加载一次）
   homepage.js            — 主页渲染
   ats.js                 — 简历页渲染与纯文本导出
   validate.py            — 数据校验脚本
@@ -78,6 +79,15 @@ python scripts/validate.py
 检查项：JSON 可解析、`index.json` 的 path 能落到真实目录、`meta.json` 必填字段齐全、`period` 格式为 `YYYY.MM` 或 `YYYY.MM - YYYY.MM`、`profiles/*.json` 的 sections 都被 `ats.js` 支持、项目文档是否为空、图片体积、以及**私人草稿是否误入发布目录**。
 
 退出码非 0 表示存在 ERROR。
+
+## 数据流
+
+`scripts/data.js` 是唯一的数据访问层：`fetchJson` / `fetchText` 负责取文件，
+`loadProjects()` 把 `projects/index.json`（注册表）与各项目 `meta.json`（内容）
+合并成一份列表，并在单次页面生命周期内缓存。主页、简历页、纯文本导出都调用它，
+新增页面前请复用它，不要再各自写一遍 fetch + 合并。
+
+字段重叠时以 `index.json` 为准（注册表管顺序与展示，`meta.json` 管内容）。
 
 ## 注意：GitHub Pages 会公开仓库根目录下所有文件
 

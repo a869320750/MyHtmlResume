@@ -11,18 +11,6 @@ function escapeHtml(value) {
     .replaceAll("'", '&#39;');
 }
 
-async function fetchJson(url) {
-  const response = await fetch(url, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
-  return await response.json();
-}
-
-async function fetchText(url) {
-  const response = await fetch(url, { cache: 'no-store' });
-  if (!response.ok) throw new Error(`Failed to fetch ${url}: ${response.status}`);
-  return await response.text();
-}
-
 // ----- Render helpers -----
 
 function renderSection(title, bodyHtml) {
@@ -91,16 +79,7 @@ async function renderWork() {
 }
 
 async function renderProjects() {
-  const indexData = await fetchJson('../data/projects/index.json');
-  if (!indexData?.length) return;
-
-  // 加载所有项目 meta.json
-  const items = await Promise.all(
-    indexData.map(async (entry) => {
-      const meta = await fetchJson(`../data/projects/${entry.path}/meta.json`);
-      return { ...meta, ...entry };
-    })
-  );
+  const items = await loadProjects();
 
   let html = '';
   items.forEach(item => {
@@ -222,15 +201,9 @@ async function buildPlainText(baseProfile, position, summaryBullets) {
     sep();
   }
 
-  // 项目经历（从 index.json + meta.json 加载）
-  const projectIndex = await fetchJson('../data/projects/index.json');
-  if (projectIndex.length) {
-    const projectItems = await Promise.all(
-      projectIndex.map(async (entry) => {
-        const meta = await fetchJson(`../data/projects/${entry.path}/meta.json`);
-        return { ...meta, ...entry };
-      })
-    );
+  // 项目经历（index.json + meta.json 合并后由 data.js 提供）
+  const projectItems = await loadProjects();
+  if (projectItems.length) {
     lines.push('项目经历');
     projectItems.forEach(item => {
       lines.push(`  ${item.name} (${item.period || ''})`);

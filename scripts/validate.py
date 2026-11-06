@@ -74,7 +74,6 @@ def check_index() -> None:
         return
 
     seen_paths: set[str] = set()
-    seen_ids: set[str] = set()
     seen_icons: set[str] = set()
 
     for pos, entry in enumerate(index):
@@ -90,12 +89,6 @@ def check_index() -> None:
         if path in seen_paths:
             fail(f"{where} path 重复: {path}")
         seen_paths.add(path)
-
-        entry_id = entry.get("id")
-        if entry_id:
-            if entry_id in seen_ids:
-                fail(f"{where} id 重复: {entry_id}")
-            seen_ids.add(entry_id)
 
         icon = entry.get("icon")
         if icon:
@@ -143,9 +136,13 @@ def check_index() -> None:
             if not candidate.is_dir() or candidate.name in {"images", "__pycache__"}:
                 continue
             for inner in sorted(candidate.iterdir()):
-                if not inner.is_dir() or not (inner / "meta.json").is_file():
+                if not inner.is_dir():
                     continue
                 key = f"{candidate.name}/{inner.name}"
+                if not (inner / "meta.json").is_file():
+                    if (inner / "project-doc.md").is_file():
+                        warn(f"项目缺少 meta.json，无法注册到 index.json: {key}")
+                    continue
                 if key not in registered:
                     warn(f"项目未注册到 index.json（主页不会展示）: {key}")
 

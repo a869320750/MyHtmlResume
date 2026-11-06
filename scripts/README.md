@@ -80,3 +80,13 @@ npx http-server -p 8000
 1. 安装 "Live Server" 插件
 2. 右键点击 `index.html`
 3. 选择 "Open with Live Server"
+
+## 脚本清单
+
+- `data.js`：共享数据访问层。`fetchJson` / `fetchText` 取文件，`loadProjects()` 合并
+  `data/projects/index.json` 与各项目 `meta.json` 并做单页缓存。主页与简历页共用，
+  新增页面请复用它，不要各写一份 fetch + 合并。
+- `homepage.js`：主页渲染。
+- `ats.js`：简历页渲染、打印与纯文本导出。
+- `validate.py`：提交前数据校验，详见主 README。
+- `dev_server.py`：禁缓存的本地静态服务器。
