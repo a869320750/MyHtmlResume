@@ -39,5 +39,13 @@
     "编译工具链与构建体系",
     "自动化测试与质量体系",
     "容器化与环境一致性"
+  ],
+  "projectList": [
+    "huawei/01-cluster-manager",
+    "low-altitude/07-tiantong",
+    "huawei/02-technology-project",
+    "low-altitude/04-crypto",
+    "low-altitude/03-rtkgnss",
+    "low-altitude/02-rk3588-compile"
   ]
 }

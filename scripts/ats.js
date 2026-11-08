@@ -87,8 +87,17 @@ function applyOrder(items, order, keyOf) {
     .map(x => x.item);
 }
 
-async function renderProjects(order) {
-  const items = applyOrder(await loadProjects(), order, item => item.path);
+// projectList 为显式白名单（同时决定顺序）；缺省时退化为按 projectOrder 排序
+function selectProjects(items, projectList, order) {
+  if (Array.isArray(projectList) && projectList.length) {
+    const byPath = new Map(items.map(item => [item.path, item]));
+    return projectList.map(path => byPath.get(path)).filter(Boolean);
+  }
+  return applyOrder(items, order, item => item.path);
+}
+
+async function renderProjects(projectList, order) {
+  const items = selectProjects(await loadProjects(), projectList, order);
 
   let html = '';
   items.forEach(item => {
@@ -179,7 +188,7 @@ async function renderGithub() {
 
 // ----- Plain text export -----
 
-async function buildPlainText(baseProfile, position, summaryBullets, projectOrder = [], skillOrder = []) {
+async function buildPlainText(baseProfile, position, summaryBullets, projectList = [], projectOrder = [], skillOrder = []) {
   const contacts = baseProfile.contacts || {};
   const lines = [];
   const sep = () => lines.push('----------------------------------------');
@@ -208,7 +217,7 @@ async function buildPlainText(baseProfile, position, summaryBullets, projectOrde
   }
 
   // 项目经历（index.json + meta.json 合并后由 data.js 提供）
-  const projectItems = applyOrder(await loadProjects(), projectOrder, item => item.path);
+  const projectItems = selectProjects(await loadProjects(), projectList, projectOrder);
   if (projectItems.length) {
     lines.push('项目经历');
     projectItems.forEach(item => {
@@ -251,7 +260,7 @@ async function buildPlainText(baseProfile, position, summaryBullets, projectOrde
   return lines.join('\n');
 }
 
-function setupPlainTextExport(baseProfile, position, summaryBullets, projectOrder = [], skillOrder = []) {
+function setupPlainTextExport(baseProfile, position, summaryBullets, projectList = [], projectOrder = [], skillOrder = []) {
   const button = $('#copy-plain-text');
   const note = $('#copy-plain-text-note');
   if (!button) return;
@@ -264,7 +273,7 @@ function setupPlainTextExport(baseProfile, position, summaryBullets, projectOrde
 
   button.addEventListener('click', async () => {
     try {
-      const text = await buildPlainText(baseProfile, position, summaryBullets, projectOrder, skillOrder);
+      const text = await buildPlainText(baseProfile, position, summaryBullets, projectList, projectOrder, skillOrder);
       if (navigator.clipboard?.writeText) {
         await navigator.clipboard.writeText(text);
       } else {
@@ -300,6 +309,7 @@ async function init() {
   const position = config.position || '';
   const sections = config.sections || ['summary', 'work', 'projects', 'skills', 'github', 'education'];
   const summaryBullets = config.summaryBullets || [];
+  const projectList = config.projectList || [];
   const projectOrder = config.projectOrder || [];
   const skillOrder = config.skillOrder || [];
 
@@ -311,14 +321,14 @@ async function init() {
     switch (section) {
       case 'summary': await renderSummary(summaryBullets); break;
       case 'work': await renderWork(); break;
-      case 'projects': await renderProjects(projectOrder); break;
+      case 'projects': await renderProjects(projectList, projectOrder); break;
       case 'skills': await renderSkills(skillOrder); break;
       case 'github': await renderGithub(); break;
       case 'education': await renderEducation(); break;
     }
   }
 
-  setupPlainTextExport(baseProfile, position, summaryBullets, projectOrder, skillOrder);
+  setupPlainTextExport(baseProfile, position, summaryBullets, projectList, projectOrder, skillOrder);
 }
 
 init().catch(err => {

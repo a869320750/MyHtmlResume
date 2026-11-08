@@ -63,6 +63,8 @@ images/                  — 头像等公共图片
 - 简历展示哪些章节：编辑 `data/profiles/general.json` 的 `sections`
   - 可用值：`summary` / `work` / `projects` / `skills` / `github` / `education`
 - 多份简历配置：在 `data/profiles/` 下新建 JSON，访问 `html/ats.html?profile=<key>` 切换
+  - `projectList`：简历只展示这些项目（顺序即展示顺序）；不填则展示全部
+  - `projectOrder`：仅调整顺序、不裁剪；`skillOrder`：技能排序
 - 新增项目：
   1. 建目录 `data/projects/<公司>/<项目>/`
   2. 写 `meta.json` 与 `project-doc.md`（**`project-doc.md` 不要留空**，否则点「内容」会打开空白页）

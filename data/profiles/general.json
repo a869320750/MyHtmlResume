@@ -29,5 +29,13 @@
     "baosteel/01-data-collector",
     "low-altitude/05-lnc-unc-dual-lines",
     "huawei/05-ongoing-research"
+  ],
+  "projectList": [
+    "huawei/03-compiler-migration",
+    "huawei/01-cluster-manager",
+    "low-altitude/01-team-process-zero-to-one",
+    "low-altitude/07-tiantong",
+    "huawei/02-technology-project",
+    "low-altitude/04-crypto"
   ]
 }
