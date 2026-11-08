@@ -1,7 +1,7 @@
 {
   "key": "general",
   "label": "主简历",
-  "position": "软件开发工程师",
+  "position": "系统软件工程师",
   "sections": [
     "summary",
     "work",
@@ -11,9 +11,9 @@
     "education"
   ],
   "summaryBullets": [
-    "后端/系统软件开发：C#/.NET、C/C++、Linux",
-    "擅长工程效能与质量体系：CI/CD、自动化测试、交付规范",
-    "有性能优化与现场/现网问题闭环经验（指标驱动）"
+    "系统软件工程师，6 年经验。",
+    "做过千万行级 C/C++ 代码的编译器迁移、Linux 内核驱动与 IO 链路调优、以及在资源受限条件下用容器和模拟器构建可复现环境。",
+    "目标是 Build/Release 与编译工具链方向，向 AI Infra 延伸。"
   ],
   "projectOrder": [
     "huawei/03-compiler-migration",

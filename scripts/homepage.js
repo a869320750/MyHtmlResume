@@ -25,7 +25,7 @@ function renderHeader(profile) {
       <img class="hp-avatar" src="${avatar}" alt="${name}">
       <div class="hp-header-info">
         <div class="hp-name">${name}</div>
-        <div class="hp-title">软件开发工程师</div>
+        <div class="hp-title">系统软件工程师 · Build/Release 与编译工具链</div>
         <div class="hp-contact">${contactHtml.join('')}</div>
         <div class="hp-nav">
           <a class="hp-pill" href="ats.html"><i class="fa-solid fa-file-lines"></i> 简历</a>
