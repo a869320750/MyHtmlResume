@@ -2,7 +2,14 @@
   "key": "infra",
   "label": "基础设施 / 构建工具链",
   "position": "构建与工具链 / 基础设施工程师",
-  "sections": ["summary", "skills", "projects", "work", "github", "education"],
+  "sections": [
+    "summary",
+    "skills",
+    "projects",
+    "work",
+    "github",
+    "education"
+  ],
   "summaryBullets": [
     "编译工具链与构建体系：主导千万行级 C/C++ 代码从 GCC 迁移至自研编译器，覆盖 20+ 代码仓，4 个月端到端交付并被多产品线复用",
     "CI/CD 与发布治理：从 0 到 1 建立 GitLab CI 流水线与质量门禁，核心交付效率提升约 40%",
@@ -10,18 +17,18 @@
   ],
   "projectOrder": [
     "huawei/03-compiler-migration",
-    "huawei/01-cluster-manager",
     "low-altitude/01-team-process-zero-to-one",
+    "huawei/01-cluster-manager",
+    "low-altitude/07-tiantong",
     "huawei/02-technology-project",
+    "low-altitude/04-crypto",
+    "low-altitude/03-rtkgnss",
     "low-altitude/02-rk3588-compile",
     "huawei/04-maintenance-patch",
-    "low-altitude/07-tiantong",
+    "quantpi/01-trading-ops",
     "baosteel/01-data-collector",
-    "huawei/05-ongoing-research",
-    "low-altitude/03-rtkgnss",
-    "low-altitude/04-crypto",
     "low-altitude/05-lnc-unc-dual-lines",
-    "quantpi/01-trading-ops"
+    "huawei/05-ongoing-research"
   ],
   "skillOrder": [
     "编译工具链与构建体系",
