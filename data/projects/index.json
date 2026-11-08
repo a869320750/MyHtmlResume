@@ -1,0 +1,80 @@
+[
+  {
+    "category": "量化",
+    "icon": "📈",
+    "path": "quantpi/01-trading-ops",
+    "githubUrl": ""
+  },
+  {
+    "category": "宝钢",
+    "icon": "🏭",
+    "path": "baosteel/01-data-collector",
+    "githubUrl": ""
+  },
+  {
+    "category": "华为",
+    "icon": "🖥️",
+    "path": "huawei/01-cluster-manager",
+    "githubUrl": ""
+  },
+  {
+    "category": "华为",
+    "icon": "⚡",
+    "path": "huawei/02-technology-project",
+    "githubUrl": ""
+  },
+  {
+    "category": "华为",
+    "icon": "🔄",
+    "path": "huawei/03-compiler-migration",
+    "githubUrl": ""
+  },
+  {
+    "category": "华为",
+    "icon": "🩹",
+    "path": "huawei/04-maintenance-patch",
+    "githubUrl": ""
+  },
+  {
+    "category": "华为",
+    "icon": "🔬",
+    "path": "huawei/05-ongoing-research",
+    "githubUrl": ""
+  },
+  {
+    "category": "低空经济",
+    "icon": "🏗️",
+    "path": "low-altitude/01-team-process-zero-to-one",
+    "githubUrl": "https://github.com/a869320750/MyHtmlResume"
+  },
+  {
+    "category": "低空经济",
+    "icon": "🔧",
+    "path": "low-altitude/02-rk3588-compile",
+    "githubUrl": "https://github.com/a869320750/CheckTerminalNetwork"
+  },
+  {
+    "category": "低空经济",
+    "icon": "📡",
+    "path": "low-altitude/03-rtkgnss",
+    "githubUrl": "https://github.com/a869320750/rtk-gnss-worker"
+  },
+  {
+    "category": "低空经济",
+    "icon": "🔒",
+    "path": "low-altitude/04-crypto",
+    "githubUrl": "https://github.com/a869320750/XuanYu"
+  },
+  {
+    "category": "低空经济",
+    "icon": "📱",
+    "path": "low-altitude/05-lnc-unc-dual-lines",
+    "githubUrl": ""
+  },
+  {
+    "category": "低空经济",
+    "icon": "🛰️",
+    "path": "low-altitude/07-tiantong",
+    "githubUrl": ""
+  }
+]

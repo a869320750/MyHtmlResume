@@ -1,0 +1,36 @@
+{
+  "key": "embed",
+  "label": "C++ 系统 / 嵌入式",
+  "position": "C/C++ 系统开发工程师",
+  "sections": ["summary", "work", "projects", "skills", "github", "education"],
+  "summaryBullets": [
+    "C/C++ 系统开发：分布式集群管理组件、窄带卫星通信系统、Linux 内核与驱动研发，单项目交付约 6000 行代码",
+    "嵌入式与硬件适配：RK3588 固件与设备树适配、I2C/SPI/UART 外设驱动验证，用示波器与逻辑分析仪定位硬件时序问题",
+    "工程化能力：主导 CI/CD 与自动化测试体系建设，把人工逐项验证压缩为脚本化回归"
+  ],
+  "projectOrder": [
+    "huawei/01-cluster-manager",
+    "low-altitude/07-tiantong",
+    "low-altitude/04-crypto",
+    "low-altitude/03-rtkgnss",
+    "huawei/02-technology-project",
+    "low-altitude/02-rk3588-compile",
+    "huawei/03-compiler-migration",
+    "low-altitude/01-team-process-zero-to-one",
+    "low-altitude/05-lnc-unc-dual-lines",
+    "baosteel/01-data-collector",
+    "huawei/04-maintenance-patch",
+    "huawei/05-ongoing-research",
+    "quantpi/01-trading-ops"
+  ],
+  "skillOrder": [
+    "C/C++ 系统开发",
+    "Linux 内核与驱动",
+    "分布式系统",
+    "安全通信（国密）",
+    "性能优化与问题定位",
+    "编译工具链与构建体系",
+    "自动化测试与质量体系",
+    "容器化与环境一致性"
+  ]
+}
