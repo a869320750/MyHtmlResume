@@ -1,0 +1,8 @@
+# 统一使用 LF，避免编辑器保存时把整份文件重写成 CRLF
+* text=auto eol=lf
+
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.excalidraw binary
+*.bundle binary
