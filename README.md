@@ -62,6 +62,7 @@ images/                  — 头像等公共图片
 - 修改个人信息：编辑 `data/profile-base.json`（头像、联系方式）
 - 简历展示哪些章节：编辑 `data/profiles/general.json` 的 `sections`
   - 可用值：`summary` / `work` / `projects` / `skills` / `github` / `education`
+  - `github`（开源项目）当前三份 config 均未启用；加回即恢复，`renderGithub` 实现仍保留
 - 多份简历配置：在 `data/profiles/` 下新建 JSON，访问 `html/ats.html?profile=<key>` 切换
   - `projectList`：简历只展示这些项目（顺序即展示顺序）；不填则展示全部
   - `projectOrder`：仅调整顺序、不裁剪；`skillOrder`：技能排序

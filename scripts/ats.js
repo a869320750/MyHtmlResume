@@ -171,6 +171,7 @@ async function renderEducation() {
   renderSection('教育经历', html);
 }
 
+// 当前三份 profile 均未启用开源项目章节；如需恢复，在 profile 的 sections 中加回 'github'
 async function renderGithub() {
   const data = await fetchJson('../data/projects-github.json');
   if (!data?.length) return;
@@ -323,7 +324,6 @@ async function init() {
       case 'work': await renderWork(); break;
       case 'projects': await renderProjects(projectList, projectOrder); break;
       case 'skills': await renderSkills(skillOrder); break;
-      case 'github': await renderGithub(); break;
       case 'education': await renderEducation(); break;
     }
   }
