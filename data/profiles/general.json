@@ -13,7 +13,7 @@
   "summaryBullets": [
     "系统软件工程师，6 年经验。",
     "做过千万行级 C/C++ 代码的编译器迁移、Linux 内核驱动与 IO 链路调优、以及在资源受限条件下用容器和模拟器构建可复现环境。",
-    "目标是 Build/Release 与编译工具链方向，向 AI Infra 延伸。"
+    "目标是 Build/Release 与编译工具链方向，向 Infra 延伸。"
   ],
   "projectOrder": [
     "huawei/03-compiler-migration",
