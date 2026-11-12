@@ -24,7 +24,6 @@
     "low-altitude/03-rtkgnss",
     "low-altitude/02-rk3588-compile",
     "huawei/04-maintenance-patch",
-    "quantpi/01-trading-ops",
     "baosteel/01-data-collector",
     "low-altitude/05-lnc-unc-dual-lines",
     "huawei/05-ongoing-research"

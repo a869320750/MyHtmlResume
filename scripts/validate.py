@@ -130,6 +130,14 @@ def check_index() -> None:
                     warn(f"设计源文件会一并发布: {rel(img)}")
 
     registered = {entry.get("path") for entry in index if isinstance(entry, dict)}
+    # 有意不注册的项目：目录保留在仓库供参考，但主页与简历都不展示
+    unregistered_file = DATA / "projects" / "unregistered.txt"
+    intentionally_unregistered = set()
+    if unregistered_file.is_file():
+        for line in unregistered_file.read_text(encoding="utf-8").splitlines():
+            line = line.split("#", 1)[0].strip()
+            if line:
+                intentionally_unregistered.add(line)
     projects_root = DATA / "projects"
     if projects_root.is_dir():
         for candidate in sorted(projects_root.iterdir()):
@@ -140,10 +148,10 @@ def check_index() -> None:
                     continue
                 key = f"{candidate.name}/{inner.name}"
                 if not (inner / "meta.json").is_file():
-                    if (inner / "project-doc.md").is_file():
+                    if (inner / "project-doc.md").is_file() and key not in intentionally_unregistered:
                         warn(f"项目缺少 meta.json，无法注册到 index.json: {key}")
                     continue
-                if key not in registered:
+                if key not in registered and key not in intentionally_unregistered:
                     warn(f"项目未注册到 index.json（主页不会展示）: {key}")
 
 

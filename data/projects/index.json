@@ -54,12 +54,6 @@
     "githubUrl": ""
   },
   {
-    "category": "量化",
-    "icon": "📈",
-    "path": "quantpi/01-trading-ops",
-    "githubUrl": ""
-  },
-  {
     "category": "宝钢",
     "icon": "🏭",
     "path": "baosteel/01-data-collector",

@@ -70,6 +70,8 @@ images/                  — 头像等公共图片
   1. 建目录 `data/projects/<公司>/<项目>/`
   2. 写 `meta.json` 与 `project-doc.md`（**`project-doc.md` 不要留空**，否则点「内容」会打开空白页）
   3. 在 `data/projects/index.json` 注册，`path` 填 `<公司>/<项目>`
+- 保留但不展示某个项目：把 `<公司>/<项目>` 写进 `data/projects/unregistered.txt`（每行一个），
+  目录与文档保留在仓库，但主页与简历都不展示，`validate.py` 也不会报警
 
 ## 数据校验
 
